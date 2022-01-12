@@ -1,0 +1,43 @@
+.tab-content .tab-pane{
+    padding-top: 20px;
+}
+
+.alert {
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+
+.marginHR{
+  margin-top: auto !important;
+}
+.MarginHTop{
+  margin-top: 0.6rem !important;
+}
+
+:host  ::ng-deep .switchery-primary {
+  .switch {
+    background: #fff;
+    &.checked {
+      background: #975AFF;
+    }
+  }
+}
+
+.marginLeftRightRow{
+  margin-left: 1.3rem !important;
+  margin-right: 1.3rem !important;
+}
+
+.divRightLeftMargin{
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.MarginHTopK{
+  margin-top: 1.3rem !important;
+}
+
+.marginTOPUI{
+  margin-top: revert !important;
+}

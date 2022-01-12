@@ -1,0 +1,326 @@
+<div class="modal-header">
+  <h4 class="primary text-uppercase">{{ "ORDERS" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body" style="padding-bottom: 100px;">
+  <div class="row" *ngIf=showCreateOrderForm>
+    <div class="col-12">
+      <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+        (click)="showOrdersListDiv()" title="{{'CREATE_ORDER' | translate}}">
+        <i class="ft ft-list"></i>
+      </button>
+    </div>
+    <form class="row col-12" [formGroup]="createOrderForm" (ngSubmit)="onCreateOrderFormSubmit()">
+      <div class="col-6 form-group">
+        <label>{{ "ORDER_NUMBER" | translate }}<span class="required-field">*</span>
+        </label>
+        <input class="form-control input-md" id="orderNumber" formControlName="orderNumber" name="orderNumber"
+          type="text"
+          [ngClass]="{ 'error-border': createOrderForm.get('orderNumber').hasError('required') && (createOrderForm.get('orderNumber').touched) }"
+          required />
+        <div
+          *ngIf="createOrderForm.get('orderNumber').hasError('required') && (createOrderForm.get('orderNumber').touched)"
+          class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+          {{'ORDER_NUMBER'|translate}} {{'IS_REQUIRED'|translate}}
+        </div>
+      </div>
+
+      <div class='col-6'>
+        <div class="form-group">
+          <label class="form-control-label" for="orderDate">{{'ORDER_DATE'|translate}}
+            <span class="required-field">*</span>
+          </label>
+          <div class="input-group">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="p.toggle()" type="button">
+                <i class="fa fa-calendar"></i>
+              </button>
+            </div>
+            <input class="form-control" name="orderDate" formControlName="orderDate" ngbDatepicker id="orderDate"
+              #p="ngbDatepicker"
+              [ngClass]="{ 'error-border': createOrderForm.get('orderDate').hasError('required') && (createOrderForm.get('orderDate').touched) }"
+              required>
+            <div
+              *ngIf="createOrderForm.get('orderDate').hasError('required') && (createOrderForm.get('orderDate').touched)"
+              class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+              {{'ORDER_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 form-group">
+        <label>{{ "ORDER_SUMMARY" | translate }}<span class="required-field">*</span>
+        </label>
+        <textarea cols="20" rows="3" class="form-control input-md" id="summary" name="summary" formControlName="summary"
+          [ngClass]="{ 'error-border': createOrderForm.get('summary').hasError('required') && (createOrderForm.get('summary').touched) }"></textarea>
+        <div *ngIf="createOrderForm.get('summary').hasError('required') && (createOrderForm.get('summary').touched)"
+          class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+          {{'ORDER_SUMMARY' | translate}} {{'IS_REQUIRED'|translate}}
+        </div>
+      </div>
+
+      <div class='col-6'>
+        <div class="form-group">
+          <label class="form-control-label" for="implementationEndDate">{{'IMPLEMENTATION_END_DATE'|translate}}
+            <span class="required-field">*</span>
+          </label>
+          <div class="input-group">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="a.toggle()" type="button">
+                <i class="fa fa-calendar"></i>
+              </button>
+            </div>
+            <input class="form-control" name="implementationEndDate" formControlName="implementationEndDate"
+              ngbDatepicker id="implementationEndDate" #a="ngbDatepicker"
+              [ngClass]="{ 'error-border': createOrderForm.get('implementationEndDate').hasError('required') && (createOrderForm.get('implementationEndDate').touched) }"
+              required>
+            <div
+              *ngIf="createOrderForm.get('implementationEndDate').hasError('required') && (createOrderForm.get('implementationEndDate').touched)"
+              class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+              {{'IMPLEMENTATION_END_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <label>{{ "IMPLEMENTING_DEPARTMENTS" | translate }}<span class="required-field">*</span></label>
+        <ng-select [items]="departmentsList" bindLabel="nameDr" bindValue="id" [multiple]="true" clearAllText="Clear"
+          [ngClass]="{ 'error-border': createOrderForm.get('implementingDepartments').hasError('required') && (createOrderForm.get('implementingDepartments').touched) }"
+          formControlName="implementingDepartments">
+          <ng-template ng-optgroup-tmp let-item="item">
+            {{ item.slug }}
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.nameDr }}
+          </ng-template>
+        </ng-select>
+        <div
+          *ngIf="createOrderForm.get('implementingDepartments').hasError('required') && (createOrderForm.get('implementingDepartments').touched)"
+          class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+          {{'IMPLEMENTING_DEPARTMENTS'|translate}} {{'IS_REQUIRED'|translate}}
+        </div>
+      </div>
+
+      <div class="col-6">
+        <label>{{ "ASSISTING_DEPARTMENTS" | translate }}<span class="required-field">*</span></label>
+        <ng-select [items]="departmentsList" bindLabel="nameDr" bindValue="id" [multiple]="true" clearAllText="Clear"
+          [ngClass]="{ 'error-border': createOrderForm.get('assistingDepartments').hasError('required') && (createOrderForm.get('assistingDepartments').touched) }"
+          formControlName="assistingDepartments">
+          <ng-template ng-optgroup-tmp let-item="item">
+            {{ item.slug }}
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.nameDr }}
+          </ng-template>
+        </ng-select>
+        <div
+          *ngIf="createOrderForm.get('assistingDepartments').hasError('required') && (createOrderForm.get('assistingDepartments').touched)"
+          class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+          {{'ASSISTING_DEPARTMENTS'|translate}} {{'IS_REQUIRED'|translate}}
+        </div>
+      </div>
+
+      <div class="col-12" style="margin-top: 20px;">
+        <button type="submit" class="btn btn-primary btn-fill mr-2">{{'SUBMIT' | translate }}</button>
+        <button class="btn btn-secondary btn-fill" (click)="closeModal()" type="button">{{ 'CANCEL' | translate  }}</button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="showOrdersList" id="invoice-items-details">
+    <div class="row">
+      <div class="col-12">
+        <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+          (click)="showCreateOrderFormDiv()" title="{{'CREATE_ORDER' | translate}}">
+          <i class="ft ft-plus"></i>
+        </button>
+      </div>
+      <div class="table-responsive col-12">
+        <table class="table mt-3">
+          <thead>
+            <tr>
+              <th>{{ 'ID' | translate }} </th>
+              <th>{{'NUMBER' | translate}} {{ 'AND' | translate}} {{'ORDER_DATE' | translate}}</th>
+              <th>{{'SUMMARY' | translate}}</th>
+              <th>{{'IMPLEMENTING_DEPARTMENTS' | translate}}</th>
+              <th>{{'ASSISTING_DEPARTMENTS' | translate}}</th>
+
+              <th class="text-right">{{ 'ACTIONS' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of rows;">
+              <th scope="row">{{row.id}}</th>
+              <td>
+                <p>{{row.orderNumber}}</p>
+                <p class="text-muted">{{row.orderDate | date: 'yyyy-MM-dd' | jalali}}</p>
+              </td>
+              <td>
+                <p>{{row.summary}}</p>
+              </td>
+              <td>
+                <span *ngFor="let i of row.implementingDepartments; let last = last">
+                  {{ i.nameDr}}<ng-container *ngIf="!last">,</ng-container>
+                </span>
+              </td>
+              <td>
+                <span *ngFor="let a of row.assistingDepartments; let last = last">
+                  {{ a.nameDr}}<ng-container *ngIf="!last">,</ng-container>
+                </span>
+              </td>
+              <td class="text-right">
+                <div style="display: flex;">
+                  <button class="btn btn-icon round" [title]="'VIEW_ORDER_IN_ORDERS_MODULE' | translate"
+                    (click)="viewOrder(row.id)">
+                    <i class="ft-corner-left-up text-primary cursor-pointer"></i>
+                  </button>
+  
+                  <button type="button" class="btn btn-icon round"
+                    [title]="'EDIT_ORDER' | translate" (click)="showEditOrderFormDiv(row.id)">
+                    <i class="ft-edit text-primary cursor-pointer"></i>
+                  </button>
+                </div>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf=showEditOrderForm>
+    <div class="col-12">
+      <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+        (click)="showOrdersListDiv()" title="{{'EDIT_ORDER' | translate}}">
+        <i class="ft ft-list"></i>
+      </button>
+    </div>
+    <form class="row col-12" [formGroup]="editOrderForm" (ngSubmit)="onEditFormSubmit()">
+      <div class="col-6 form-group">
+        <label>{{ "ORDER_NUMBER" | translate }}<span class="required-field">*</span>
+        </label>
+        <input class="form-control input-md" id="editOrderNumber" formControlName="editOrderNumber" name="editOrderNumber"
+          type="text"
+          [ngClass]="{ 'error-border': editOrderForm.get('editOrderNumber').hasError('required') && (editOrderForm.get('editOrderNumber').touched) }"
+          required />
+        <div
+          *ngIf="editOrderForm.get('editOrderNumber').hasError('required') && (editOrderForm.get('editOrderNumber').touched)"
+          class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+          {{'ORDER_NUMBER'|translate}} {{'IS_REQUIRED'|translate}}
+        </div>
+      </div>
+
+      <div class='col-6'>
+        <div class="form-group">
+          <label class="form-control-label" for="editOrderDate">{{'ORDER_DATE'|translate}}
+            <span class="required-field">*</span>
+          </label>
+          <div class="input-group">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="p.toggle()" type="button">
+                <i class="fa fa-calendar"></i>
+              </button>
+            </div>
+            <input class="form-control" name="editOrderDate" formControlName="editOrderDate" ngbDatepicker id="editOrderDate"
+              #p="ngbDatepicker"
+              [ngClass]="{ 'error-border': editOrderForm.get('editOrderDate').hasError('required') && (editOrderForm.get('editOrderDate').touched) }"
+              required>
+            <div
+              *ngIf="editOrderForm.get('editOrderDate').hasError('required') && (editOrderForm.get('editOrderDate').touched)"
+              class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+              {{'ORDER_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 form-group">
+        <label>{{ "ORDER_SUMMARY" | translate }}<span class="required-field">*</span>
+        </label>
+        <textarea cols="20" rows="3" class="form-control input-md" id="summary" name="summary" formControlName="editSummary"
+          [ngClass]="{ 'error-border': editOrderForm.get('editSummary').hasError('required') && (editOrderForm.get('editSummary').touched) }"></textarea>
+        <div *ngIf="editOrderForm.get('editSummary').hasError('required') && (editOrderForm.get('editSummary').touched)"
+          class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+          {{'ORDER_SUMMARY' | translate}} {{'IS_REQUIRED'|translate}}
+        </div>
+      </div>
+
+      <div class='col-6'>
+        <div class="form-group">
+          <label class="form-control-label" for="editImplementationEndDate">{{'IMPLEMENTATION_END_DATE'|translate}}
+            <span class="required-field">*</span>
+          </label>
+          <div class="input-group">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="a.toggle()" type="button">
+                <i class="fa fa-calendar"></i>
+              </button>
+            </div>
+            <input class="form-control" name="editImplementationEndDate" formControlName="editImplementationEndDate"
+              ngbDatepicker id="editImplementationEndDate" #a="ngbDatepicker"
+              [ngClass]="{ 'error-border': editOrderForm.get('editImplementationEndDate').hasError('required') && (editOrderForm.get('editImplementationEndDate').touched) }"
+              required>
+            <div
+              *ngIf="editOrderForm.get('editImplementationEndDate').hasError('required') && (editOrderForm.get('editImplementationEndDate').touched)"
+              class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+              {{'IMPLEMENTATION_END_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <label>{{ "IMPLEMENTING_DEPARTMENTS" | translate }}<span class="required-field">*</span></label>
+        <ng-select [items]="departmentsList" bindLabel="nameDr" bindValue="id" [multiple]="true" clearAllText="Clear"
+          [ngClass]="{ 'error-border': editOrderForm.get('editImplementingDepartments').hasError('required') && (editOrderForm.get('editImplementingDepartments').touched) }"
+          formControlName="editImplementingDepartments">
+          <ng-template ng-optgroup-tmp let-item="item">
+            {{ item.slug }}
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.nameDr }}
+          </ng-template>
+        </ng-select>
+        <div
+          *ngIf="editOrderForm.get('editImplementingDepartments').hasError('required') && (editOrderForm.get('editImplementingDepartments').touched)"
+          class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+          {{'IMPLEMENTING_DEPARTMENTS'|translate}} {{'IS_REQUIRED'|translate}}
+        </div>
+      </div>
+
+      <div class="col-6">
+        <label>{{ "ASSISTING_DEPARTMENTS" | translate }}<span class="required-field">*</span></label>
+        <ng-select [items]="departmentsList" bindLabel="nameDr" bindValue="id" [multiple]="true" clearAllText="Clear"
+          [ngClass]="{ 'error-border': editOrderForm.get('editAssistingDepartments').hasError('required') && (editOrderForm.get('editAssistingDepartments').touched) }"
+          formControlName="editAssistingDepartments">
+          <ng-template ng-optgroup-tmp let-item="item">
+            {{ item.slug }}
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.nameDr }}
+          </ng-template>
+        </ng-select>
+        <div
+          *ngIf="editOrderForm.get('editAssistingDepartments').hasError('required') && (editOrderForm.get('editAssistingDepartments').touched)"
+          class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+          {{'ASSISTING_DEPARTMENTS'|translate}} {{'IS_REQUIRED'|translate}}
+        </div>
+      </div>
+
+      <div class="col-12" style="margin-top: 20px;">
+        <button type="submit" class="btn btn-primary btn-fill mr-2">{{'SUBMIT' | translate }}</button>
+        <button class="btn btn-secondary btn-fill" (click)="closeModal()" type="button">{{ 'CANCEL' | translate  }}</button>
+      </div>
+    </form>
+  </div>
+
+  <ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7"
+    type="ball-spin-clockwise-fade" [fullScreen]="true">
+  </ngx-spinner>
+</div>

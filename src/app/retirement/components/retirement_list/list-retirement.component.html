@@ -1,0 +1,83 @@
+<section>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="reload()">
+            <i class="ft ft-refresh-cw"></i>
+          </button>
+          <div class="col-md-3 col-3">
+            <div class="form-group">
+              <select #pageLength class="form-control" (change)="setPageLength(pageLength.value)">
+                <option *ngFor=" let pl of pageLengths" [selected]="pl.id==10" [value]="pl.id">
+                  {{ pl.count }} {{ 'RECORDS' | translate }}
+                </option>
+                <!-- <option value="-1">{{ 'ALL' | translate }}</option> -->
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <!-- ngx-datatables-server-side -->
+            <ng-container *ngIf="tableOptions">
+              <ngx-datatable #table class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force" [headerHeight]="50"
+                [footerHeight]="50" [rows]="rows" [columns]="columns" [rowHeight]="auto" [limit]="tableOptions.length"
+                [loadingIndicator]="dataLoadingFlag" [scrollbarH]="true" (page)="setPage($event)" [count]="recordsTotal"
+                [externalPaging]="true" [sorts]="[{prop: 'id', dir: 'desc'}]">
+                <ngx-datatable-column name="{{'FIRSTNAME'|translate}}" prop="NAME" [width]="100">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'LASTNAME'|translate}}" prop="LNAME" [width]="100">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'FATHERNAME'|translate}}" prop="FNAME" [width]="100">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'POSITION_TITLE'|translate}}" prop="POSITION_TITLE" [width]="200">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'WORK_PLACE'|translate}}" [width]="200">
+                  <ng-template ngx-datatable-cell-template let-row="row">
+                    <span *ngIf="row['MINISTRY']">
+                      {{ row.MINISTRY }}</span>
+                    <span *ngIf="row['AUTHORITY']">
+                      {{ row.AUTHORITY }}</span>
+                    <span *ngIf="row['COMMISSION']">
+                      {{ row.COMMISSION }}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'AGE_DIFFERENCE'|translate}}" [width]="50">
+                  <ng-template ngx-datatable-cell-template let-row="row">
+                    <span class="bg-light-success">{{calculateAge(row.DOB)}}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'YEAR_DIFFERENCE'|translate}}" [width]="50">
+                  <ng-template ngx-datatable-cell-template let-row="row">
+                    <span class="bg-light-warning">{{calculateYear(row.DAY)}}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'PROFILE_CODE'|translate}}" prop="PROFILE_CODE" [width]="150">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'STATUS'|translate}}" prop="STATUS" [width]="70">
+                  <ng-template let-status="value" ngx-datatable-cell-template>
+                    <div class="badge badge-pill"
+                      [ngClass]="{'bg-light-primary': status == 'برحال', 'bg-light-success':status == 'انفصال', 'bg-light-danger':status == 'انتظار بدون معاش' , 'bg-light-warning':status == 'انتظار با معاش' , 'bg-light-info':status == 'متقاعد'}">
+                      {{ status}}
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [name]="'ACTIONS' | translate">
+                  <ng-template ngx-datatable-cell-template let-row="row">
+                    <button class="ft-edit fa-lg text-primary list-btn cursor-pointer border-0"
+                      (click)="profileDetail(row['ID'])"></button>
+                  </ng-template>
+                </ngx-datatable-column>
+              </ngx-datatable>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+  [fullScreen]="true">
+</ngx-spinner>

@@ -1,0 +1,115 @@
+<section class="search-wrapper">
+  <!-- Search Bar -->
+  <div class="row text-left">
+    <div class="col-12">
+        <div class="content-header">
+            {{ 'ANNOUNCEMENT_DETAILS' | translate }}
+            <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="refresh()"
+                  [class.fa-spin]="loading" >
+                  <i class="ft ft-refresh-cw"></i>
+              </button>
+              <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="back()">
+                <i class="ft ft-home"></i>
+              </button>
+        </div>
+    </div>
+</div>
+
+  <div class="row">
+    <div class="col-12">
+      <hr>
+    </div>
+  </div>
+
+
+  <!-- seach result section -->
+  <div class="row">
+    <!--Search Result-->
+    <!-- Search content area -->
+    <div class="col-lg-8 col-md-7 col-12 order-2 order-md-1">
+      <div id="searchResults" class="row search-results">
+
+        <!-- Web results -->
+        <div class="col-12 web-result">
+          <div class="card">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-lg-3 col-md-4 col-12 mb-2">
+                  <strong>{{ 'TITLE' | translate }}:</strong>
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 mb-2">
+                    {{announcement.title}}
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-12 mb-2">
+                  <strong>{{ 'PUBLISHER' | translate }}:</strong>
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 mb-2">
+                    {{announcement.publisher}}
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-12 mb-2">
+                  <strong>{{ 'PUBLISH_DATE' | translate }}:</strong>
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 mb-2">
+                  {{announcement.createdAt}}&nbsp;{{announcement.createdAtTime}}
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-12 mb-2">
+                  <strong>{{ 'PUBLISHING_USER' | translate }}:</strong>
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 mb-2">
+                  {{announcement.createdBy}}
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-12 mb-2">
+                  <strong>{{ 'ATTACHEMENT' | translate }}:</strong>
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 mb-2">
+                  <a class="text text-primary" (click)="downloadAttachment(announcement.id);"><i class="ft ft-download"></i>&nbsp;{{ 'ATTACHEMENT' | translate }}</a>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-12 mb-2">
+                  <strong>{{ 'DETAILS' | translate }}:</strong>
+                </div>
+                <div class="col-lg-12 col-md-12 col-12 p-2 mb-2">
+                  <quill-view-html [content]="announcement.body" theme="snow"></quill-view-html>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+    <!--/ Search content area -->
+    <!-- Search Sidebar area -->
+    <div class="col-lg-4 col-md-5 col-12 order-2 order-md-1">
+      <div class="col-12  web-result" *ngFor="let item of announcements">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title cursor-pointer">
+              <small>
+              <a class="text text-primary cursor-pointer" [routerLink]="['/announcements/view', item.id]">
+                {{item.title}}
+              </a>
+            </small>
+            </h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body pt-1">
+              <small class="">{{item.publisher}}</small><br>
+              <small class="">{{item.createdAt}}&nbsp;{{item.createdAtTime}}&nbsp;[{{item.createdBy}}]</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Search Sidebar area -->
+  </div>
+</section>
+<!--/ Search result section -->
+

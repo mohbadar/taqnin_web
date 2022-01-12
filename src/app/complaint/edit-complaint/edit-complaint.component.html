@@ -1,0 +1,354 @@
+<!-- <app-create-complaint (dismiss)="closeModal()"></app-create-complaint> -->
+<div class="modal-header">
+  <h4 class="modal-title">{{ "EDIT_COMPLAINT" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <div class="row">
+      <form class="col-12" [formGroup]="editForm" (ngSubmit)="onFormSubmit()">
+        <ngx-spinner
+        bdColor="rgba(255, 255, 255, 0.100)"
+        size="medium"
+        color="black"
+        type="ball-scale-multiple"
+        fullScreen="false">
+      </ngx-spinner>
+
+      <div class='col-12'>
+        <div class="form-group">
+          <label class="form-control-label">{{'FIRSTNAME'|translate}}
+            <span class="required-field">*</span>
+          </label>
+          <div class="controls">
+            <input type="text"
+              [ngClass]="{'is-invalid': editForm.get('firstName').hasError('required') && editForm.get('firstName').touched}"
+              formControlName="firstName" class="form-control ">
+            <small class="col-12 text-danger pl-0"
+              *ngIf="editForm.get('firstName').hasError('required') && (editForm.get('firstName').touched)">
+              {{'FIRSTNAME'|translate}} {{'IS_REQUIRED'|translate}}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class='col-12'>
+        <div class="form-group">
+          <label class="form-control-label">{{'FATHERNAME'|translate}}
+            <span class="required-field">*</span>
+          </label>
+          <div class="controls">
+            <input type="text"
+              [ngClass]="{'is-invalid': editForm.get('fatherName').hasError('required') && editForm.get('fatherName').touched}"
+              formControlName="fatherName" class="form-control ">
+            <small class="col-12 text-danger pl-0"
+                *ngIf="editForm.get('fatherName').hasError('required') && (editForm.get('fatherName').touched)">
+                {{'FATHERNAME'|translate}} {{'IS_REQUIRED'|translate}}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class='col-12'>
+        <div class="form-group">
+          <label class="form-control-label" for="step">{{'LASTNAME'|translate}} <span
+              class="required-field">*</span> 
+          </label>
+          <div class="controls">
+            <input type="text"
+            [ngClass]="{'is-invalid': editForm.get('lastName').hasError('required') && editForm.get('lastName').touched}"
+            formControlName="lastName" class="form-control ">
+            <small class="col-12 text-danger pl-0"
+                *ngIf="editForm.get('lastName').hasError('required') && (editForm.get('lastName').touched)">
+                {{'LASTNAME'|translate}} {{'IS_REQUIRED'|translate}}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class='col-12'>
+        <div class="form-group">
+          <label class="form-control-label"> {{'ENTRY_NUMBER'|translate}}
+            <span class="required-field">*</span>
+          </label>
+          <div class="controls">
+            <input type="text"
+              [ngClass]="{'is-invalid': editForm.get('entryNumber').hasError('required') && editForm.get('entryNumber').touched}"
+              formControlName="entryNumber" class="form-control ">
+            <small class="col-12 text-danger pl-0"
+                *ngIf="editForm.get('entryNumber').hasError('required') && (editForm.get('entryNumber').touched)">
+                {{'ENTRY_NUMBER'|translate}} {{'IS_REQUIRED'|translate}}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class='col-12'>
+        <div class="form-group">
+          <label class="form-control-label">{{'TYPE_OF_COMPLAINT'|translate}}
+            <span class="required-field">*</span>
+          </label>
+            <input type="text" blindLable="name" blindValue="id" id="typeOfComplaint" name="typeOfComplaint"
+            [ngClass]="{'is-invalid': editForm.get('typeOfComplaint').hasError('required') && editForm.get('typeOfComplaint').touched}"
+            formControlName="typeOfComplaint"
+              class="form-control " required>
+            <small class="col-12 text-danger pl-0"
+                *ngIf="editForm.get('typeOfComplaint').hasError('required') && (editForm.get('typeOfComplaint').touched)">
+                {{'TYPE_OF_COMPLAINT'|translate}} {{'IS_REQUIRED'|translate}}
+            </small>
+        </div>
+      </div>
+
+      <div class='col-12'>
+        <div class="form-group">
+          <label>{{'DOCUMENT_TYPE'|translate}}
+            <span class="required-field">*</span>
+          </label>
+            <ng-select [items]="DocsType$| async" bindLabel="nameDr" bindValue="id"
+              formControlName="typeOfDocuments" clearAllText="Clear"
+              [ngClass]="{'is-invalid': editForm.get('typeOfDocuments').hasError('required') && editForm.get('typeOfDocuments').touched}"
+            ></ng-select>
+            <small class="col-12 text-danger pl-0"
+              *ngIf="editForm.get('typeOfDocuments').hasError('required') && (editForm.get('typeOfDocuments').touched)">
+              {{'TYPE_OF_DOCUMENTS'|translate}} {{'IS_REQUIRED'|translate}}
+            </small>
+        </div>
+      </div>
+
+      <div class='col-12'>
+        <div class="form-group">
+          <label class="form-control-label">{{'DATE'|translate}}
+            <span class="required-field">*</span>
+          </label>
+            <div class="input-group">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="pr.toggle()" type="button">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </div>
+              <input formControlName="complaintDate"
+                [ngClass]="{'is-invalid': editForm.get('complaintDate').hasError('required') && editForm.get('complaintDate').touched}"
+                class="form-control " ngbDatepicker #pr="ngbDatepicker">
+                <small class="col-12 text-danger pl-0"
+                *ngIf="editForm.get('complaintDate').hasError('required') && (editForm.get('complaintDate').touched)">
+                {{'DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                </small>
+            </div>
+        </div>
+      </div>
+
+      <div class='col-12'>
+        <div class="form-group">
+          <label class="form-control-label">{{'ACCUSED'|translate}}
+            <span class="required-field">*</span>
+          </label>
+            <input formControlName="accused"
+              [ngClass]="{'is-invalid': editForm.get('accused').hasError('required') && editForm.get('accused').touched}"
+              type="text" class="form-control input-md">
+            <small class="col-12 text-danger pl-0"
+                  *ngIf="editForm.get('accused').hasError('required') && (editForm.get('accused').touched)">
+                  {{'ACCUSED'|translate}} {{'IS_REQUIRED'|translate}}
+            </small>
+        </div>
+      </div>
+
+      <div class='col-12'>
+        <div class="form-group">
+          <label class="form-control-label" for="explanations">{{'EXPLANATIONS'|translate}}
+            <span class="required-field">*</span>
+          </label>
+          <textarea formControlName="explanations"
+            [ngClass]="{'is-invalid': editForm.get('explanations').hasError('required') && editForm.get('explanations').touched}"
+            type="text" class="form-control input-md">
+          </textarea>
+          <small class="col-12 text-danger pl-0"
+                *ngIf="editForm.get('explanations').hasError('required') && (editForm.get('explanations').touched)">
+                {{'EXPLANATIONS'|translate}} {{'IS_REQUIRED'|translate}}
+          </small>
+      </div>
+      </div>
+
+      <div class="form-group switchery-success d-flex align-items-center">
+        <ui-switch [checked]="profileCodeEntry" class="switchery" (change)="onProfileCode($event)" size="small"></ui-switch>
+        <label for="switchery" class="ml-2"> {{ 'HAVING_PROFILE' | translate }}؟
+        </label>
+      </div>
+      <fieldset *ngIf="profileCodeEntry || this.editForm.value.profileCode" class="form-group">
+        <label for="switchery" class="ml-2">{{ 'PROFILECODE' | translate }} </label>
+        <input formControlName="profileCode" type="text" class="form-control" id="basicInputFile">
+      </fieldset>
+      
+      <div class="col-12">
+          <button type="submit" class="btn btn-primary btn-sm btn-fill mr-2">{{'SUBMIT' | translate }}</button>
+          <button class="btn btn-secondary btn-fill btn-sm" (click)="closeModal()" type="button">{{ 'CANCEL' | translate }}</button>
+        </div>
+      </form>
+  </div>
+</div>
+
+
+    <!-- attachments -->
+
+    <!-- <div class="attachments">
+      <div>
+        <h4 class="head"> {{ 'ATTACHMENTS' | translate }}</h4>
+      </div>
+      <div>
+        <div class=" row-lg-12 row-sm-12 ">
+          <div class=" col-lg-8 col-sm-8">
+            <div class=" row-lg-6  row-sm-6" class="form-group  d-flex align-items-center">
+              <div class="form-group  d-flex align-items-center">
+                <ui-switch class="switchery" (change)="onObjectionUpload($event)" size="small"></ui-switch>
+                <label for="switchery" class="ml-2"> {{ "OBJECTION" | translate }}
+                </label>
+              </div>
+              <div>
+                <div *ngIf="uploadObjection">
+                  <input class="d-none" formControlName="theObjectionAttach" #fileInput
+                    (change)="onSelectFile($event, 'theObjectionAttach')" id="attachment" #fileInput name="attachment"
+                    type="file">
+                  <span class="btn btn-success" (click)=" fileInput.click()">{{ 'DOCUMENT' | translate }}
+                  </span>
+                </div>
+              </div>
+              <div class=" col">
+                <p>
+                  {{attachments['theObjectionAttach']?.fileName }}</p>
+              </div>
+            </div> -->
+
+            <!-- second row -->
+            <!-- <div class=" row-lg-6  row-sm-6" class="form-group switchery-success d-flex align-items-center">
+              <div class="form-group  d-flex align-items-center">
+                <ui-switch class="switchery" (change)="onComplaintUpload($event)" size="small"></ui-switch>
+                <label for="switchery" class="ml-2"> {{ 'COMPLAINT FOR RESPONSIBLE OFFICE' | translate }}
+                </label>
+              </div>
+              <div *ngIf="uploadComplaint">
+                <input class="d-none" formControlName="complaintForRespAttach" (change)="onSelectFile($event,
+                          'complaintForRespAttach')" id="attachment" #fileInput name="attachment" type="file">
+                <div class="col-sm-3">
+                  <span class="btn btn-success " (click)=" fileInput.click()">{{ 'DOCUMENT' | translate }}
+                  </span>
+                </div>
+              </div>
+              <div class="col">
+                <p> {{attachments['complaintForRespAttach']?.fileName }}</p>
+              </div>
+            </div> -->
+
+
+            <!-- 3rd row -->
+            <!-- <div class=" row-lg-6  row-sm-6" class="form-group switchery-success d-flex align-items-center">
+              <div class="form-group  d-flex align-items-center">
+                <ui-switch class="switchery" (change)="onComplaintForBoard($event)" size="small"></ui-switch>
+                <label for="switchery" class="ml-2">
+                  {{ 'COMPLAINT FOR BOARD OF INDEPENDENT ADMINISTRATIVE REFORM AND CIVIL SERVICE COMISSION' | translate }}
+                </label>
+              </div>
+              <div *ngIf="uploadComplaintOnBoard">
+                <input class="d-none" formControlName="complaintForBoardAttach" #fileInput
+                  (change)="onSelectFile($event, 'complaintForBoardAttach')" id="attachment" #fileInput
+                  name="attachment" type="file">
+                <div class="col-sm-3">
+                  <span class="btn btn-success" (click)=" fileInput.click()">{{ 'DOCUMENT' | translate }}
+                  </span>
+                </div>
+              </div>
+              <div class="col">
+                <p> {{attachments['complaintForBoardAttach']?.fileName }}</p>
+              </div>
+            </div> -->
+
+            <!-- 4th row -->
+            <!-- <div class=" row-lg-6  row-sm-6" class="form-group switchery-success d-flex align-items-center">
+              <div class="form-group  d-flex align-items-center">
+                <ui-switch class="switchery" (change)="onCourtDirective($event)" size="small"></ui-switch>
+                <label for="switchery" class="ml-2">
+                  {{ 'COURT_DECREE' | translate }}
+                </label>
+              </div>
+              <div *ngIf="uploadCourtDirective">
+                <input class="d-none" id="attachment" #fileInput name="attachment" formControlName="courtDirecAttach"
+                  (change)="onSelectFile($event,
+                          'courtDirecAttach')" name="attachment" type="file">
+                <div class="col-sm-3">
+                  <span class="btn btn-success " (click)="fileInput.click()">{{ 'DOCUMENT' | translate }}
+                  </span>
+                </div>
+              </div>
+              <div class="col">
+                <p> {{attachments['courtDirecAttach']?.fileName }}</p>
+              </div>
+            </div> -->
+
+            <!-- 5th row -->
+
+            <!-- <div class=" row-lg-6  row-sm-6" class="form-group switchery-success d-flex align-items-center">
+              <div class="form-group  d-flex align-items-center">
+                <ui-switch class="switchery" (change)="onCommissionDecision($event)" size="small"></ui-switch>
+                <label for="switchery" class="ml-2">
+                  {{ "DISPUTES_COMMISSION_DECISION" | translate }}
+                </label>
+              </div>
+              <div *ngIf="uploadCommissionDecision">
+                <input class="d-none" id="attachment" #fileInput name="attachment" formControlName="comissionDecAttach"
+                  (change)="onSelectFile($event,
+                          'comissionDecAttach')" type="file">
+                <div class="col-sm-3">
+                  <span class="btn btn-success  " (click)="fileInput.click()">{{ 'DOCUMENT' | translate }}
+                  </span>
+                </div>
+              </div>
+              <div class="col">
+                <p> {{attachments['comissionDecAttach']?.fileName }}</p>
+              </div>
+            </div> -->
+
+            <!-- 6th row -->
+
+            <!-- <div class=" row-lg-6  row-sm-6" class="form-group switchery-success d-flex align-items-center">
+              <div class="form-group  d-flex align-items-center">
+                <ui-switch class="switchery" (change)="onAuthorityResponse($event)" size="small"></ui-switch>
+                <label for="switchery" class="ml-2">
+                  {{ 'RELATED AUTHORITY RESPONSE' | translate }}
+                </label>
+              </div>
+              <div *ngIf="uploadAuthorityResponse">
+                <input class="d-none" id="attachment" #fileInput name="attachment"
+                  formControlName="relatedAuthorityAttach" (change)="onSelectFile($event,
+                          'relatedAuthorityAttach')" type="file">
+                <div class="col-sm-3">
+                  <span class="btn btn-success " (click)="fileInput.click()">{{ 'DOCUMENT' | translate }}
+                  </span>
+                </div>
+              </div>
+              <div class="col">
+                <p> {{attachments['relatedAuthorityAttach']?.fileName }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
+<!-- 
+  </div>
+
+
+
+  <br>
+  <div class=" col-lg-12 col-sm-12 form-group text-left">
+    <button type="submit" class="btn btn-info mr-1">
+      <span style="margin-right:10px;">
+      </span> {{'EDIT'|translate}}</button>
+    <button type="button" (click)="closeModal()" uiSref="work" class="btn btn-warning">
+      {{'CLOSE'|translate}}
+      <span style="margin-left:10px;">
+      </span>
+    </button>
+  </div>
+</form> -->

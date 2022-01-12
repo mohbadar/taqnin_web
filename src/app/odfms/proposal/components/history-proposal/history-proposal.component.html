@@ -1,0 +1,46 @@
+<div class="modal-header">
+	<h4 class="modal-title">{{'PROPOSAL_HISTORY'|translate}}</h4>
+	<button type="button" class="close" aria-label="Close" (click)="dismiss()">
+	  <span aria-hidden="true">&times;</span>
+	</button>
+  </div>
+  <div class="modal-body">
+	<div class="row">
+	  <div class="col-12 col-sm-12">
+		<ng-container *ngIf="dTableFlag">
+			<ngx-datatable #table class="bootstrap core-bootstrap" [rows]="rows" [scrollbarH]="true"
+				[columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+				[limit]="10">
+				<ngx-datatable-column [name]="'INCOMING_NUMBER' | translate" prop="incomingNumber"></ngx-datatable-column>
+                <ngx-datatable-column [name]="'INCOMING_DATE' | translate" prop="incomingDate">
+					<ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.incomingDate | date: 'yyyy-MM-dd' | jalali}}
+                      </ng-template>
+				</ngx-datatable-column>
+                <ngx-datatable-column [name]="'PROPOSAL_NUMBER' | translate" prop="proposalNumber"></ngx-datatable-column>
+                <ngx-datatable-column [name]="'PROPOSAL_DATE' | translate" prop="proposalDate">
+					<ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.proposalDate | date: 'yyyy-MM-dd' | jalali}}
+                      </ng-template>
+				</ngx-datatable-column>
+                <ngx-datatable-column [name]="'RELEVANT_STAFF' | translate" prop="relevantStaff"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'COPY_TO' | translate" prop="copyTo"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'THIRD_COPY_NUMBER' | translate" prop="thirdCopyNumber"></ngx-datatable-column>
+                <ngx-datatable-column [name]="'THIRD_COPY_DATE' | translate" prop="thirdCopyDate">
+					<ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.thirdCopyDate | date: 'yyyy-MM-dd' | jalali}}
+                      </ng-template>
+				</ngx-datatable-column>
+                <ngx-datatable-column [name]="'EXPERT' | translate" prop="expert"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'CREATED_BY' | translate" prop="createdBy"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'UPDATED_BY' | translate" prop="updatedBy"></ngx-datatable-column>
+				
+			</ngx-datatable>
+		</ng-container>
+	  </div>
+	</div>
+  </div>
+  <div class="modal-footer">
+	<button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+  </div>
+  

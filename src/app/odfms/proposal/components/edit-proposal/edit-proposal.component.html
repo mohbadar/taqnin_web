@@ -1,0 +1,537 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'EDIT_PROPOSAL'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="proposalForm" (ngSubmit)="submit()">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12 col-sm-12">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="entity">{{'SHURA'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="shura$|async" bindLabel="nameDr" bindValue="id" formControlName="shura"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.shura.invalid, 'is-valid': addFormSubmitted && !cpf.shura.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.shura.invalid || cpf.shura.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SHURA'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="secretLevel">{{'SUBJECT_SECRET'|translate}}/{{'IDEA'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="secretTypes" bindLabel="name" bindValue="name" formControlName="secretLevel"
+                  (clear)="setToNull(proposalForm,'secretLevel')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.secretLevel.invalid, 'is-valid': addFormSubmitted && !cpf.secretLevel.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.secretLevel.invalid || cpf.secretLevel.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SUBJECT_SECRET'|translate}}/{{'IDEA'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="entity">{{'MINISTRY/AUTHORITY'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="department$|async" bindLabel="nameDr" bindValue="id" formControlName="entity"
+                  (clear)="setToNull(proposalForm,'entity')"  [multiple]="true" [closeOnSelect]="false"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.entity.invalid, 'is-valid': addFormSubmitted && !cpf.entity.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.entity.invalid || cpf.entity.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'MINISTRY/AUTHORITY'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="proposalNumber">{{'SUGGESTION_NUMBER'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="proposalNumber" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.proposalNumber.invalid, 'is-valid': addFormSubmitted && !cpf.proposalNumber.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.proposalNumber.invalid || cpf.proposalNumber.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SUGGESTION_NUMBER'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="form-control-label" for="proposalDate">{{'SUGGESTION_DATE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="k.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="proposalDate" ngbDatepicker #k="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.proposalDate.invalid, 'is-valid': addFormSubmitted && !cpf.proposalDate.invalid }"
+                    required>
+                </div>
+                <div *ngIf="addFormSubmitted && (cpf.proposalDate.invalid || cpf.proposalDate.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SUGGESTION_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="summary">{{'SUBJECT_ABSTRACT'|translate}}/{{'IDEA'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <textarea formControlName="summary" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.summary.invalid, 'is-valid': addFormSubmitted && !cpf.summary.invalid }"
+                  required></textarea>
+                <div *ngIf="addFormSubmitted && (cpf.summary.invalid || cpf.summary.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SUBJECT_ABSTRACT'|translate}}/{{'IDEA'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="objective">{{'SUBJECT_OBJECTIVE'|translate}}/{{'IDEA'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <textarea formControlName="objective" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.objective.invalid, 'is-valid': addFormSubmitted && !cpf.objective.invalid }"
+                  required></textarea>
+                <div *ngIf="addFormSubmitted && (cpf.objective.invalid || cpf.objective.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SUBJECT_OBJECTIVE'|translate}}/{{'IDEA'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 t-align-initial">
+            <h6 class="font-weight-bold MarginHTop" style="display: inline-block;">{{ 'SUBJECT_PREVIOUS'|translate }}/{{'IDEA'|translate}}:</h6> &nbsp;&nbsp;
+            <p style="display: inline-block;">{{'PREVIOUS_DETAIL'|translate}}</p>
+          </div>
+        </div>
+        <hr class="marginHR"/>
+        <div class="row">
+          <div class="col-12 col-sm-4">
+            <ul class="list-unstyled mb-0 marginTOPUI">
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" name="p-radio" (click)="RadioClicked($event)" value="yes"
+                    id="p-radio-2" [checked]="previousLink">
+                  <label for="p-radio-2">{{'YES'|translate}}</label>
+                </div>
+              </li>
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" (click)="RadioClicked($event)" value="no" name="p-radio"
+                    id="p-radio-1" [checked]="!previousLink">
+                  <label for="p-radio-1">{{'NO'|translate}}</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="col-sm-4" *ngIf="decisionEntity">
+            <div class="form-group">
+              <label for="previousDecision">{{'PREVIOUS_DECISION'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <textarea formControlName="previousDecision" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.previousDecision.invalid, 'is-valid': addFormSubmitted && !cpf.previousDecision.invalid }"
+                  required></textarea>
+                <div *ngIf="addFormSubmitted && (cpf.previousDecision.invalid || cpf.previousDecision.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'PREVIOUS_DECISION'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="marginHR"/>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="lawArticle">{{'LAW_ARTICLE'|translate}}/{{'IDEA'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <textarea formControlName="lawArticle" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.lawArticle.invalid, 'is-valid': addFormSubmitted && !cpf.lawArticle.invalid }"
+                  required></textarea>
+                <div *ngIf="addFormSubmitted && (cpf.lawArticle.invalid || cpf.lawArticle.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'LAW_ARTICLE'|translate}}/{{'IDEA'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="subEntity">{{'MINISTRIES_AUTHORITIES_LINE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="department$|async" bindLabel="nameDr" bindValue="id" formControlName="subEntity"
+                  (clear)="setToNull(proposalForm,'subEntity')"  [multiple]="true" [closeOnSelect]="false"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.subEntity.invalid, 'is-valid': addFormSubmitted && !cpf.subEntity.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.subEntity.invalid || cpf.subEntity.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'MINISTRIES_AUTHORITIES_LINE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 t-align-initial">
+            <h6 class="MarginHTop" style="display: inline-block;">{{'DETAILS_SHARE'|translate}}</h6>
+          </div>
+        </div>
+        <hr class="marginHR"/>
+        <div class="row">
+          <div class="col-12 col-sm-4">
+            <ul class="list-unstyled mb-0 marginTOPUI">
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" name="k-radio" (click)="RadioClickedEntity($event)" value="yes"
+                    id="k-radio-2" [checked]="subAuthorityShare">
+                  <label for="k-radio-2">{{'YES'|translate}}</label>
+                </div>
+              </li>
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" (click)="RadioClickedEntity($event)" value="no" name="k-radio"
+                    id="k-radio-1" [checked]="!subAuthorityShare">
+                  <label for="k-radio-1">{{'NO'|translate}}</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="col-sm-4" *ngIf="subEntityImplementation">
+            <div class="form-group">
+              <label for="authorityImplementation">{{'IMPLEMENTATION_BASED_ON_SUB_ENTITIES'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <textarea formControlName="authorityImplementation" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.authorityImplementation.invalid, 'is-valid': addFormSubmitted && !cpf.authorityImplementation.invalid }"
+                  required></textarea>
+                <div *ngIf="addFormSubmitted && (cpf.authorityImplementation.invalid || cpf.authorityImplementation.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'IMPLEMENTATION_BASED_ON_SUB_ENTITIES'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 t-align-initial">
+            <h6 class="MarginHTop font-weight-bold" style="display: inline-block;">{{'GOVERNMENT_BUDGET'|translate}}</h6>&nbsp;&nbsp;
+            <p style="display: inline-block;">{{'GOVERNMENT_BUDGET_DETAIL'|translate}}</p>
+          </div>
+        </div>
+        <hr class="marginHR"/>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <ul class="list-unstyled mb-0 marginTOPUI">
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" name="l-radio" (click)="RadioClickedBudget($event)" value="yes"
+                    id="l-radio-2" [checked]="governmentBudget">
+                  <label for="l-radio-2">{{'YES'|translate}}</label>
+                </div>
+              </li>
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" (click)="RadioClickedBudget($event)" value="no" name="l-radio"
+                    id="l-radio-1" [checked]="!governmentBudget">
+                  <label for="l-radio-1">{{'NO'|translate}}</label>
+                </div>
+              </li>
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" (click)="RadioClickedBudget($event)" value="noo" name="l-radio"
+                    id="l-radio-3" [checked]="governmentBudget==null">
+                  <label for="l-radio-3">{{'NO_BUDGET'|translate}}</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12 t-align-initial">
+            <h6 class="MarginHTop font-weight-bold" style="display: inline-block;">{{'INERNATIONAL_BUDGET'|translate}}</h6>&nbsp;&nbsp;
+            <p style="display: inline-block;">{{'INERNATIONAL_BUDGET_DETAIL'|translate}}</p>
+          </div>
+        </div>
+        <hr class="marginHR"/>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <ul class="list-unstyled mb-0 marginTOPUI">
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" name="n-radio" (click)="RadioClickedInterBudget($event)" value="yes"
+                    id="n-radio-2" [checked]="forignBuget">
+                  <label for="n-radio-2">{{'YES'|translate}}</label>
+                </div>
+              </li>
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" (click)="RadioClickedInterBudget($event)" value="no" name="n-radio"
+                    id="n-radio-1" [checked]="!forignBuget">
+                  <label for="n-radio-1">{{'NO'|translate}}</label>
+                </div>
+              </li>
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" (click)="RadioClickedInterBudget($event)" value="noo" name="n-radio"
+                    id="n-radio-3" [checked]="forignBuget==null">
+                  <label for="n-radio-3">{{'NO_BUDGET'|translate}}</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12 t-align-initial">
+            <h6 class="MarginHTop" style="display: inline-block;">{{'INTERNATIONAL_AGREEMENT'|translate}}</h6>&nbsp;&nbsp;
+          </div>
+        </div>
+        <hr class="marginHR"/>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <ul class="list-unstyled mb-0 marginTOPUI">
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" name="m-radio" (click)="RadioClickedInterAgree($event)" value="yes"
+                    id="m-radio-2" [checked]="internationalAgree">
+                  <label for="m-radio-2">{{'YES'|translate}}</label>
+                </div>
+              </li>
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" (click)="RadioClickedInterAgree($event)" value="no" name="m-radio"
+                    id="m-radio-1" [checked]="!internationalAgree">
+                  <label for="m-radio-1">{{'NO'|translate}}</label>
+                </div>
+              </li>
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" (click)="RadioClickedInterAgree($event)" value="noo" name="m-radio"
+                    id="m-radio-3" [checked]="internationalAgree==null">
+                  <label for="m-radio-3">{{'NO_AGREEMENT'|translate}}</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <hr class="marginHR"/>
+        <div class="row">
+          <div class="col-sm-4" *ngIf="showSubEntityAgreement && internationalAgree">
+            <div class="form-group">
+              <label for="ministriesImplementation">{{'IMPLEMENTATION_ENTITIES'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <textarea formControlName="ministriesImplementation" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.ministriesImplementation.invalid, 'is-valid': addFormSubmitted && !cpf.ministriesImplementation.invalid }"
+                  required></textarea>
+                <div *ngIf="addFormSubmitted && (cpf.ministriesImplementation.invalid || cpf.ministriesImplementation.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'IMPLEMENTATION_ENTITIES'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4" *ngIf="showSubEntityAgreement && internationalAgree" >
+            <div class="form-group">
+              <label for="authorityAgreement">{{'AGREEMENT_AUTHORITY_DETAIL'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="authoritAgreement$ |async" bindLabel="nameDr" bindValue="id" formControlName="authorityAgreement"
+                  (clear)="setToNull(proposalForm,'authorityAgreement')"  
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.authorityAgreement.invalid, 'is-valid': addFormSubmitted && !cpf.authorityAgreement.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.authorityAgreement.invalid || cpf.authorityAgreement.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'AGREEMENT_AUTHORITY_DETAIL'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4" *ngIf="showSubEntityAgreement && internationalAgree" >
+            <div class="form-group">
+              <label for="implementationScope">{{'IMPlEMENTATION_SCOPE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="implementationScope" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.implementationScope.invalid, 'is-valid': addFormSubmitted && !cpf.implementationScope.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.implementationScope.invalid || cpf.implementationScope.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'IMPlEMENTATION_SCOPE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="proposalPreResult">{{'PRE_RESULT'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="proposalPreResult" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.proposalPreResult.invalid, 'is-valid': addFormSubmitted && !cpf.proposalPreResult.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.proposalPreResult.invalid || cpf.proposalPreResult.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'PRE_RESULT'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="papers">{{'PROPOSAL_PAPERS'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="number" formControlName="papers" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.papers.invalid, 'is-valid': addFormSubmitted && !cpf.papers.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.papers.invalid || cpf.papers.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'PROPOSAL_PAPERS'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="progressBasedOnLaw">{{'PROGRESS_BASED_ON_LAW'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <textarea formControlName="progressBasedOnLaw" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.progressBasedOnLaw.invalid, 'is-valid': addFormSubmitted && !cpf.progressBasedOnLaw.invalid }"
+                  required></textarea>
+                <div *ngIf="addFormSubmitted && (cpf.progressBasedOnLaw.invalid || cpf.progressBasedOnLaw.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'PROGRESS_BASED_ON_LAW'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="reason">{{'PROPOSAL_REASON'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <textarea formControlName="reason" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.reason.invalid, 'is-valid': addFormSubmitted && !cpf.reason.invalid }"
+                  required></textarea>
+                <div *ngIf="addFormSubmitted && (cpf.reason.invalid || cpf.reason.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'PROPOSAL_REASON'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="proposalContent">{{'PROPOSAL_CONTENT'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <textarea formControlName="proposalContent" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.proposalContent.invalid, 'is-valid': addFormSubmitted && !cpf.proposalContent.invalid }"
+                  required></textarea>
+                <div *ngIf="addFormSubmitted && (cpf.proposalContent.invalid || cpf.proposalContent.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'PROPOSAL_CONTENT'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12 t-align-initial">
+            <h6 class="MarginHTop" style="display: inline-block;">{{'NEXT_FOLLOW_UP'|translate}}</h6>&nbsp;&nbsp;
+          </div>
+        </div>
+        <hr class="marginHR"/>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <ul class="list-unstyled mb-0 marginTOPUI">
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" name="y-radio" (click)="RadioClickedFollowUp($event)" value="yes"
+                    id="y-radio-2" [checked]="nextFollowUp">
+                  <label for="y-radio-2">{{'YES'|translate}}</label>
+                </div>
+              </li>
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" (click)="RadioClickedFollowUp($event)" value="no" name="y-radio"
+                    id="y-radio-1" [checked]="!nextFollowUp">
+                  <label for="y-radio-1">{{'NO'|translate}}</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" [disabled]="loading" type="submit">{{ 'SAVE' | translate }}</button>
+    <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+  </div>
+  </form>

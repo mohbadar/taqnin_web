@@ -1,0 +1,276 @@
+<div class="row">
+	<div class="col-6 mt-2">
+		<h4 class="primary text-uppercase">{{'DOCUMENT_DETAILS'|translate}}</h4>
+	</div>
+
+	<div class="col-6">
+		<button class="btn btn-defaul pull-right" (click)="goToDocumentList()" style="border: 1px solid #c9c7c7;"
+    *ngIf="globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_LIST'])">
+      <i class="ft ft-list cursor-pointer"></i>
+      {{'DOCUMENTS_LIST'|translate}}
+    </button>
+	</div>
+</div>
+<div class="card" style="padding: 20px;">
+	<div class="card-content">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-12">
+					<div style="margin-top: 20px;">
+						<div class="row">
+
+							<div class="col-4 col-sm-12 col-md-4 ">
+								<table class="table table-borderless table-sm ">
+									<tbody style="justify-content: right;">
+
+										<tr valign="middle" style="border-bottom: 1px solid rgb(214, 214, 214); margin-top: 10px;">
+											<th>{{'DOCUMENT_NO' | translate }}:</th>
+											<td>{{document?.number }}</td>
+										</tr>
+
+										<tr valign="middle" style="border-bottom: 1px solid rgb(214, 214, 214); margin-top: 10px;">
+											<th>{{'DATE' | translate }}:</th>
+											<td>{{document?.date| date: 'yyyy-MM-dd' | jalali }}</td>
+										</tr>
+
+                    <tr valign="middle" style="border-bottom: 1px solid rgb(214, 214, 214); margin-top: 10px;">
+											<th>{{'DOCUMENT_TITLE' | translate }}:</th>
+											<td>{{document?.title }}</td>
+										</tr>
+
+                    <tr valign="middle" style="border-bottom: 1px solid rgb(214, 214, 214); margin-top: 10px;">
+											<th>{{'DOCUMENT_TYPE' | translate }}:</th>
+											<td>{{document?.doctype?.nameDr }}</td>
+										</tr>
+
+										<tr valign="middle" style="border-bottom: 1px solid rgb(214, 214, 214); margin-top: 10px;">
+											<th>{{'ORGANIZATION' | translate }}:</th>
+											<td>{{document?.organization?.nameDr}}</td>
+										</tr>
+
+                    <tr valign="middle" style="border-bottom: 1px solid rgb(214, 214, 214); margin-top: 10px;">
+											<th>{{'IS_RECEIVED_BY_MOJ' | translate }}:</th>
+											<td class="description badge badge-pill bg-light-success"
+												*ngIf="document?.receivedByMoJ">{{ 'YES' | translate }}</td>
+											<td class="description badge badge-pill bg-light-danger"
+												*ngIf="!document?.receivedByMoJ">{{ 'NO' | translate }}</td>
+										</tr>
+
+                    <tr valign="middle" style="border-bottom: 1px solid rgb(214, 214, 214); margin-top: 10px;">
+											<th>{{'WORKFLOW' | translate }}:</th>
+											<td *ngIf="document?.workflow">{{document?.workflow?.nameDr}} &nbsp;&nbsp; <span *ngIf="workflowProcessDays > 0 && !document?.completed" class="badge badge-pill bg-light-info"> {{ 'PROCESS_DAY' | translate}}:&nbsp; {{ workflowProcessDays }} &nbsp;{{'DAYS'|translate}}</span></td>
+											<td *ngIf="!document?.workflow"><span  class="badge badge-pill bg-light-warning">{{'NOT_ASSIGNED' | translate}}</span></td>
+										</tr>
+
+                    <tr valign="middle" style="border-bottom: 1px solid rgb(214, 214, 214); margin-top: 10px;">
+											<th>{{'IS_APPROVED' | translate }}:</th>
+											<td class="description badge badge-pill bg-light-success"
+												*ngIf="document?.approved">{{ 'YES' | translate }}</td>
+											<td class="description badge badge-pill bg-light-danger"
+												*ngIf="!document?.approved">{{ 'NO' | translate }}</td>
+										</tr>
+
+                    <tr *ngIf="document?.workflowAssignDate != null" valign="middle" style="border-bottom: 1px solid rgb(214, 214, 214); margin-top: 10px;">
+											<th>{{'PROCESS_TIME' | translate }}:</th>
+											<td>
+                        <span  *ngIf="processDays < workflowProcessDays" class="badge badge-pill bg-light-primary">
+                          {{processDays}}&nbsp;&nbsp;{{'DAYS'|translate}}
+                        </span>
+
+                        <span  *ngIf="processDays > workflowProcessDays" class="badge badge-pill bg-light-danger">
+                          {{processDays}}-&nbsp;&nbsp;{{'DAYS'|translate}}
+                        </span>
+                      </td>
+										</tr>
+
+										<tr valign="middle" style="border-bottom: 1px solid rgb(214, 214, 214); margin-top: 10px;">
+											<th>{{'STATUS' | translate }}:</th>
+											<td *ngIf="document?.decision">{{document?.decision?.nameDr}}</td>
+                      <td *ngIf="!document?.decision">{{'DRAFT' | translate}}</td>
+										</tr>
+
+										<tr valign="middle" style="border-bottom: 1px solid rgb(214, 214, 214); margin-top: 10px;">
+											<th>{{'DEPARTMENT' | translate }}:</th>
+											<td *ngIf="document?.department">{{document?.department?.nameDr}}</td>
+                      <td *ngIf="!document?.department"><span  class="badge badge-pill bg-light-warning">{{'NOT_ASSIGNED' | translate}}</span></td>
+										</tr>
+
+                    <tr valign="middle" style="border-bottom: 1px solid rgb(214, 214, 214); margin-top: 10px;">
+											<th>{{'TOTAL_DAYS_OF_PROCESS' | translate }}:</th>
+											<td>
+                        <span class="badge badge-pill bg-light-primary">
+                          {{totalProcessDays}}&nbsp;&nbsp;{{'DAYS'|translate}}
+                        </span>
+                      </td>
+										</tr>
+
+                    <tr *ngIf="document?.completed" valign="middle" style="border-bottom: 1px solid rgb(214, 214, 214); margin-top: 10px;">
+											<th>{{'CREATION_DATE' | translate }}:</th>
+											<td>{{document?.processStartDate| date: 'yyyy-MM-dd' | jalali }}</td>
+										</tr>
+
+                    <tr *ngIf="document?.completed" valign="middle" style="border-bottom: 1px solid rgb(214, 214, 214); margin-top: 10px;">
+											<th>{{'COMPLETION_DATE' | translate }}:</th>
+											<td>{{document?.processEndDate| date: 'yyyy-MM-dd' | jalali }}</td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+
+							<div class="col-4" style="display: flex; justify-content: center; flex-direction: row;">
+								<div>
+									<div style="text-align: center;">
+										<img src="../../../../../assets/img/justice_logo.png" height="120px"
+											width="120px" alt="Afghanistan Emblem">
+									</div>
+									<div
+										style="display: flex; justify-content: center; margin-top: 10px; flex-direction: column; text-align: center;">
+										<h6>دولت جمهوری اسلامی افغانستان</h6>
+										<h6>وزارت عدلیه</h6>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-4">
+								<button type="button" class="btn btn-icon btn-lg round pull-right"
+									[title]="'EDIT_DOCUMENT' | translate" (click)="editDocument()"
+                  *ngIf="!document?.completed && (!document?.receivedByMoJ || isMoJ) && globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_EDIT'])">
+									<i class="ft-edit text-primary cursor-pointer"></i>
+								</button>
+
+								<button type="button" *ngIf="!document?.completed && !document?.approved && !document?.receivedByMoJ && isMoJ && globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_APPROVE'])"
+									class="btn btn-icon btn-lg round pull-right" (click)="approveDocument()"
+									[title]="'APPROVE_DOCUMENT' | translate">
+									<i class="ft ft-check text-success cursor-pointer"></i>
+								</button>
+
+                <button type="button" *ngIf="!document?.completed && !document?.approved && document?.receivedByMoJ && (isMoJ || (isWorkflow && document?.workflow.id == workflowId)) && globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_APPROVE'])"
+									class="btn btn-icon btn-lg round pull-right" (click)="approveDocument()"
+									[title]="'APPROVE_DOCUMENT' | translate">
+									<i class="ft ft-check text-success cursor-pointer"></i>
+								</button>
+
+								<button type="button" *ngIf="document?.receivedByMoJ && globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_VIEW_HISTORY'])"
+								class="btn btn-icon btn-lg round pull-right" (click)="documentHistory()"
+								[title]="'DOCUMENT_HISTORY' | translate">
+								<i class="ft ft-list text-info cursor-pointer"></i>
+							</button>
+
+                <button type="button" *ngIf="!document?.completed && document?.approved && document?.receivedByMoJ && (isMoJ || (isWorkflow && document?.workflow.id == workflowId)) && globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_ASSIGN'])"
+                  class="btn btn-icon btn-lg round pull-right" (click)="assignDocument()"
+                  [title]="'DOCUMENT_TRANSITION' | translate">
+                  <i class="ft ft-git-branch text-warning cursor-pointer"></i>
+                </button>
+
+                <button type="button" *ngIf="!document?.completed && document?.approved && document?.receivedByMoJ && (isMoJ || (isWorkflow && document?.workflow.id == workflowId)) && globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_ASSIGN_TO_DEPARTMENT'])"
+                  class="btn btn-icon btn-lg round pull-right" (click)="assignDepartment()"
+                  [title]="'DOCUMENT_ASSIGN_TO_DEPARTMENT' | translate">
+                  <i class="ft ft-activity text-success cursor-pointer"></i>
+                </button>
+
+                <button type="button" *ngIf="globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_ATTACHMENT_VIEW'])"
+                  class="btn btn-icon btn-lg round pull-right" (click)="downloadAttachement(document.id)"
+                  [title]="'DOWNLOAD_ATTACHMENT' | translate">
+                  <i class="ft ft-download cursor-pointer"></i>
+                </button>
+
+                <button type="button" *ngIf="!document?.completed && document?.approved && globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','MARK_DOCUMENT_AS_COMPLETED'])"
+                  class="btn btn-icon btn-lg round pull-right" (click)="markAsCompleted()"
+                  [title]="'MARK_DOCUMENT_AS_COMPLETED' | translate">
+                  <i class="ft ft-check-square text-success cursor-pointer"></i>
+                </button>
+
+
+							</div>
+
+              <div class="col-12 col-sm-12 col-md-12">
+								<table class="table table-borderless table-sm " style="table-layout: auto; width: 80%;">
+									<tbody style="text-align: right;">
+										<tr valign="middle">
+											<th>{{'DESCRIPTION' | translate }}:</th>
+										</tr>
+                    <tr>
+                      <td>
+                        <quill-view-html [content]="document?.body" theme="snow"></quill-view-html>
+                      </td>
+                    </tr>
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" style="margin-top: 30px; margin-bottom: 10px;"
+      *ngIf="globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_COMMENT_LIST'])">
+				<div class="col-10">
+					<h5 class="primary text-uppercase">{{'COMMENTS'|translate}}</h5>
+
+				</div>
+				<div class="col-2">
+					<button type="button" class="btn btn-icon btn-lg round pull-right"
+						[title]="'CREATE_COMMENT' | translate" (click)="addComment()"
+            *ngIf="globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_COMMENT_CREATE'])">
+						<i class="ft-plus text-primary cursor-pointer"></i>
+					</button>
+				</div>
+			</div>
+
+			<div id="invoice-items-details">
+				<div class="row">
+					<div class="table-responsive col-12">
+						<table class="table mt-3" *ngIf="globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_COMMENT_LIST'])">
+							<thead>
+								<tr>
+									<th>{{ 'ID' | translate }} </th>
+									<th>{{'COMMENT' | translate}} </th>
+									<th>{{'COMMENTOR' | translate}}</th>
+									<th>{{'CREATION_DATE' | translate}}</th>
+									<th class="text-right">{{ 'ACTIONS' | translate }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let row of comments;">
+									<td>
+										<p>{{row.id}}</p>
+									</td>
+									<td>
+										<quill-view-html [content]="row.comment" theme="snow"></quill-view-html>
+
+									</td>
+									<td>
+										<p>{{row.postedBy}}</p>
+									</td>
+									<td>
+										<p>
+											{{row.comment_date| date: 'yyyy-MM-dd' | jalali }}
+										</p>
+									</td>
+									<td class="text-right">
+
+										<button class="btn btn-icon round" [title]="'DELETE_COMMENT' | translate" (click)="deleteComment(row.id)"
+                    						*ngIf="(row.postedBy===username) && globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_COMMENT_DELETE'])">
+											<i class="ft-trash text-danger cursor-pointer"></i>
+										</button>
+										<button type="button" [title]="'EDIT_COMMENT' | translate"
+											class="btn btn-icon round"
+											(click)="editComment(row.id)"
+											*ngIf="(row.postedBy===username) && globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_COMMENT_EDIT'])">
+											<i class="ft-edit text-primary cursor-pointer"></i>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7"
+type="ball-spin-clockwise-fade" [fullScreen]="true">
+</ngx-spinner>

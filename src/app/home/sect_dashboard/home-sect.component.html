@@ -1,0 +1,114 @@
+<div class="row">
+  <div class="col-12 col-sm-12">
+    <form [formGroup]="addForm">
+    <div class="row">
+      <div class="col-12 col-sm-6">
+        <ul class="list-unstyled mb-0 marginTOPUI">
+          <li class="d-inline-block mr-2">
+            <div class="radio radio-primary">
+              <input type="radio" name="color-radio" (click)="RadioClicked($event)" value="all" id="color-radio-7"
+              checked>
+              <label for="color-radio-7">{{'ALL'|translate}}</label>
+            </div>
+          </li>
+          <li class="d-inline-block mr-2">
+            <div class="radio radio-primary">
+              <input type="radio" name="color-radio" (click)="RadioClicked($event)" value="allministry" id="color-radio-4"
+                >
+              <label for="color-radio-4">{{'ALL_MINISTRY'|translate}}</label>
+            </div>
+          </li>
+          <li class="d-inline-block mr-2">
+            <div class="radio radio-primary">
+              <input type="radio" name="color-radio" (click)="RadioClicked($event)" value="allauthority" id="color-radio-5"
+                >
+              <label for="color-radio-5">{{'ALL_AUTHORITY'|translate}}</label>
+            </div>
+          </li>
+          <li class="d-inline-block mr-2">
+            <div class="radio radio-primary">
+              <input type="radio" name="color-radio" (click)="RadioClicked($event)" value="allcommission" id="color-radio-6"
+                >
+              <label for="color-radio-6">{{'ALL_COMMISSION'|translate}}</label>
+            </div>
+          </li>
+          <li class="d-inline-block mr-2">
+            <div class="radio radio-primary">
+              <input type="radio" name="color-radio" (click)="RadioClicked($event)" value="ministry" id="color-radio-2"
+                >
+              <label for="color-radio-2">{{'MINISTRY'|translate}}</label>
+            </div>
+          </li>
+          <li class="d-inline-block mr-2">
+            <div class="radio radio-primary">
+              <input type="radio" (click)="RadioClicked($event)" value="authority" name="color-radio"
+                id="color-radio-1">
+              <label for="color-radio-1">{{'AUTHORITY'|translate}}</label>
+            </div>
+          </li>
+          <li class="d-inline-block mr-2">
+            <div class="radio radio-primary">
+              <input type="radio" (click)="RadioClicked($event)" value="commission" name="color-radio"
+                id="color-radio-3">
+              <label for="color-radio-3">{{'COMMISSION'|translate}}</label>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-12 col-sm-4" *ngIf="showMinistry">
+        <div class="form-group">
+          <label for="ministry">{{'MINISTRY'|translate}}
+          </label>
+          <div class="controls">
+            <ng-select [items]="ministrie$|async" bindLabel="nameDr" bindValue="id" formControlName="ministry"
+              (clear)="setToNull(addForm,'ministry')" (change)="loadMinistrySect($event)">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-4" *ngIf="showAuthority">
+        <div class="form-group">
+          <label for="authority">{{'AUTHORITY'|translate}}
+          </label>
+          <div class="controls">
+            <ng-select [items]="authoritie$|async" bindLabel="nameDr" bindValue="id" formControlName="authority"
+              (clear)="setToNull(addForm,'authority')" (change)="loadAuthoritySect($event)">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-4" *ngIf="showCommission">
+        <div class="form-group">
+          <label for="commission">{{'COMMISSION'|translate}}
+          </label>
+          <div class="controls">
+            <ng-select [items]="commission$|async" bindLabel="nameDr" bindValue="id" formControlName="commission"
+              (clear)="setToNull(addForm,'commission')" (change)="loadCommisionSect($event)">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+    <br>
+    <br>
+    <div class="row justify-content-md-center" style="direction: ltr !important">
+      <ngx-charts-bar-vertical [view]="vertical_chart_opt.view" [scheme]="vertical_chart_opt.colorScheme"
+        [results]="profileDatabySect?profileDatabySect.data:''" [gradient]="vertical_chart_opt.gradient"
+        [xAxis]="vertical_chart_opt.showXAxis" [yAxis]="vertical_chart_opt.showYAxis"
+        [legend]="vertical_chart_opt.showLegend" [legendTitle]="vertical_chart_opt.legendTitle"
+        [showXAxisLabel]="vertical_chart_opt.showXAxisLabel"
+        [showYAxisLabel]="vertical_chart_opt.showYAxisLabel" [xAxisLabel]="vertical_chart_opt.xAxisLabel"
+        [yAxisLabel]="vertical_chart_opt.yAxisLabel">
+      </ngx-charts-bar-vertical>
+      <br>
+      <br>
+    </div>
+      <br>
+      <br>
+  </div>
+</div>
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+  [fullScreen]="true">
+</ngx-spinner>

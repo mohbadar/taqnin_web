@@ -1,0 +1,151 @@
+<div class="wrapper" dir="{{lang}}">
+  <div class="main-panel">
+    <!-- BEGIN : Main Content-->
+    <div class="main-content">
+      <div class="content-overlay"></div>
+      <div class="content-wrapper">
+        <section class="kb-wrapper">
+          <!-- Knowledge base search start -->
+          <div class="kb-search">
+            <div class="row">
+              <div class="col-12">
+                <div class="card bg-transparent shadow-none kb-header">
+                  <div class="card-content">
+                    <div class="card-body text-center">
+
+                      <div class="col-4 mx-auto" style="display: flex; justify-content: center; flex-direction: row;">
+                        <div>
+                          <div style="text-align: center;">
+                            <img src="../../../../../assets/img/justice_logo.png" height="120px" width="120px"
+                              alt="Afghanistan Emblem">
+                          </div>
+                          <div
+                            style="display: flex; justify-content: center; margin-top: 10px; flex-direction: column; text-align: center;">
+                            <h6>دولت جمهوری اسلامی افغانستان</h6>
+                            <h6>وزارت عدلیه</h6>
+                          </div>
+
+                          <div class="mt-2">
+                            <h3 class="kb-title">معلومات سند</h3>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Knowledge base search ends -->
+        </section>
+
+        <section id="striped-light" class="ml-2 mr-2">
+          <div class="row">
+            <div class="col-8 mx-auto">
+              <div class="card" style="padding: 20px;">
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-12">
+                        <div style="margin-top: 10px;">
+                          <div class="row">
+
+                            <div class="col-6 col-sm-12 col-md-6">
+                              <table class="table table-borderless table-sm text-right">
+                                <tbody style="justify-content: right; ">
+
+                                  <tr>
+                                    <th>{{'DOCUMENT_NAME' | translate }} : </th>
+                                    <td>{{document?.title}}</td>
+                                  </tr>
+
+                                  <tr>
+                                    <th>{{'DOCUMENT_NO' | translate }} : </th>
+                                    <td>{{ document?.document_no }}</td>
+                                  </tr>
+
+                                  <tr>
+                                    <th>{{'CREATION_DATE' | translate }} : </th>
+                                    <td>{{ document?.created_at}}</td>
+                                  </tr>
+
+                                  <tr>
+                                    <th>{{'DECISION' | translate }} : </th>
+                                    <td>{{ document?.decision?.nameDr}}</td>
+                                  </tr>
+
+                                  <tr>
+
+                                    <th>{{'WORKFLOW' | translate }} : </th>
+                                    <td>{{ document?.workflow?.nameDr}}</td>
+
+                                  </tr>
+                                  <tr>
+                                    <th>{{'IS_APPROVED' | translate }} : </th>
+                                    <td class="description badge badge-pill bg-light-success" *ngIf="document?.approved">{{
+                                      'YES' | translate }}</td>
+                                    <td class="description badge badge-pill bg-light-danger" *ngIf="!document?.approved">{{
+                                      'NO' | translate }}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+
+
+                            <div class="col-6">
+                              <!-- <button type="button" class="btn btn-icon btn-lg round"
+                                [title]="'DOWNLOAD_ATTACHEMENT' | translate" (click)="downloadAttachment(document.id)">
+                                <i class="ft ft-download text-success cursor-pointer"></i>
+                              </button> -->
+
+                              <button type="button" class="btn btn-icon btn-lg round"
+                                [title]="'DOCUMENTS_LIST' | translate" (click)="documentsList()">
+                                <i class="ft-list text-primary cursor-pointer"></i>
+                              </button>
+                            </div>
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 30px; margin-bottom: 10px;">
+                      <div class="col-12 text-right">
+                        <h5>{{'DESCRIPTION'| translate }}</h5>
+                      </div>
+                    </div>
+
+                    <div id="invoice-items-details">
+                      <div class="row">
+                        <div class="col-12 text-right">
+                          <P>{{document.body}}</P>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <!-- END : End Main Content-->
+
+    <!-- BEGIN : Footer-->
+    <footer class="footer undefined undefined">
+      <p class="clearfix text-muted m-0"><span>Copyright © 2021 &nbsp;</span><a href="javascript;" id="pixinventLink"
+          target="_blank">Ministry of justice</a><span class="d-none d-sm-inline-block">, All rights reserved.</span>
+      </p>
+    </footer>
+    <!-- End : Footer-->
+    <!-- Scroll to top button -->
+    <button class="btn btn-primary scroll-top" type="button" style="display: none;">
+      <i class="ft-arrow-up"></i>
+    </button>
+
+  </div>
+</div>

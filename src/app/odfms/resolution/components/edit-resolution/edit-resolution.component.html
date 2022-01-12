@@ -1,0 +1,79 @@
+<div class="modal-header">
+  <h4 class="primary text-uppercase">{{ "EDIT_RESOLUTION" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" style="padding-bottom: 20px;">
+  <div class="row">
+    <form class="col-12" [formGroup]="editResolutionForm" (ngSubmit)="onFormSubmit()">
+      <div class="col-12 form-group">
+        <label>{{ "RESOLUTION_NUMBER" | translate }}
+          <span class="required-field">*</span>
+        </label>
+        <input class="form-control input-md" id="resolutionNumber" formControlName="resolutionNumber"
+          name="resolutionNumber" type="text"
+          [ngClass]="{ 'error-border': editResolutionForm.get('resolutionNumber').hasError('required') && (editResolutionForm.get('resolutionNumber').touched) }"
+          required />
+        <div
+          *ngIf="editResolutionForm.get('resolutionNumber').hasError('required') && (editResolutionForm.get('resolutionNumber').touched)"
+          class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+          {{'RESOLUTION_NUMBER'|translate}} {{'IS_REQUIRED'|translate}}
+        </div>
+      </div>
+
+      <div class="col-12 form-group">
+        <label>{{ "RESOLUTION_DATE" | translate }}
+          <span class="required-field">*</span>
+        </label>
+        <div class="input-group">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="p.toggle()" type="button">
+              <i class="fa fa-calendar"></i>
+            </button>
+          </div>
+          <input class="form-control" name="resolutionDate" formControlName="resolutionDate" ngbDatepicker
+            id="resolutionDate" #p="ngbDatepicker"
+            [ngClass]="{ 'error-border': editResolutionForm.get('resolutionDate').hasError('required') && (editResolutionForm.get('resolutionDate').touched) }"
+            required>
+          <div
+            *ngIf="editResolutionForm.get('resolutionDate').hasError('required') && (editResolutionForm.get('resolutionDate').touched)"
+            class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+            {{'RESOLUTION_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 form-group">
+        <label>{{ "SHURA" | translate }}
+          <span class="required-field">*</span>
+        </label>
+        <ng-select [items]="shuraList" bindLabel="nameDr" bindValue="id" name="shuraId" formControlName="shuraId"
+          [ngClass]="{ 'error-border': editResolutionForm.get('shuraId').hasError('required') && (editResolutionForm.get('shuraId').touched) }"
+          required>
+        </ng-select>
+        <div
+          *ngIf="editResolutionForm.get('shuraId').hasError('required') && (editResolutionForm.get('shuraId').touched)"
+          class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+          {{'SHURA'|translate}} {{'IS_REQUIRED'|translate}}
+        </div>
+      </div>
+
+      <div class="col-12 form-group">
+        <label>{{ "COMPONENTS" | translate }}
+        </label>
+        <textarea cols="20" rows="3" class="form-control input-md" id="components" name="components"
+          formControlName="components"></textarea>
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary btn-fill mr-2">{{'SUBMIT' | translate }}</button>
+        <button class="btn btn-secondary btn-fill" (click)="closeModal()" type="button">{{ 'CANCEL' | translate
+          }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+  [fullScreen]="true">
+</ngx-spinner>

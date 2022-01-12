@@ -1,0 +1,153 @@
+
+<section class="search-wrapper">
+  <!-- Search Bar -->
+  <div class="row text-left">
+    <div class="col-12">
+        <div class="content-header">
+            {{ 'ANNOUNCEMENTS' | translate }}
+            <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="refresh()"
+                [class.fa-spin]="loading" >
+                <i class="ft ft-refresh-cw"></i>
+            </button>
+            <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="viewList()"
+            *ngIf="globals.principal.hasAuthority(['TAQNIN_ANNOUNCEMENT_MODULE','ANNOUNCEMENT_ADMIN_LIST'])">
+              <i class="ft ft-list"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="search-bar mt-3">
+        <!-- input search -->
+        <form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
+          <div class="page-search-input form-group position-relative">
+            <input type="search" class="form-control rounded-right form-control-lg shadow pl-2" id="searchbar"
+              [placeholder]="'SEARCH_BY_ANNOUNCEMENT_TITLE' | translate" formControlName="query">
+            <button class="btn btn-primary search-btn rounded position-absolute" type="submit">
+              <span class="d-none d-sm-block">{{'SEARCH'| translate }}</span>
+              <i class="ft-search d-block d-sm-none"></i>
+            </button>
+          </div>
+        </form>
+        <!--/ input search -->
+      </div>
+    </div>
+  </div>
+
+  <div class="row search-menu">
+    <div class="col-10">
+      <!-- search data searching speed -->
+      <div class="search-speed mb-1 mt-3 p-2">
+        <small class="text-muted">{{'TOTAL_ANNOUNCEMENTS'| translate }}: {{totalAnnouncements}}</small>
+      </div>
+      <!--/ search data searching speed -->
+    </div>
+    <div class="col-2">
+      <div class="content-header">
+          <button type="button" class="btn btn-default btn-icon mr-1 mb-1 pull-right" (click)="addMainAnnouncement()"
+          *ngIf="mainAnnouncement == null && globals.principal.hasAuthority(['TAQNIN_ANNOUNCEMENT_MODULE','MAIN_ANNOUNCEMENT_CREATE'])">
+              <i class="ft ft-plus"></i>
+          </button>
+
+          <button type="button" class="btn btn-default btn-icon mr-1 mb-1 pull-right" (click)="editMainAnnouncement()"
+          *ngIf="mainAnnouncement && globals.principal.hasAuthority(['TAQNIN_ANNOUNCEMENT_MODULE','MAIN_ANNOUNCEMENT_EDIT'])">
+              <i class="ft ft-edit"></i>
+          </button>
+      </div>
+  </div>
+  </div>
+  <!-- Search Bar end -->
+
+  <!-- seach result section -->
+  <div class="row">
+    <!--Search Result-->
+    <!-- Search content area -->
+    <div class="col-lg-8 col-md-7 col-12 order-2 order-md-1">
+      <div id="searchResults" class="row search-results">
+
+        <!-- Web results -->
+        <div class="col-12 web-result" *ngFor="let announcement of announcements | slice: pageSize | slice: 0:itemsPerPage">
+          <div class="card" *ngIf="globals.principal.hasAuthority(['TAQNIN_ANNOUNCEMENT_MODULE','ANNOUNCEMENT_VIEW'])">
+            <div class="card-header">
+              <h4 class="card-title cursor-pointer">
+                <a [routerLink]="['view', announcement.id]">
+                  {{announcement.title}}
+                </a>
+              </h4>
+            </div>
+            <div class="card-content">
+              <div class="card-body pt-1">
+                <small class="">{{announcement.publisher}}</small><br>
+                <small class="">{{announcement.createdAt}}&nbsp;{{announcement.createdAtTime}}&nbsp;[{{announcement.createdBy}}]</small>
+                <!-- <p class="m-0 mt-2">
+                  <quill-view-html [content]="announcement.body" theme="snow"></quill-view-html>
+                </p> -->
+              </div>
+              <!-- <div class="card-footer border-top d-flex">
+                <small class="text-truncate">
+                  <a href="https://getbootstrap.com/docs/4.4/getting-started/introduction/" class="success darken-3"
+                    target="_blank">https://getbootstrap.com/docs/4.4/getting-started/introduction/</a>
+                </small>
+                <i class="ft-download font-small-4 cursor-pointer"></i>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+        <!--Pagination -->
+        <div class="col-12 search-pagination mt-3">
+          <div class="row" *ngIf="announcements">
+            <div class="col-6 mx-auto d-flex justify-content-center" dir="ltr">
+              <ngb-pagination [collectionSize]="announcements.length" #numPages [pageSize]="itemsPerPage"
+              [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!--/ Search content area -->
+    <!-- Search Sidebar area -->
+    <div class="col-lg-4 col-md-5 col-12 order-1 order-md-2">
+      <div class="card box-search">
+        <div class="card-body">
+          <div class="text-center">
+            <img class="img-fluid rounded" src="assets/img/pages/vuexy-banner.jpg" alt="logo">
+          </div>
+          <h5 class="mt-3">{{mainAnnouncement?.title}}</h5>
+          <small>{{mainAnnouncement?.publisher}}</small>
+          <p class="mt-1">
+            <small> {{mainAnnouncement?.created_date}}&nbsp;{{mainAnnouncement?.created_time}}&nbsp;[{{mainAnnouncement?.created_by}}]</small>
+            <a class="text text-primary d-none" *ngIf="mainAnnouncement?.attachment" (click)="downloadMainAnnouncementAttachment();">
+              <i class="ft ft-download"></i>
+            </a>
+          </p>
+          <p>
+            <quill-view-html [content]="mainAnnouncement?.details" theme="snow"></quill-view-html>
+          </p>
+          <!-- <br>
+          <hr> -->
+
+          <div class="knowledge-panel-suggestion d-none">
+            <div class="suggestion d-inline-block">
+                <a class="text text-primary" *ngIf="mainAnnouncement?.attachment" (click)="downloadMainAnnouncementAttachment();">
+                  <i class="ft ft-download"></i>
+                </a>
+                <!-- &nbsp;
+                &nbsp;
+                <span>
+                  <i class="ft ft-eye"></i> 240
+                </span> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Search Sidebar area -->
+  </div>
+</section>
+<!--/ Search result section -->
+

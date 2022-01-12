@@ -1,0 +1,47 @@
+<div class="modal-header">
+	<h4 class="modal-title">{{'PROFILE_HISTORY'|translate}}</h4>
+	<button type="button" class="close" aria-label="Close" (click)="dismiss()">
+	  <span aria-hidden="true">&times;</span>
+	</button>
+  </div>
+  <div class="modal-body">
+	<div class="row">
+	  <div class="col-12 col-sm-12">
+		<ng-container *ngIf="dTableFlag">
+			<ngx-datatable #table class="bootstrap core-bootstrap" [rows]="rows" [scrollbarH]="true"
+				[columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+				[limit]="10">
+				<ngx-datatable-column [name]="'FIRSTNAME' | translate" prop="firstName"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'LASTNAME' | translate" prop="lastName"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'FATHERNAME' | translate" prop="fatherName"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'GRAND_FATHER_NAME' | translate" prop="grandFatherName"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'DATEBIRTH' | translate" prop="dob"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'ELECTRONIC_TAZKIRA' | translate" prop="enid"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'BLOOD_TYPE' | translate" prop="blood"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'YEAR' | translate" prop="year">
+					<ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.year | date: 'yyyy-MM-dd' | jalali}}
+                      </ng-template>
+				</ngx-datatable-column>
+				<ngx-datatable-column [name]="'PHONE_NUMBER' | translate" prop="phone"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'EMAIL' | translate" prop="email"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'TYPE' | translate" prop="appointType"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'SUGGESTION_NUMBER' | translate" prop="suggestionNumber"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'FIRST_APPOINT_DATE' | translate" prop="appointDate">
+					<ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.appointDate | date: 'yyyy-MM-dd' | jalali}}
+                      </ng-template>
+				</ngx-datatable-column>
+				<ngx-datatable-column [name]="'POSITION_TITLE' | translate" prop="positionTitle"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'CREATED_BY' | translate" prop="createdBy"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'UPDATED_BY' | translate" prop="updatedBy"></ngx-datatable-column>
+				
+			</ngx-datatable>
+		</ng-container>
+	  </div>
+	</div>
+  </div>
+  <div class="modal-footer">
+	<button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+  </div>
+  

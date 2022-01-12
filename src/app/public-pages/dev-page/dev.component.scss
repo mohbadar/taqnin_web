@@ -1,0 +1,27 @@
+.wp {
+    background-color: white;
+    height: 100%;
+}
+
+.dev-wrap {
+    position: relative;
+    padding: .5rem 5%;
+}
+
+.user-avatar {
+    height: 120px;
+    width: 120px;
+    margin: auto;
+    left: 0;
+    display: block;
+    right: 0;
+    overflow: auto;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.user-avatar {
+    img {
+        height: 100%;
+    }
+}

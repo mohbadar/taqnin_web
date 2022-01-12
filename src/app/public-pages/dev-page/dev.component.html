@@ -1,0 +1,79 @@
+<div class="p-5 pt-5 wp" dir="rtl">
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <fieldset>
+					<div class="modal-header">
+						<legend dir="rtl" class="pull-right">تیم اصلی</legend>
+					</div>
+                    <div class="modal-body">
+						<div class="row">
+							<div class="col-lg-3 col-md-4 col-sm-6 mb-3" *ngFor="let c of coreTeam">
+								<div class="card">
+									<!--begin::Body-->
+									<div class="card-body">
+										<!--begin::Signin-->
+										<div class="dev-wrap">
+											<div class="user-avatar">
+												<a [href]="'https://github.com/' + c.github" target="blank">
+													<img [src]="'https://avatars0.githubusercontent.com/u/' + c.avatarId + '?v=4'"
+														[alt]="c[ 'name' + lang ]" (error)="imageError($event.target)"></a>
+											</div>
+											<div class="name text-center">
+												<h5><a [href]="'https://github.com/' + c.github"
+														target="blank">{{ c[ 'name' + lang ] }}</a></h5>
+												<p placement="bottom">
+													{{ c.nameFA}}</p>
+												<p placement="bottom">
+														{{ c.position }}</p>
+											</div>
+										</div>
+										<!--end::Options-->
+									</div>
+									<!--end::Signin-->
+								</div>
+							</div>
+						</div>
+					</div>
+                </fieldset>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <fieldset>
+					<div class="modal-header">
+                    <legend>همکاران</legend>
+				    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-4 col-sm-6" *ngFor="let c of contributers">
+                            <div class="kt-card card">
+                                <!--begin::Body-->
+                                <div class="kt-login__body card-body">
+                                    <!--begin::Signin-->
+                                    <div class="dev-wrap">
+                                        <div class="user-avatar">
+                                            <a [href]="'https://github.com/' + c.github" target="blank">
+                                                <img [src]="'https://avatars0.githubusercontent.com/u/' + c.avatarId + '?v=4'"
+                                                    [alt]="c[ 'name' + lang ]" (error)="imageError($event.target)"></a>
+                                        </div>
+                                        <div class="name text-center">
+                                            <h5><a [href]="'https://github.com/' + c.github"
+                                                    target="blank">{{ c[ 'name' + lang ] }}</a></h5>
+                                            <p placement="bottom">
+                                                {{ c.nameFA }}</p>
+											
+                                        </div>
+                                    </div>
+                                    <!--end::Options-->
+                                </div>
+                                <!--end::Signin-->
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>

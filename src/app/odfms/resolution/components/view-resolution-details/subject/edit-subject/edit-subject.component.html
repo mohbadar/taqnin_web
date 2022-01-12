@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <h4 class="primary text-uppercase">{{ "EDIT_SUBJECT" | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+  <div class="modal-body" style="padding-bottom: 20px;">
+    <div class="row">
+      <form class="col-12" [formGroup]="editSubjectForm" (ngSubmit)="onFormSubmit()">
+        <div class="col-12 form-group">
+          <label>{{ "SUBJECT_ABSTRACT" | translate }}<span class="required-field">*</span>
+          </label>
+          <input class="form-control input-md" id="subjectAbstract" formControlName="subjectAbstract"
+            name="subjectAbstract" type="text"
+            [ngClass]="{ 'error-border': editSubjectForm.get('subjectAbstract').hasError('required') && (editSubjectForm.get('subjectAbstract').touched) }"
+            required />
+          <div
+            *ngIf="editSubjectForm.get('subjectAbstract').hasError('required') && (editSubjectForm.get('subjectAbstract').touched)"
+            class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+            {{'SUBJECT_ABSTRACT'|translate}} {{'IS_REQUIRED'|translate}}
+          </div>
+        </div>
+  
+        <div class="col-12 form-group">
+          <label>{{ "DETAILS" | translate }}<span class="required-field">*</span>
+          </label>
+          <textarea cols="20" rows="3" class="form-control input-md" id="details" name="details" formControlName="details"
+            [ngClass]="{ 'error-border': editSubjectForm.get('details').hasError('required') && (editSubjectForm.get('details').touched) }"></textarea>
+          <div *ngIf="editSubjectForm.get('details').hasError('required') && (editSubjectForm.get('details').touched)"
+            class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+            {{'DETAILS'|translate}} {{'IS_REQUIRED'|translate}}
+          </div>
+        </div>
+  
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary btn-fill mr-2">{{'SUBMIT' | translate }}</button>
+          <button class="btn btn-secondary btn-fill" (click)="closeModal()" type="button">{{ 'CANCEL' | translate
+            }}</button>
+        </div>
+      </form>
+    </div>
+    <ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7"
+      type="ball-spin-clockwise-fade" [fullScreen]="true">
+    </ngx-spinner>
+  </div>

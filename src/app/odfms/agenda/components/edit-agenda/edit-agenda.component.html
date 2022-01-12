@@ -1,0 +1,152 @@
+<div class="modal-header">
+    <h4 class="primary text-uppercase">{{ "EDIT_AGENDA" | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="padding-bottom: 150px;">
+				<form [formGroup]="editAgendaForm" id="editAgendaForm" (ngSubmit)="onFormSubmit()">
+					<div class="row">
+						<div class="col-12 col-sm-12">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="agendaNo">{{'MEETING_NO'|translate}}<span
+												class="required-field">*</span></label>
+										<div class="controls">
+											<input type="number" formControlName="agendaNo" class="form-control"
+												[ngClass]="{ 'error-border': editAgendaForm.get('agendaNo').hasError('required') && (editAgendaForm.get('agendaNo').touched) }">
+										</div>
+										<div *ngIf="editAgendaForm.get('agendaNo').hasError('required') && (editAgendaForm.get('agendaNo').touched)"
+											class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+											{{'MEETING_NO'|translate}} {{'IS_REQUIRED'|translate}}
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="meetingLocation">{{'MEETING_LOCATION'|translate}}<span
+												class="required-field">*</span></label>
+										<div class="controls">
+											<input type="text" formControlName="meetingLocation" class="form-control"
+												[ngClass]="{ 'error-border': editAgendaForm.get('meetingLocation').hasError('required') && (editAgendaForm.get('meetingLocation').touched) }">
+										</div>
+										<div *ngIf="editAgendaForm.get('meetingLocation').hasError('required') && (editAgendaForm.get('meetingLocation').touched)"
+											class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+											{{'MEETING_LOCATION'|translate}} {{'IS_REQUIRED'|translate}}
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="form-control-label"
+											for="meetingDate">{{'MEETING_DATE'|translate}}<span
+												class="required-field">*</span></label>
+										<div class="input-group">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary calendar" (click)="d.toggle()"
+													type="button">
+													<i class="fa fa-calendar"></i>
+												</button>
+											</div>
+											<input class="form-control" name="meetingDate" formControlName="meetingDate"
+												ngbDatepicker
+												[ngClass]="{ 'error-border': editAgendaForm.get('meetingDate').hasError('required') && (editAgendaForm.get('meetingDate').touched) }"
+												id="meetingDate" #d="ngbDatepicker">
+										</div>
+										<div style="margin-top: -10px;"
+											*ngIf="editAgendaForm.get('meetingDate').hasError('required') && (editAgendaForm.get('meetingDate').touched)"
+											class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+											{{'MEETING_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>{{ 'MEETING_TIME'|translate}}<span
+												class="required-field">*</span></label>
+										<ngb-timepicker formControlName="meetingTime" [spinners]="false"
+											[meridian]="true"></ngb-timepicker>
+									</div>
+									<div style="margin-top: -10px;"
+										*ngIf="editAgendaForm.get('meetingTime').hasError('required') && (editAgendaForm.get('meetingTime').touched)"
+										class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+										{{'MEETING_TIME'|translate}} {{'IS_REQUIRED'|translate}}
+									</div>
+								</div>
+
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="meetingDuration">{{'MEETING_DURATION'|translate}}<span
+												class="required-field">*</span></label>
+										<div class="controls form-row">
+											<input type="number" formControlName="meetingDuration"
+												class="col-6 form-control" required
+												[ngClass]="{ 'error-border': editAgendaForm.get('meetingDuration').hasError('required') && (editAgendaForm.get('meetingDuration').touched) }">
+
+											<ng-select [items]="durationTypes$" bindLabel="key" bindValue="value"
+												class="col-6" formControlName="meetingDurationType">
+											</ng-select>
+											<div *ngIf="editAgendaForm.get('meetingDuration').hasError('required') && (editAgendaForm.get('meetingDuration').touched)"
+												class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+												{{'MEETING_DURATION'|translate}} {{'IS_REQUIRED'|translate}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="form-control-label"
+											for="meetingStartDate">{{'MEETING_START_DATE'|translate}}<span
+												class="required-field">*</span></label>
+										<div class="input-group">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary calendar"
+													(click)="startDate.toggle()" type="button">
+													<i class="fa fa-calendar"></i>
+												</button>
+											</div>
+											<input class="form-control" name="meetingStartDate"
+												formControlName="meetingStartDate" ngbDatepicker
+												[ngClass]="{ 'error-border': editAgendaForm.get('meetingStartDate').hasError('required') && (editAgendaForm.get('meetingStartDate').touched) }"
+												id="meetingStartDate" #startDate="ngbDatepicker">
+										</div>
+										<div style="margin-top: -10px;"
+											*ngIf="editAgendaForm.get('meetingStartDate').hasError('required') && (editAgendaForm.get('meetingStartDate').touched)"
+											class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+											{{'MEETING_START_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>{{ 'MEETING_START_TIME'|translate}}<span
+												class="required-field">*</span></label>
+										<ngb-timepicker formControlName="meetingStartTime" [spinners]="false"
+											[meridian]="true"></ngb-timepicker>
+										<div style="margin-top: 5px;"
+											*ngIf="editAgendaForm.get('meetingStartTime').hasError('required') && (editAgendaForm.get('meetingStartTime').touched)"
+											class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+											{{'MEETING_START_TIME'|translate}} {{'IS_REQUIRED'|translate}}
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+                    <div style="margin-right: -25px; margin-top: 20px;" class="col-12">
+                        <button type="submit" class="btn btn-primary btn-fill mr-2">{{'SUBMIT' | translate }}</button>
+                        <button class="btn btn-secondary btn-fill" (click)="closeModal()" type="button">{{ 'CANCEL' | translate
+                          }}</button>
+                    </div>
+				</form>
+	</div>

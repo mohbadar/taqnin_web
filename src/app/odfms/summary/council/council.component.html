@@ -1,0 +1,21 @@
+<div class="row match-height justify-content-center">
+	<div class="col-md-4 col-12" *ngFor="let council of councils; let councilIndex=index">
+		<div class="card cursor-pointer" *ngIf="council.code != 'cab'"  (click)="openPage(council)">
+			<div class="card-header text-center pb-0">
+				<span class="font-medium-2 info">{{ council.nameDr }}</span>
+				<h4 class="font-large-1 mt-2">120
+				<span class="font-medium-1 grey text-bold-400">{{ 'RESOLUTIONS'|translate }}</span>
+				</h4>
+			</div>
+			<div class="card-content">
+				<div id="donut-chart2" class="text-center">
+					<!-- <img src="assets/img/afg-emblem.png" alt="element 06" height="150"> -->
+				</div>
+				<div class="card-body text-center">
+				<span class="font-large-1 d-block mb-1"></span>
+				<span class="font-medium-1"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

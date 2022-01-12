@@ -1,0 +1,228 @@
+<section id="ngx-datatables-server-side">
+  <div class="row">
+    <div class="col-12 mt-2">
+      <h4>{{'PROFILE'|translate}}</h4>
+    </div>
+  </div>
+  <!-- Filter starts -->
+  <form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
+  <div class="row">
+    <div class="col-12">
+      <div class="users-list-filter px-2">
+          <div class="row border rounded py-2 mb-2 mx-n2">
+            <div class="col-12 col-sm-6 col-lg-2">
+              <div class="form-group">
+                <label for="enid">{{'ELECTRONIC_TAZKIRA'|translate}}</label>
+                <div class="controls">
+                  <input type="text" formControlName="enid" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-2">
+              <div class="form-group">
+                <label for="first_name">{{'FIRSTNAME'|translate}}</label>
+                <div class="controls">
+                  <input type="text" formControlName="first_name" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-2">
+              <div class="form-group">
+                <label for="father_name">{{'FATHERNAME'|translate}}</label>
+                <div class="controls">
+                  <input type="text" formControlName="father_name" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-2">
+              <div class="form-group">
+                <label for="position_title">{{'POSITION_TITLE'|translate}}</label>
+                <div class="controls">
+                  <input type="text" formControlName="position_title" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-2">
+              <div class="form-group">
+                <label for="profile_code">{{'PROFILECODE'|translate}}</label>
+                <div class="controls">
+                  <input type="text" formControlName="profile_code" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-2 d-flex align-items-center">
+              <button type="submit" class="btn btn-primary btn-block users-list-clear">
+                {{'SEARCH'|translate}}
+              </button>&nbsp;
+              <button  (click)="resetFilters()" class="btn btn-warning btn-block users-list-clear" style="margin-top:initial">
+                {{'CLEAR'|translate}}
+              </button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</form>
+  <!-- Filter ends -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card customShadow">
+        <div class="card-header">
+          <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="reload()">
+            <i class="ft ft-refresh-cw"></i>
+          </button>
+          <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+            title="{{'ADD_PROFILE' | translate}}" [disabled]="loading" (click)="addNewRecord()"  *ngIf="globals.principal.hasAuthority(['PROFILE','PROFILE_CREATE'])">
+            <i class="ft ft-plus"></i>
+          </button>
+
+          <div class="col-md-3 col-3">
+            <div class="form-group">
+              <select #pageLength class="form-control" (change)="setPageLength(pageLength.value)">
+                <option *ngFor=" let pl of pageLengths" [selected]="pl.id==10" [value]="pl.id">
+                  {{ pl.count }} {{ 'RECORDS' | translate }}
+                </option>
+                <!-- <option value="-1">{{ 'ALL' | translate }}</option> -->
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <ng-container *ngIf="tableOptions">
+              <!-- ngx-datatables-server-side -->
+              <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force"
+                [headerHeight]="50" [footerHeight]="50"
+                [rows]="rows" [columns]="columns"
+                [rowHeight]="auto"
+                [limit]="tableOptions.length" [loadingIndicator]="dataLoadingFlag" [scrollbarH]="true" 
+                (page)="setPage($event)"  [count]="recordsTotal"
+                [externalPaging]="true" [sorts]="[{prop: 'id', dir: 'desc'}]">
+                <ngx-datatable-column [width]="1">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span *ngIf="row['APPROVE'] != null">
+                      <i class="fa fa-check-circle text-bolder colorFa"></i>
+                    </span>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-row-detail [rowHeight]="100">
+                  <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                    <div class="ml-5 my-1">
+                      <div>{{'BIRTH_DATE'|translate}}: &nbsp;{{row.DOB}}</div>
+                      <div>{{'AGE'|translate}}: &nbsp;{{calculateAge(row.DOB)}}</div>
+                      <div>{{'ETHNICITY'|translate}}: &nbsp;{{row.ETHNICITY}} </div>
+                      <div>{{'PROVINCE' | translate}}: &nbsp; {{row.PROVINCE}}</div>
+                      <div>{{'EDUCATION_LEVEL'|translate}}: &nbsp; {{level?level:''}}</div>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-row-detail>
+                <ngx-datatable-column  [width]="20" [resizeable]="false" [sortable]="false" [draggable]="false"
+                  [canAutoResize]="false">
+                  <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                    <a href="javascript:void(0)" (click)= "loadEducation(row.ID)" [class.datatable-icon-left]="!expanded"
+                      [class.datatable-icon-down]="expanded" title="Expand/Collapse Row"
+                      (click)="rowDetailsToggleExpand(row)">
+                    </a>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'FIRSTNAME'|translate}}" prop="FIRST_NAME" [width]="170">
+                  <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                    <div class="d-flex align-items-center">
+                      <div *ngIf="row['AVATAR']; else customAvatar">
+                        <img class="rounded-circle mr-1" [src]="'api/public/profile/' + row.ID + '/photo?size=32x32'"
+                          height="32" width="32" alt="datatable-avatar">
+                      </div>
+                      <ng-template #customAvatar>
+                        <div class="avatar mr-1 ml-0"
+                          [ngClass]="{'bg-primary': row.STATUS == 'برحال', 'bg-success':row.STATUS == 'انفصال', 'bg-danger':row.STATUS == 'فوتی' , 'bg-warning':row.STATUS == 'انتظار با معاش' && row.STATUS=='تعلیق', 'bg-info':row.STATUS == 'متقاعد'}  ">
+                          <div class="avatar-content">{{ name | shortName }}</div>
+                        </div>
+                      </ng-template>
+                      <div class="cell-line-height">
+                        <p class="font-medium-1 line-height-1 mb-0">{{ name }}</p>
+                        <span class="text-muted font-small-2" *ngIf="row['MINISTRY']">
+                          {{ row.MINISTRY }}</span>
+                        <span class="text-muted font-small-2" *ngIf="row['AUTHORITY']">
+                          {{ row.AUTHORITY }}</span>
+                        <span class="text-muted font-small-2" *ngIf="row['COMMISSION']">
+                          {{ row.COMMISSION }}</span>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'LASTNAME'|translate}}" prop="LAST_NAME" [width]="100">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'FATHERNAME'|translate}}" prop="FATHER_NAME" [width]="100">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'POSITION_TITLE'|translate}}" prop="POSITION_TITLE" [width]="100">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'POSITION'|translate}}" [width]="70">
+                  <ng-template ngx-datatable-cell-template let-row="row">
+                    <span *ngIf="row['POSITION']">
+                      {{ row.POSITION }}</span>
+                    <span  *ngIf="row['MPOSITION']">
+                        {{ row.MPOSITION }}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+                
+                <ngx-datatable-column name="{{'PROFILECODE'|translate}}" prop="PROFILE_CODE" [width]="70">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'STATUS'|translate}}" prop="STATUS" [width]="70">
+                  <ng-template let-status="value" ngx-datatable-cell-template>
+                    <div class="badge badge-pill"
+                      [ngClass]="{'bg-light-primary': status == 'برحال', 'bg-light-success':status == 'انفصال', 'bg-light-danger':status == 'انتظار بدون معاش' , 'bg-light-warning':status == 'انتظار با معاش' , 'bg-light-info':status == 'متقاعد'}">
+                      {{ status}}
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [name]="'ACTIONS' | translate" [width]="200">
+                  <ng-template ngx-datatable-cell-template let-row="row">
+
+                    <button type="button" class="btn btn-icon round" (click)="viewProfile(row.ID)" *ngIf="globals.principal.hasAuthority(['PROFILE','PROFILE_PRINT'])">
+                      <i class="ft-printer text-primary cursor-pointer"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-icon round" (click)="profileDetail(row.ID)" *ngIf="globals.principal.hasAuthority(['PROFILE','PROFILE_VIEW'])">
+                      <i class="ft-edit text-primary cursor-pointer"></i>
+                    </button>
+
+                    <button class="btn btn-icon round" [title]="'HISTORY' | translate" (click)="profileHistory(row.ID)" *ngIf="globals.principal.hasAuthority(['PROFILE','PROFILE_HISTORY'])">
+                      <i class="ft-archive text-success cursor-pointer"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-icon round" (click)="confirmDeleteModal(content, row.ID)">
+                      <i class="ft ft-trash text-warning cursor-pointer"></i>
+                    </button>
+                  </ng-template>
+                </ngx-datatable-column>
+
+              </ngx-datatable>
+              <!--/ ngx-datatables-server-side -->
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- delete confirm modal -->
+<ng-template #content let-modal>
+  <div class="modal-body">
+      <p>{{ "ARE_YOU_SURE?" | translate }}</p>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger" (click)="deleteRecord(); modal.close()">
+          {{ "DELETE" | translate }}
+      </button>
+      <button type="button" class="btn btn-light" (click)="modal.close()">
+          {{ "CANCEL" | translate }}
+      </button>
+  </div>
+</ng-template>
+
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+  [fullScreen]="true">
+</ngx-spinner>

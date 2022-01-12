@@ -1,0 +1,221 @@
+<section id="minimal-statistics-bg">
+  <div class="row">
+    <div class="col-12 mb-1">
+
+    </div>
+  </div>
+  <br><br>
+  <div class="row">
+    <!-- <div class="col-xl-2 col-lg-6 col-12 margin-dashboard">
+      <div class="card card-inverse" style="background-color: #a83232;">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media">
+              <div class="media-body text-left">
+                <h3 class="card-text">{{profile}}</h3>
+                <span>{{'PROFILE_ALL'|translate}}</span>
+              </div>
+              <div class="media-right align-self-center">
+                <i class="ft-user font-large-2 float-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="col-xl-2 col-lg-6 col-12"></div>
+    <div class="col-xl-2 col-lg-6 col-12">
+      <div class="card card-inverse bg-info">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media">
+              <div class="media-body text-left">
+                <h3 class="card-text">{{profileActive}}</h3>
+                <span>{{'PROPOSAL'|translate}}</span>
+              </div>
+              <div class="media-right align-self-center">
+                <i class="ft-user font-large-2 float-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-6 col-12">
+      <div class="card card-inverse bg-success">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media">
+              <div class="media-body text-left">
+                <h3 class="card-text">{{proposal}}</h3>
+                <span>{{'DOCUMENT'|translate}}</span>
+              </div>
+              <div class="media-right align-self-center">
+                <i class="ft-aperture font-large-2 float-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-6 col-12">
+      <div class="card card-inverse bg-primary">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media">
+              <div class="media-body text-left">
+                <h3 class="card-text">{{decree}}</h3>
+                <span>{{'WORKFLOW'|translate}}</span>
+              </div>
+              <div class="media-right align-self-center">
+                <i class="ft-box font-large-2 float-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-6 col-12">
+      <div class="card card-inverse bg-warning">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media">
+              <div class="media-body text-left">
+                <h3 class="card-text">{{complaint}}</h3>
+                <span>{{'DECISION'|translate}}</span>
+              </div>
+              <div class="media-right align-self-center">
+                <i class="ft-edit-1 font-large-2 float-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-6 col-12"></div>
+  </div>
+</section>
+<br>
+<br>
+<br>
+<div class="row text-left">
+  <div class="col-sm-12">
+    <div class="card">
+      <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs justify-content-left navCustomPadding">
+        <!-- <li [ngbNavItem]="1">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span>{{'ETHNICITY'|translate}}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <app-home-ethnic></app-home-ethnic>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span class="d-none d-sm-block">{{'SECT'|translate}}</span>
+          </a>
+
+          <ng-template ngbNavContent>
+              <app-home-sect></app-home-sect>
+          </ng-template>
+          
+        </li>
+        <li [ngbNavItem]="3">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span class="d-none d-sm-block">{{'GENDER'|translate}}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <app-home-gender></app-home-gender>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="4">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span class="d-none d-sm-block">{{'AGE'|translate}}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <app-home-age></app-home-age>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="5">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span class="d-none d-sm-block">{{'EDUCATION'|translate}}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <app-home-education></app-home-education>
+          </ng-template>
+        </li> -->
+        <li [ngbNavItem]="1" (click)="loadCountMinistry()">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span class="d-none d-sm-block">{{'MINISTRY'|translate}}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <!-- content here -->
+            <div class="row justify-content-md-center" style="direction: ltr !important">
+              <ngx-charts-bar-vertical [view]="vertical_chart_opt.view" [scheme]="vertical_chart_opt.colorScheme"
+                [results]="profileDatabyMinistry?profileDatabyMinistry.data:''" [gradient]="vertical_chart_opt.gradient"
+                [xAxis]="vertical_chart_opt.showXAxis" [yAxis]="vertical_chart_opt.showYAxis"
+                [legend]="vertical_chart_opt.showLegend" [legendTitle]="vertical_chart_opt.legendTitle"
+                [showXAxisLabel]="vertical_chart_opt.showXAxisLabel"
+                [showYAxisLabel]="vertical_chart_opt.showYAxisLabel" [xAxisLabel]="vertical_chart_opt.xAxisLabel"
+                [yAxisLabel]="vertical_chart_opt.yAxisLabel" (select)="onSelect($event)">
+              </ngx-charts-bar-vertical>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2" (click)="loadCountAuthority()">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span class="d-none d-sm-block">{{'AUTHORITY'|translate}}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <!-- content here -->
+            <div class="row justify-content-md-center" style="direction: ltr !important">
+              <ngx-charts-bar-vertical [view]="vertical_chart_opt.view" [scheme]="vertical_chart_opt.colorScheme"
+                [results]="profileDatabyAuthority?profileDatabyAuthority.data:''" [gradient]="vertical_chart_opt.gradient"
+                [xAxis]="vertical_chart_opt.showXAxis" [yAxis]="vertical_chart_opt.showYAxis"
+                [legend]="vertical_chart_opt.showLegend" [legendTitle]="vertical_chart_opt.legendTitle"
+                [showXAxisLabel]="vertical_chart_opt.showXAxisLabel"
+                [showYAxisLabel]="vertical_chart_opt.showYAxisLabel" [xAxisLabel]="vertical_chart_opt.xAxisLabel"
+                [yAxisLabel]="vertical_chart_opt.yAxisLabel" (select)="onSelect($event)">
+              </ngx-charts-bar-vertical>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="3" (click)="loadCountCommission()">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span class="d-none d-sm-block">{{'COMMISSION'|translate}}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <!-- content here -->
+            <div class="row justify-content-md-center" style="direction: ltr !important">
+              <ngx-charts-bar-vertical [view]="vertical_chart_opt.view" [scheme]="vertical_chart_opt.colorScheme"
+                [results]="profileDatabyCommission?profileDatabyCommission.data:''" [gradient]="vertical_chart_opt.gradient"
+                [xAxis]="vertical_chart_opt.showXAxis" [yAxis]="vertical_chart_opt.showYAxis"
+                [legend]="vertical_chart_opt.showLegend" [legendTitle]="vertical_chart_opt.legendTitle"
+                [showXAxisLabel]="vertical_chart_opt.showXAxisLabel"
+                [showYAxisLabel]="vertical_chart_opt.showYAxisLabel" [xAxisLabel]="vertical_chart_opt.xAxisLabel"
+                [yAxisLabel]="vertical_chart_opt.yAxisLabel" (select)="onSelect($event)">
+              </ngx-charts-bar-vertical>
+            </div>
+          </ng-template>
+        </li>
+        <!-- <li [ngbNavItem]="9">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span>{{'MAP'|translate}}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <app-home-map></app-home-map>
+          </ng-template>
+        </li> -->
+      </ul>
+      <div class="tab-content">
+        <div [ngbNavOutlet]="nav"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+  [fullScreen]="true">
+</ngx-spinner>

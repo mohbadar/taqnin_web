@@ -1,0 +1,159 @@
+<div class="modal-header ">
+  <h4 class="modal-title ">{{ 'ATTACHMENTS' | translate }}</h4>
+  <button type="button" (click)="closeModal()" class="close" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <div class="row">
+    <form [formGroup]="uploadedAttachments" *ngIf="uploadedAttachments" class="col-12">
+
+    <div class="col-12 upload-box">
+      <div class="upload-field-title">{{ 'OBJECTION' | translate }}</div>
+      <div class="upload-status">
+        <div class="file-name">{{ attachmentFileNames.objectionAttachment.name | translate }}
+          <div style="margin-top: 5px;">
+            <i title="Download File" *ngIf="attachmentFileNames.objectionAttachment.type === 'server'" 
+            class="ft-download text-info cursor-pointer" [title]="'DOWNLOAD' | translate" (click)="downloadFile('objectionAttachment')"> {{'DOWNLOAD' | translate}}</i>
+            <i title="Delete File" *ngIf="attachmentFileNames.objectionAttachment.type === 'server'" 
+            class="ft-trash-2 text-danger cursor-pointer mr-2" [title]="'DELETE' | translate" (click)="deleteFile('objectionAttachment')"> {{'DELETE' | translate}}</i>
+          </div>
+        </div>
+        
+        <input style="display: none" #objectionAttachmentInput (change)="onSelectFile($event, 'objectionAttachment')" type="file">
+        <div class="upload-action-buttons">
+          <i title="Choose File" class="ft-file-text text-primary cursor-pointer mr-2" [title]="'SELECT_FILE' | translate" (click)="objectionAttachmentInput.click()"> {{'SELECT_FILE' | translate}}</i>
+          <i title="Upload" *ngIf="attachmentFileNames.objectionAttachment.type === 'local'"
+          class="ft-upload text-success cursor-pointer mr-2" [title]="'UPLOAD_FILE' | translate" (click)="uploadFileToServer('objectionAttachment')"> {{'UPLOAD_FILE' | translate}}</i>
+        </div>
+        <div style="margin-top:10px;" class="progress-bar bg-success" attr.aria-valuenow="{{ filesToBeUploaded.objectionAttachment.progress }}" aria-valuemin="0"
+          aria-valuemax="100" [ngStyle]="{ width: filesToBeUploaded.objectionAttachment.progress + '%' }">
+                {{ filesToBeUploaded.objectionAttachment.progress }}%
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 upload-box">
+      <div class="upload-field-title">{{ 'COMPLAINT FOR RESPONSIBLE OFFICE' | translate }}</div>
+      <div class="upload-status">
+        <div class="file-name">{{ attachmentFileNames.complaintToResponsibleAuthorityAttachment.name | translate }}
+          <div style="margin-top: 5px;">
+            <i title="Download File" *ngIf="attachmentFileNames.complaintToResponsibleAuthorityAttachment.type === 'server'" 
+            class="ft-download text-info cursor-pointer" [title]="'DOWNLOAD' | translate" (click)="downloadFile('complaintToResponsibleAuthorityAttachment')"> {{'DOWNLOAD' | translate}}</i>
+            <i title="Delete File" *ngIf="attachmentFileNames.complaintToResponsibleAuthorityAttachment.type === 'server'" 
+            class="ft-trash-2 text-danger cursor-pointer mr-2" [title]="'DELETE' | translate" (click)="deleteFile('complaintToResponsibleAuthorityAttachment')"> {{'DELETE' | translate}}</i>
+          </div>
+        </div>
+        <input style="display: none" #complaintToResponsibleAuthorityInput (change)="onSelectFile($event, 'complaintToResponsibleAuthorityAttachment')" type="file">
+        <div class="upload-action-buttons">
+          <i title="Choose File" class="ft-file-text text-primary cursor-pointer mr-2" [title]="'SELECT_FILE' | translate" (click)="complaintToResponsibleAuthorityInput.click()"> {{'SELECT_FILE' | translate}}</i>
+          <i title="Upload" *ngIf="attachmentFileNames.complaintToResponsibleAuthorityAttachment.type === 'local'"  
+          class="ft-upload text-success cursor-pointer mr-2" [title]="'UPLOAD_FILE' | translate" (click)="uploadFileToServer('complaintToResponsibleAuthorityAttachment')"> {{'UPLOAD_FILE' | translate}}</i>
+        </div>
+        <div style="margin-top:10px;" class="progress-bar bg-success" attr.aria-valuenow="{{ filesToBeUploaded.complaintToResponsibleAuthorityAttachment.progress }}" aria-valuemin="0"
+          aria-valuemax="100" [ngStyle]="{ width: filesToBeUploaded.complaintToResponsibleAuthorityAttachment.progress + '%' }">
+                {{ filesToBeUploaded.complaintToResponsibleAuthorityAttachment.progress }}%
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 upload-box">
+      <div class="upload-field-title">{{ 'COMPLAINT FOR BOARD OF INDEPENDENT ADMINISTRATIVE REFORM AND CIVIL SERVICE COMISSION' | translate }}</div>
+      <div class="upload-status">
+        <div class="file-name">{{ attachmentFileNames.complaintToBoardAttachment.name | translate }}
+          <div style="margin-top: 5px;">
+            <i title="Download File" *ngIf="attachmentFileNames.complaintToBoardAttachment.type === 'server'" 
+            class="ft-download text-info cursor-pointer" [title]="'DOWNLOAD' | translate" (click)="downloadFile('complaintToBoardAttachment')"> {{'DOWNLOAD' | translate}}</i>
+            <i title="Delete File" *ngIf="attachmentFileNames.complaintToBoardAttachment.type === 'server'" 
+            class="ft-trash-2 text-danger cursor-pointer mr-2" [title]="'DELETE' | translate" (click)="deleteFile('complaintToBoardAttachment')"> {{'DELETE' | translate}}</i>
+          </div>
+        </div>
+        <input style="display: none" #complaintToBoardInput (change)="onSelectFile($event, 'complaintToBoardAttachment')" type="file">
+        <div class="upload-action-buttons">
+          <i title="Choose File" class="ft-file-text text-primary cursor-pointer mr-2" [title]="'SELECT_FILE' | translate" (click)="complaintToBoardInput.click()"> {{'SELECT_FILE' | translate}}</i>
+          <i title="Upload" *ngIf="attachmentFileNames.complaintToBoardAttachment.type === 'local'" (click)="uploadFileToServer('complaintToBoardAttachment')"
+          class="ft-upload text-success cursor-pointer mr-2" [title]="'UPLOAD_FILE' | translate"> {{'UPLOAD_FILE' | translate}}</i>
+        </div>
+        <div style="margin-top:10px;" class="progress-bar bg-success" attr.aria-valuenow="{{ filesToBeUploaded.complaintToBoardAttachment.progress }}" aria-valuemin="0"
+          aria-valuemax="100" [ngStyle]="{ width: filesToBeUploaded.complaintToBoardAttachment.progress + '%' }">
+                {{ filesToBeUploaded.complaintToBoardAttachment.progress }}%
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 upload-box">
+      <div class="upload-field-title">{{ 'COURT_DECREE' | translate }}</div>
+      <div class="upload-status">
+        <div class="file-name">{{ attachmentFileNames.courtDecreeAttachment.name | translate }}
+          <div style="margin-top: 5px;">
+            <i title="Download File" *ngIf="attachmentFileNames.courtDecreeAttachment.type === 'server'" 
+            class="ft-download text-info cursor-pointer" [title]="'DOWNLOAD' | translate" (click)="downloadFile('courtDecreeAttachment')"> {{'DOWNLOAD' | translate}}</i>
+            <i title="Delete File" *ngIf="attachmentFileNames.courtDecreeAttachment.type === 'server'" 
+            class="ft-trash-2 text-danger cursor-pointer mr-2" [title]="'DELETE' | translate" (click)="deleteFile('courtDecreeAttachment')"> {{'DELETE' | translate}}</i>
+          </div>
+        </div>
+        <input style="display: none" #courtDecreeInput (change)="onSelectFile($event, 'courtDecreeAttachment')" type="file">
+        <div class="upload-action-buttons">
+          <i title="Choose File" class="ft-file-text text-primary cursor-pointer mr-2" [title]="'SELECT_FILE' | translate" (click)="courtDecreeInput.click()"> {{'SELECT_FILE' | translate}}</i>
+          <i title="Upload" *ngIf="attachmentFileNames.courtDecreeAttachment.type === 'local'" (click)="uploadFileToServer('courtDecreeAttachment')"
+          class="ft-upload text-success cursor-pointer mr-2" [title]="'UPLOAD_FILE' | translate">{{'UPLOAD_FILE' | translate}}</i>
+        </div>
+        <div style="margin-top:10px;" class="progress-bar bg-success" attr.aria-valuenow="{{ filesToBeUploaded.courtDecreeAttachment.progress }}" aria-valuemin="0"
+          aria-valuemax="100" [ngStyle]="{ width: filesToBeUploaded.courtDecreeAttachment.progress + '%' }">
+                {{ filesToBeUploaded.courtDecreeAttachment.progress }}%
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 upload-box">
+      <div class="upload-field-title">{{ 'DISPUTES_COMMISSION_DECISION' | translate }}</div>
+      <div class="upload-status">
+        <div class="file-name">{{ attachmentFileNames.committeeDecisionAttachment.name | translate }}
+          <div style="margin-top: 5px;">
+            <i title="Download File" *ngIf="attachmentFileNames.committeeDecisionAttachment.type === 'server'" 
+            class="ft-download text-info cursor-pointer" [title]="'DOWNLOAD' | translate" (click)="downloadFile('committeeDecisionAttachment')"> {{'DOWNLOAD' | translate}}</i>
+            <i title="Delete File" *ngIf="attachmentFileNames.committeeDecisionAttachment.type === 'server'" 
+            class="ft-trash-2 text-danger cursor-pointer mr-2" [title]="'DELETE' | translate" (click)="deleteFile('committeeDecisionAttachment')"> {{'DELETE' | translate}}</i>
+          </div>
+        </div>
+        <input style="display: none" #committeeDecisionInput (change)="onSelectFile($event, 'committeeDecisionAttachment')" type="file">
+        <div class="upload-action-buttons">
+          <i title="Choose File" class="ft-file-text text-primary cursor-pointer mr-2" [title]="'SELECT_FILE' | translate" (click)="committeeDecisionInput.click()"> {{'SELECT_FILE' | translate}}</i>
+          <i title="Upload" *ngIf="attachmentFileNames.committeeDecisionAttachment.type === 'local'" (click)="uploadFileToServer('committeeDecisionAttachment')"
+          class="ft-upload text-success cursor-pointer mr-2" [title]="'UPLOAD_FILE' | translate"> {{'UPLOAD_FILE' | translate}}</i>
+        </div>
+        <div style="margin-top:10px;" class="progress-bar bg-success" attr.aria-valuenow="{{ filesToBeUploaded.committeeDecisionAttachment.progress }}" aria-valuemin="0"
+          aria-valuemax="100" [ngStyle]="{ width: filesToBeUploaded.committeeDecisionAttachment.progress + '%' }">
+                {{ filesToBeUploaded.committeeDecisionAttachment.progress }}%
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 upload-box">
+      <div class="upload-field-title">{{ 'RELATED AUTHORITY RESPONSE' | translate }}</div>
+      <div class="upload-status">
+        <div class="file-name">{{ attachmentFileNames.responsibleAuthorityResponseAttachment.name | translate }}
+          <div style="margin-top: 5px;">
+            <i title="Download File" *ngIf="attachmentFileNames.responsibleAuthorityResponseAttachment.type === 'server'" 
+            class="ft-download text-info cursor-pointer" [title]="'DOWNLOAD' | translate" (click)="downloadFile('responsibleAuthorityResponseAttachment')"> {{'DOWNLOAD' | translate}}</i>
+            <i title="Delete File" *ngIf="attachmentFileNames.responsibleAuthorityResponseAttachment.type === 'server'" 
+            class="ft-trash-2 text-danger cursor-pointer mr-2" [title]="'DELETE' | translate" (click)="deleteFile('responsibleAuthorityResponseAttachment')"> {{'DELETE' | translate}}</i>
+          </div>
+        </div>
+        <input style="display: none" #responsibleAuthorityResponseInput (change)="onSelectFile($event, 'responsibleAuthorityResponseAttachment')" type="file">
+        <div class="upload-action-buttons">
+          <i title="Choose File" class="ft-file-text text-primary cursor-pointer mr-2" [title]="'SELECT_FILE' | translate" (click)="responsibleAuthorityResponseInput.click()"> {{'SELECT_FILE' | translate}}</i>
+          <i title="Upload" *ngIf="attachmentFileNames.responsibleAuthorityResponseAttachment.type === 'local'" (click)="uploadFileToServer('responsibleAuthorityResponseAttachment')"
+          class="ft-upload text-success cursor-pointer mr-2" [title]="'UPLOAD_FILE' | translate" > {{'UPLOAD_FILE' | translate}}</i>
+        </div>
+        <div style="margin-top:10px;" class="progress-bar bg-success" attr.aria-valuenow="{{ filesToBeUploaded.responsibleAuthorityResponseAttachment.progress }}" aria-valuemin="0"
+          aria-valuemax="100" [ngStyle]="{ width: filesToBeUploaded.responsibleAuthorityResponseAttachment.progress + '%' }">
+                {{ filesToBeUploaded.responsibleAuthorityResponseAttachment.progress }}%
+        </div>
+      </div>
+    </div>
+
+    </form>
+  </div>
+</div>

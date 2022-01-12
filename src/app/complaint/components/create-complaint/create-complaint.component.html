@@ -1,0 +1,526 @@
+<section id="ngx">
+  <div class="card">
+    <div class="card-content">
+      <div class="card-body">
+        <!-- First Step -->
+        <h4 class="head text-center">{{'COMPLAINT'|translate}}</h4>
+        <ngx-spinner
+        bdColor="rgba(255, 255, 255, 0.100)"
+        size="medium"
+        color="black"
+        type="ball-scale-multiple"
+        fullScreen="false">
+        </ngx-spinner>
+        <aw-wizard #wizard [navBarLayout]="'large-empty-symbols'">
+
+          <aw-wizard-step [stepTitle]="'COMPLAINT_INFORMATION'| translate"
+            [navigationSymbol]="{ symbol: '&#xf022;', fontFamily: 'FontAwesome' }">
+            <br>
+            <form [formGroup]="complaintForm" (ngSubmit)="onFormSubmit()">
+              <div class='row'>
+                    <div class='col-12 col-sm-4'>
+                      <div class="form-group">
+                        <label class="form-control-label">{{'FIRSTNAME'|translate}}
+                          <span class="required-field">*</span>
+                        </label>
+                        <div class="controls">
+                          <input type="text"
+                            [ngClass]="{'is-invalid': complaintForm.get('firstName').hasError('required') && complaintForm.get('firstName').touched}"
+                            formControlName="firstName" class="form-control ">
+                          <small class="col-12 text-danger pl-0"
+                            *ngIf="complaintForm.get('firstName').hasError('required') && (complaintForm.get('firstName').touched)">
+                            {{'FIRSTNAME'|translate}} {{'IS_REQUIRED'|translate}}
+                          </small>
+                        </div>
+                      </div>
+                    </div>                
+                    
+                    <div class='col-12 col-sm-4'>
+                      <div class="form-group">
+                        <label class="form-control-label" for="step">{{'LASTNAME'|translate}} <span
+                            class="required-field">*</span> </label>
+                        <input type="text"
+                        [ngClass]="{'is-invalid': complaintForm.get('lastName').hasError('required') && complaintForm.get('lastName').touched}"
+                        formControlName="lastName" class="form-control ">
+                        <small class="col-12 text-danger pl-0"
+                            *ngIf="complaintForm.get('lastName').hasError('required') && (complaintForm.get('lastName').touched)">
+                            {{'LASTNAME'|translate}} {{'IS_REQUIRED'|translate}}
+                        </small>
+                      </div>
+                    </div>
+
+                  <div class='col-12 col-sm-4'>
+                    <div class="form-group">
+                      <label class="form-control-label">{{'FATHERNAME'|translate}}
+                        <span class="required-field">*</span>
+                      </label>
+                      <input type="text"
+                        [ngClass]="{'is-invalid': complaintForm.get('fatherName').hasError('required') && complaintForm.get('fatherName').touched}"
+                        formControlName="fatherName" class="form-control ">
+                      <small class="col-12 text-danger pl-0"
+                          *ngIf="complaintForm.get('fatherName').hasError('required') && (complaintForm.get('fatherName').touched)">
+                          {{'FATHERNAME'|translate}} {{'IS_REQUIRED'|translate}}
+                      </small>
+                    </div>
+                  </div>
+                  
+                    <div class='col-12 col-sm-4'>
+                      <div class="form-group">
+                        <label class="form-control-label"> {{'ENTRY_NUMBER'|translate}}
+                          <span class="required-field">*</span>
+                        </label>
+                        <input type="text"
+                          [ngClass]="{'is-invalid': complaintForm.get('entryNumber').hasError('required') && complaintForm.get('entryNumber').touched}"
+                          formControlName="entryNumber" class="form-control ">
+                        <small class="col-12 text-danger pl-0"
+                            *ngIf="complaintForm.get('entryNumber').hasError('required') && (complaintForm.get('entryNumber').touched)">
+                            {{'ENTRY_NUMBER'|translate}} {{'IS_REQUIRED'|translate}}
+                        </small>
+                      </div>
+                    </div>
+
+                    <div class='col-12 col-sm-4'>
+                      <div class="form-group">
+                        <label class="form-control-label">{{'TYPE_OF_COMPLAINT'|translate}}
+                          <span class="required-field">*</span>
+                        </label>
+                        <input type="text" blindLable="name" blindValue="id" id="typeOfComplaint" name="typeOfComplaint"
+                        [ngClass]="{'is-invalid': complaintForm.get('typeOfComplaint').hasError('required') && complaintForm.get('typeOfComplaint').touched}"
+                        formControlName="typeOfComplaint"
+                          class="form-control " required>
+                        <small class="col-12 text-danger pl-0"
+                            *ngIf="complaintForm.get('typeOfComplaint').hasError('required') && (complaintForm.get('typeOfComplaint').touched)">
+                            {{'TYPE_OF_COMPLAINT'|translate}} {{'IS_REQUIRED'|translate}}
+                        </small>
+                      </div>
+                    </div>
+
+                    <div class='col-12 col-sm-4'>
+                      <div class="form-group">
+                        <label>{{'DOCUMENT_TYPE'|translate}}
+                          <span class="required-field">*</span>
+                        </label>
+                        <div class="controls">
+                          <ng-select [items]="DocsType$| async" bindLabel="nameDr" bindValue="id"
+                            formControlName="typeOfDocuments" clearAllText="Clear"
+                            [ngClass]="{'is-invalid': complaintForm.get('typeOfDocuments').hasError('required') && complaintForm.get('typeOfDocuments').touched}"
+                          ></ng-select>
+                          <small class="col-12 text-danger pl-0"
+                            *ngIf="complaintForm.get('typeOfDocuments').hasError('required') && (complaintForm.get('typeOfDocuments').touched)">
+                            {{'TYPE_OF_DOCUMENTS'|translate}} {{'IS_REQUIRED'|translate}}
+                          </small>
+                        </div>
+                        <!-- <select formControlName="typeOfDocuments" name="typeOfDocuments" blindLable="name"
+                          blindValue="id" (clear)="clearInput(complaintForm, 'typeOfDocuments' )" id="typeOfDocuments"
+                          [ngClass]="{'is-invalid': complaintFormSubmitted && cpf.typeOfDocuments.valid, 'is-valid':
+                          complaintFormSubmitted && !cpf.typeOfDocuments.invalid }" class="form-control" id="">
+                          <option value="objection">{{ 'OBJECTION' | translate }}</option>
+                          <option value="?"> ? </option>
+                        </select> -->
+
+
+                        <!-- <ng-select formControlName="typeOfDocuments" name="typeOfDocuments" bindLable="name"
+                          bindValue="id" [items]="complaintsDocsTypes | async" (clear)="clearInput(complaintForm, 'typeOfDocuments'
+                          )" id="typeOfDocuments" [ngClass]="{'is-invalid': complaintFormSubmitted && cpf.typeOfDocuments.valid, 'is-valid':
+                          complaintFormSubmitted && !cpf.typeOfDocuments.invalid }" class="form-control"
+                          id="typeOfDocuments">
+                        </ng-select> -->
+                        <!-- <div *ngIf=" complaintFormSubmitted && (cpf.typeOfDocuments.invalid ||
+                          cpf.typeOfDocuments.errors?.required)" class="help-block mt-1 text-danger">
+                          <i class="ft-alert-circle align-middle"></i>
+                          {{'TYPEOF_DOCUMENTS'|translate}} {{'IS_REQUIRED'|translate}}
+                        </div> -->
+                      </div>
+                    </div>
+
+                    <div class='col-12 col-sm-4'>
+                      <div class="form-group">
+                        <label class="form-control-label">{{'DATE'|translate}}
+                          <span class="required-field">*</span>
+                        </label>
+                        <div class="input-group ">
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-secondary calendar" (click)="pr.toggle()" type="button">
+                              <i class="fa fa-calendar"></i>
+                            </button>
+                          </div>
+                          <input formControlName="complaintDate"
+                            [ngClass]="{'is-invalid': complaintForm.get('complaintDate').hasError('required') && complaintForm.get('complaintDate').touched}"
+                            class="form-control " ngbDatepicker #pr="ngbDatepicker">
+                        </div>
+                        <small class="col-12 text-danger pl-0"
+                            *ngIf="complaintForm.get('complaintDate').hasError('required') && (complaintForm.get('complaintDate').touched)">
+                            {{'DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                        </small>
+                      </div>
+                    </div>
+                    <div class='col-12 col-sm-4'>
+                      <div class="form-group">
+                        <label class="form-control-label">{{'ACCUSED'|translate}}
+                          <span class="required-field">*</span>
+                        </label>
+                        <input formControlName="accused"
+                          [ngClass]="{'is-invalid': complaintForm.get('accused').hasError('required') && complaintForm.get('accused').touched}"
+                          type="text" class="form-control input-md">
+                      </div>
+                      <small class="col-12 text-danger pl-0"
+                            *ngIf="complaintForm.get('accused').hasError('required') && (complaintForm.get('accused').touched)">
+                            {{'ACCUSED'|translate}} {{'IS_REQUIRED'|translate}}
+                      </small>
+
+                    </div>
+                    <div class='col-12 col-sm-4'>
+                      <div class="form-group">
+                        <label class="form-control-label" for="explanations">{{'EXPLANATIONS'|translate}}
+                          <span class="required-field">*</span>
+                        </label>
+                        <textarea formControlName="explanations"
+                          [ngClass]="{'is-invalid': complaintForm.get('explanations').hasError('required') && complaintForm.get('explanations').touched}"
+                          type="text" class="form-control input-md">
+                        </textarea>
+                      </div>
+                      <small class="col-12 text-danger pl-0"
+                            *ngIf="complaintForm.get('explanations').hasError('required') && (complaintForm.get('explanations').touched)">
+                            {{'EXPLANATIONS'|translate}} {{'IS_REQUIRED'|translate}}
+                      </small>
+                    </div>
+
+                    <br>
+              </div>
+              <div class="col-12 ">
+                <div class="row">
+                  <div class="form-group switchery-success d-flex align-items-center">
+                    <ui-switch class="switchery" (change)="onProfileCode($event)" size="small"></ui-switch>
+                    <label for="switchery" class="ml-2"> {{ 'HAVING_PROFILE' | translate }}؟
+
+                    </label>
+                  </div>
+                  <fieldset *ngIf="profileCodeEntry" class="form-group">
+                    <label for="switchery" class="ml-2">{{ 'PROFILECODE' | translate }} </label>
+                    <input formControlName="profileCode" type="text" class="form-control" id="basicInputFile">
+                  </fieldset>
+                </div>
+              </div>
+              <hr>
+
+
+              <!-- Attachments -->
+
+              <!-- <div>
+                <h4 class="head"> {{ 'ATTACHMENTS' | translate }}</h4>
+              </div>
+              <div>
+                <div class=" row-lg-12 row-sm-12 ">
+                  <div class=" col-lg-8 col-sm-8">
+                    <div class=" row-lg-6  row-sm-6" class="form-group switchery-success d-flex align-items-center">
+                      <div class="form-group switchery-success d-flex align-items-center">
+                        <ui-switch class="switchery" (change)="onObjectionUpload($event)" size="small"></ui-switch>
+                        <label for="switchery" class="ml-2"> {{ 'OBJECTION' | translate }}
+                        </label>
+                      </div>
+                      <div *ngIf="uploadObjection">
+                        <input class="d-none" id="attachment" #fileInput name="attachment"
+                          formControlName="theObjectionAttach" (change)="onSelectFile($event, 'theObjectionAttach')"
+                          type="file"
+                          [ngClass]="{ 'is-invalid': complaintFormSubmitted && cpf.theObjectionAttach.invalid, 'is-valid': complaintFormSubmitted && !cpf.theObjectionAttach.invalid }">
+                        <span class="btn btn-success " (click)="fileInput.click()">{{ 'DOCUMENT' | translate }}
+                        </span>
+                      </div>
+                      <div class="col">
+                        <p>
+                          {{attachments['theObjectionAttach']?.fileName }}</p>
+                      </div>
+                    </div> -->
+
+              <!-- second row -->
+              <!-- <div class=" row-lg-6  row-sm-6" class="form-group switchery-success d-flex align-items-center">
+                      <div class="form-group switchery-success d-flex align-items-center">
+                        <ui-switch class="switchery" (change)="onComplaintUpload($event)" size="small"></ui-switch>
+                        <label for="switchery" class="ml-2"> {{ 'COMPLAINT FOR RESPONSIBLE OFFICE' | translate }}
+                        </label>
+                      </div>
+                      <div *ngIf="uploadComplaint">
+                        <input class="d-none" id="attachment" #fileInput name="attachment"
+                          formControlName="complaintForRespAttach" (change)="onSelectFile($event,
+                          'complaintForRespAttach')" type="file">
+                        <div class="col-sm-3">
+                          <span class="btn btn-success " (click)="fileInput.click()">{{ 'DOCUMENT' | translate }}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <p> {{attachments['complaintForRespAttach']?.fileName }}</p>
+                      </div>
+                    </div> -->
+              <!-- 3rd row -->
+              <!-- <div class=" row-lg-6  row-sm-6" class="form-group switchery-success d-flex align-items-center">
+                      <div class="form-group switchery-success d-flex align-items-center">
+                        <ui-switch class="switchery" (change)="onComplaintForBoard($event)" size="small"></ui-switch>
+                        <label for="switchery" class="ml-2">
+                          {{ 'COMPLAINT FOR BOARD OF INDEPENDENT ADMINISTRATIVE REFORM AND CIVIL SERVICE COMISSION' | translate }}
+                        </label>
+                      </div>
+                      <div *ngIf="uploadComplaintOnBoard">
+                        <input class="d-none" id="attachment" #fileInput name="attachment"
+                          formControlName="complaintForBoardAttach" (change)="onSelectFile($event,
+                          'complaintForBoardAttach')" type="file">
+                        <div class="col-sm-3">
+                          <span class="btn btn-success " (click)="fileInput.click()">{{ 'DOCUMENT' | translate }}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <p> {{attachments['complaintForBoardAttach']?.fileName }}</p>
+                      </div>
+                    </div> -->
+
+              <!-- 4th row -->
+              <!-- <div class=" row-lg-6  row-sm-6" class="form-group switchery-success d-flex align-items-center">
+                      <div class="form-group switchery-success d-flex align-items-center">
+                        <ui-switch class="switchery" (change)="onCourtDirective($event)" size="small"></ui-switch>
+                        <label for="switchery" class="ml-2">
+                          {{ 'COURT_DECREE' | translate }}
+                        </label>
+                      </div>
+                      <div *ngIf="uploadCourtDirective">
+                        <input class="d-none" id="attachment" #fileInput name="attachment"
+                          formControlName="courtDirecAttach" (change)="onSelectFile($event,
+                          'courtDirecAttach')" type="file">
+                        <div class="col-sm-3">
+                          <span class="btn btn-success " (click)="fileInput.click()">{{ 'DOCUMENT' | translate }}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <p> {{attachments['courtDirecAttach']?.fileName }}</p>
+                      </div>
+                    </div> -->
+
+              <!-- 5th row -->
+
+              <!-- <div class=" row-lg-6  row-sm-6" class="form-group switchery-success d-flex align-items-center">
+                      <div class="form-group switchery-success d-flex align-items-center">
+                        <ui-switch class="switchery" (change)="onCommissionDecision($event)" size="small"></ui-switch>
+                        <label for="switchery" class="ml-2">
+                          {{ "DISPUTES_COMMISSION_DECISION" | translate }}
+                        </label>
+                      </div>
+                      <div *ngIf="uploadCommissionDecision">
+                        <input class="d-none" id="attachment" #fileInput name="attachment"
+                          formControlName="comissionDecAttach" (change)="onSelectFile($event,
+                          'comissionDecAttach')" type="file">
+                        <div class="col-sm-3">
+                          <span class="btn btn-success  " (click)="fileInput.click()">{{ 'DOCUMENT' | translate }}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <p> {{attachments['comissionDecAttach']?.fileName }}</p>
+                      </div>
+                    </div> -->
+
+              <!-- 6th row -->
+
+              <!-- <div class=" row-lg-6  row-sm-6" class="form-group switchery-success d-flex align-items-center">
+                      <div class="form-group switchery-success d-flex align-items-center">
+                        <ui-switch class="switchery" (change)="onAuthorityResponse($event)" size="small"></ui-switch>
+                        <label for="switchery" class="ml-2">
+                          {{ 'RELATED AUTHORITY RESPONSE' | translate }}
+                        </label>
+                      </div>
+                      <div *ngIf="uploadAuthorityResponse">
+                        <input class="d-none" id="attachment" #fileInput name="attachment"
+                          formControlName="relatedAuthorityAttach" (change)="onSelectFile($event,
+                          'relatedAuthorityAttach')" type="file">
+                        <div class="col-sm-3">
+                          <span class="btn btn-success " (click)="fileInput.click()">{{ 'DOCUMENT' | translate }}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <p> {{attachments['relatedAuthorityAttach']?.fileName }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+              <br>
+              <div class=" col-lg-12 col-sm-12 form-group text-center">
+                <button type="button" (click)="routeComplaints()" class="btn btn-warning mr-1">
+                  <span style="margin-right:10px;">
+                  </span> {{'CLOSE'|translate}}</button>
+                <button type="submit" (click)="getDropDown()" uiSref="work" class="btn btn-info">
+                  {{'NEXT'|translate}}
+                  <span style="margin-left:10px;">
+                  </span>
+                </button>
+              </div>
+
+
+
+            </form>
+          </aw-wizard-step>
+          <!-- last Step -->
+          <aw-wizard-step [stepTitle]="'CONFIRM_INFORMATION'|translate"
+            [navigationSymbol]="{ symbol: '&#xf06e;', fontFamily: 'FontAwesome' }">
+            <form #workForm="ngForm" class="editForm" (ngSubmit)="onConfirmFormSubmit()" novalidate>
+              <div class="col-lg-12 col-sm-12">
+                <div class="col-lg-12 col-sm-12">
+                  <br>
+                  <div class="row bg-light-secondary rounded divRightLeftMargin">
+                    <div class="col-12 col-sm-12 p-2 text-center">
+                      <p class="mb-0 mx-1">{{'ALL_INFORMATION'|translate}}</p>
+                    </div>
+                  </div>
+                  <br>
+                </div>
+              </div>
+              <div class=" row-lg-12 row-sm-12 ">
+                <div class=" col-lg-6 col-sm-6">
+                  <div class="col-lg-3 col-sm-3">
+                    <div class=" row-lg-3  row-sm-3">
+                      <p>{{ "FIRSTNAME" | translate }} :</p>
+                    </div>
+                    <div class="row-lg-3 row-sm-3">
+                      <p> {{ "FATHERNAME" | translate }} :</p>
+                    </div>
+                    <div class=" row-lg-6 row-sm-6">
+                      <p> {{ "LASTNAME" | translate }} :</p>
+                    </div>
+                    <div class="row-lg-6 row-sm-6">
+                      <p> {{ "ENTRY_NUMBER" | translate }} :</p>
+                    </div>
+                    <div class=" row-lg-6 row-sm-6">
+                      <p> {{ "TYPE_OF_COMPLAINT" | translate }} :</p>
+                    </div>
+                    <div class="row-md-6 row-sm-6">
+                      <p> {{ "TYPE_OF_DOCUMENTS" | translate }} :</p>
+                    </div>
+                    <div class="row-md-6 row-sm-6">
+                      <p> {{ "DATE" | translate }} :</p>
+                    </div>
+                    <div class="row-md-6 row-sm-6">
+                      <p> {{ "ACCUSED" | translate }} :</p>
+                    </div>
+                    <div class="row-md-6 row-sm-6">
+                      <p> {{ "EXPLANATIONS" | translate }} : </p>
+                    </div>
+                    <div class="row-md-6 row-sm-6">
+                      <p> {{ 'PROFILECODE' | translate }}: </p>
+                    </div>
+                  </div>
+
+                  <!-- Data OutPuts -->
+
+                  <div class=" col-lg-6 col-sm-6">
+                    <div class="row-lg-6 row-sm-6">
+                      <div class=" row-lg-3 row-sm-3">
+                        <p> {{ complaintForm.value.firstName }} </p>
+
+                      </div>
+                      <div class="row-lg-6 row-sm-6">
+                        <p> {{ complaintForm.value.lastName }} </p>
+
+                      </div>
+                      <div class="row-lg-6 row-sm-6">
+                        <p> {{ complaintForm.value.fatherName }} </p>
+
+                      </div>
+                      <div class="row-lg-6">
+                        <p> {{ complaintForm.value.entryNumber }} </p>
+
+                      </div>
+                      <div class="row-sm-6">
+                        <p> {{ complaintForm.value.typeOfComplaint | translate }} </p>
+                      </div>
+                      <div class="row-sm-6">
+                        <p>{{ documentTypeNameDr ? documentTypeNameDr : '-' }}</p>
+                      </div>
+                      <div class="row-sm-6">
+                        <p> {{ complaintForm.value.complaintDate }} </p>
+
+                      </div>
+                      <div class="row-sm-6">
+                        <p> {{ complaintForm.value.accused }} </p>
+
+                      </div>
+                      <div class="row-sm-6">
+                        <p> {{ complaintForm.value.explanations }} </p>
+                      </div>
+                      <div class="row-sm-6">
+                        <p> {{ complaintForm.value.profileCode }} </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Attachments -->
+                <!-- <div class="col-lg-6 col-sm-6">
+                  <div class="row-lg-6 row-sm-6">
+                    <h4 class="head"> {{ "ATTACHMENTS" | translate }} </h4>
+                    <div class="checkbox checkbox-success">
+                      <input [checked]="objecCheck" type="checkbox" id="TheObjection">
+                      <label for="TheObjection"><span>{{ 'OBJECTION' | translate }}</span></label>
+                    </div>
+                  </div>
+                  <div class="row-lg-6 row-sm-6">
+                    <div class="checkbox checkbox-success">
+                      <input [checked]="complCheck" type="checkbox" id="complaintResponsOfice">
+                      <label
+                        for="complaintResponsOfice"><span>{{ "COMPLAINT FOR RESPONSIBLE OFFICE" | translate }}</span></label>
+                    </div>
+                  </div>
+                  <div class="row-lg-6 row-sm-6">
+                    <div class="checkbox checkbox-success">
+                      <input [checked]="compl4BCheck" type="checkbox" id="complaintForAdministrative">
+                      <label
+                        for="complaintForAdministrative"><span>{{ "COMPLAINT FOR BOARD OF INDEPENDENT ADMINISTRATIVE REFORM AND CIVIL SERVICE COMISSION" | translate }}</span></label>
+                    </div>
+                  </div>
+                  <div class="row-lg-6 row-sm-6">
+                    <div class="checkbox checkbox-success">
+                      <input [checked]="courtCheck" type="checkbox" id="courtDirective">
+                      <label for="courtDirective"><span>{{ "COURT_DECREE" | translate }}</span></label>
+                    </div>
+                  </div>
+                  <div class="row-lg-6 row-sm-6">
+                    <div class="checkbox checkbox-success">
+                      <input [checked]="comisDesCheck" type="checkbox" id="disputesCommissionDesc">
+                      <label
+                        for="disputesCommissionDesc"><span>{{ "DISPUTES_COMMISSION_DECISION" | translate }}</span></label>
+                    </div>
+                  </div>
+                  <div class="row-lg-6 row-sm-6">
+                    <div class="checkbox checkbox-success">
+                      <input type="checkbox" [checked]="authResCheck" id="relatedAuthority">
+                      <label for="relatedAuthority"><span>{{ "RELATED AUTHORITY RESPONSE" | translate }}</span></label>
+                    </div>
+                  </div>
+                </div> -->
+
+              </div>
+              <br>
+              <br>
+              <div class=" col-lg-12 col-sm-12 ">
+                <div class="form-group text-center">
+                  <button type="button" class="btn btn-warning mr-1" awPreviousStep>
+                    <span style="margin-right:10px;">
+                    </span> {{'PREVIOUS'|translate}}</button>
+                  <button type="submit" uiSref="work" class="btn btn-success">
+                    {{'CONFIRM_INFORMATION'|translate}}
+                    <span style="margin-left:10px;">
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </aw-wizard-step>
+        </aw-wizard>
+      </div>
+    </div>
+  </div>
+</section>
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+  [fullScreen]="true">
+</ngx-spinner>

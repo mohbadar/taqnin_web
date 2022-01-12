@@ -1,0 +1,105 @@
+<div class="wrapper" dir="{{lang}}">
+  <div class="main-panel">
+    <!-- BEGIN : Main Content-->
+    <div class="main-content">
+      <div class="content-overlay"></div>
+      <div class="content-wrapper">
+        <section class="kb-wrapper">
+          <!-- Knowledge base search start -->
+          <div class="kb-search">
+            <div class="row">
+              <div class="col-12">
+                <div class="card bg-transparent shadow-none kb-header py-3">
+                  <div class="card-content">
+                    <div class="card-body text-center p-md-4">
+                      <h1 class="mb-2 kb-title">جستجو</h1>
+                      <p class="mb-4">جستجوی سند به اساس شماره و عنوان </p>
+
+                      <form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
+                        <div class="form-group position-relative w-50 mx-auto kb-search-input">
+
+                          <input type="text" formControlName="query" class="form-control form-control-lg shadow round p-3 font-medium-1"
+                            id="searchbar" placeholder="دریافت اسناد">
+
+                          <button type="submit" class=" btn btn-primary round position-absolute" *ngIf="!isFilter">
+                            <span class="d-none d-sm-block">جستجو</span>
+                            <i class="ft-search d-block d-sm-none"></i>
+                          </button>
+
+                          <button type="submit" class=" btn btn-primary round position-absolute" *ngIf="isFilter" (click)="resetFilters()">
+                            <span class="d-none d-sm-block">پاک کردن</span>
+                            <i class="ft-search d-block d-sm-none"></i>
+                          </button>
+                        </div>
+                      </form>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Knowledge base search ends -->
+
+        </section>
+        <section id="striped-light" class="ml-2 mr-2">
+          <div class="row">
+
+            <div class="col-8 mx-auto">
+              <div class="row">
+
+                <div class="col-xl-4 col-lg-4 col-md-3 col-12"
+                  *ngFor="let document of allDocuments | slice: pageSize | slice: 0:itemsPerPage">
+
+                  <div class="card">
+                    <div class="card-content">
+                      <div class="card-body">
+                        <div class="media">
+                          <div class="media-body text-right">
+                            <h5 class="mb-1">{{document.document_no}} | {{document.created_at}}</h5>
+                            <span>{{document?.title}}</span>
+                            &nbsp;
+                            <span></span>
+                          </div>
+                          <div class="media-left align-self-center">
+                            <button type="button" title="{{'VIEW'|translate}}" (click)="viewDocument(document.id)"
+                              class="btn btn-outline-success btn-sm round">
+                              <i class="ft ft-eye"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row" *ngIf="allDocuments">
+            <div class="col-6 mx-auto d-flex justify-content-center" dir="ltr">
+              <ngb-pagination [collectionSize]="allDocuments.length" #numPages [pageSize]="itemsPerPage"
+              [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+            </div>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+    <!-- END : End Main Content-->
+
+    <!-- BEGIN : Footer-->
+    <footer class="footer undefined undefined">
+      <p class="clearfix text-muted m-0"><span>Copyright © 2021 &nbsp;</span><a href="javascript;" id="pixinventLink"
+          target="_blank">Ministry of justice</a><span class="d-none d-sm-inline-block">, All rights reserved.</span>
+      </p>
+    </footer>
+    <!-- End : Footer-->
+    <!-- Scroll to top button -->
+    <button class="btn btn-primary scroll-top" type="button" style="display: none;"><i class="ft-arrow-up"></i></button>
+
+  </div>
+</div>

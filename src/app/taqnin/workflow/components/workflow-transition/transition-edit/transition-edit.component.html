@@ -1,0 +1,51 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ "EDIT" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <form class="col-12" [formGroup]="editForm" (ngSubmit)="onFormSubmit()">
+      <ngx-spinner bdColor="rgba(255, 255, 255, 0.100)" size="medium" color="black" type="ball-scale-multiple"
+        fullScreen="false">
+      </ngx-spinner>
+
+      <div class="col-12 form-group">
+        <label>{{ "FROM_STEP" | translate }}</label>
+        <ng-select [items]="steps" bindLabel="nameDr" bindValue="id" placeholder="Select from step" clearAllText="Clear"
+          formControlName="from_step_id">
+        </ng-select>
+      </div>
+      <div class="col-12 form-group">
+        <label>{{ "TO_STEP" | translate }}</label>
+        <ng-select [items]="steps" bindLabel="nameDr" bindValue="id" placeholder="Select to step" clearAllText="Clear"
+          formControlName="to_step_id">
+        </ng-select>
+      </div>
+
+      <div class="col-12 form-group">
+        <label>{{ "TRANSITION_NUMBER" | translate }}</label>
+        <input type="text" [placeholder]="'ENTER_TRANSITION_NUMBER'|translate" class="form-control"
+          formControlName="transition_number" required
+          [ngClass]="{'error-border': editForm.get('transition_number').hasError('required') && editForm.get('transition_number').touched}" />
+        <small class="col-12 text-danger pl-0"
+          *ngIf="editForm.get('transition_number').hasError('required') && (editForm.get('transition_number').touched)">
+          {{ "IS_REQUIRED" | translate }}
+        </small>
+      </div>
+      <div class="col-12">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="customCheck1">
+          <label class="custom-control-label" for="customCheck1">آیا این مرحله آخیر است؟</label>
+        </div>
+
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary btn-sm btn-fill mr-2">{{'SUBMIT' | translate }}</button>
+        <button class="btn btn-secondary btn-fill btn-sm" (click)="closeModal()" type="button">{{ 'CANCEL' | translate
+          }}</button>
+      </div>
+    </form>
+  </div>
+</div>

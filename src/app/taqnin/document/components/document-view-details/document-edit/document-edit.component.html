@@ -1,0 +1,153 @@
+
+<div class="modal-header">
+    <h4 class="modal-title">{{ "EDIT_DOCUMENT" | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="editForm" id="editForm" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+              <div class="form-group">
+                <label for="document_no">{{'DOCUMENT_NO'|translate}}<span
+                    class="required-field">*</span></label>
+                <div class="controls">
+                  <input type="text" formControlName="number" class="form-control"
+                    [ngClass]="{ 'error-border': editForm.get('number').hasError('required') && (editForm.get('number').touched) }">
+                </div>
+                <div *ngIf="editForm.get('number').hasError('required') && (editForm.get('number').touched)"
+                  class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'DOCUMENT_NO'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+
+            <div class='col-lg-4 col-md-4 col-sm-12'>
+              <div class="form-group">
+                <label class="form-control-label" for="edate">{{'DATE'|translate}}
+                <span class="required-field">*</span>
+                </label>
+                <div class="input-group">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="a.toggle()" type="button">
+                  <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+                <input class="form-control" name="date" formControlName="date" ngbDatepicker id="date"
+                  #a="ngbDatepicker"
+                  [ngClass]="{ 'error-border': editForm.get('date').hasError('required') && (editForm.get('date').touched) }"
+                  required>
+                <div *ngIf="editForm.get('date').hasError('required') && (editForm.get('date').touched)"
+                  class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+                </div>
+              </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                  <div class="form-group">
+                    <label for="doctype">{{'DOCUMENT_TYPE'|translate}}
+                      <span class="required-field">*</span>
+                    </label>
+                    <div class="controls">
+                      <ng-select
+                        [items]="doctypes"
+                        bindLabel="nameDr"
+                        bindValue="id"
+                        [placeholder]="'SELECT_DOC_TYPE'|translate"
+                        clearAllText="Clear"
+                        formControlName="doctype_id">
+                      </ng-select>
+                    </div>
+                    <div *ngIf="editForm.get('doctype_id').hasError('required') && (editForm.get('doctype_id').touched)"
+                      class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+                      {{'DOCUMENT_TYPE'|translate}} {{'IS_REQUIRED'|translate}}
+                    </div>
+                  </div>
+              </div>
+
+
+              <div class="col-lg-8 col-md-8 col-sm-12">
+                <div class="form-group">
+                  <label for="documentTitle">{{'TITLE'|translate}}<span
+                      class="required-field">*</span></label>
+                  <div class="controls">
+                    <input type="text" formControlName="title" class="form-control"
+                      [ngClass]="{ 'error-border': editForm.get('title').hasError('required') && (editForm.get('title').touched) }">
+                  </div>
+                  <div *ngIf="editForm.get('title').hasError('required') && (editForm.get('title').touched)"
+                    class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+                    {{'TITLE'|translate}} {{'IS_REQUIRED'|translate}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group">
+                  <label for="organization">{{'ORGANIZATION'|translate}}
+                    <span class="required-field">*</span>
+                  </label>
+                  <div class="controls">
+                    <ng-select
+                      [items]="orgs"
+                      bindLabel="nameDr"
+                      bindValue="id"
+                      [placeholder]="'SELECT_ORGANIZATION'|translate"
+                      clearAllText="Clear"
+                      formControlName="organization_id">
+                    </ng-select>
+                  </div>
+                  <div *ngIf="editForm.get('organization_id').hasError('required') && (editForm.get('organization_id').touched)"
+                    class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+                    {{'ORGANIZATION'|translate}} {{'IS_REQUIRED'|translate}}
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="body">{{'DESCRIPTION'|translate}}</label>
+                <quill-editor   formControlName="body" #editor [placeholder]="'DESCRIPTION' | translate" ></quill-editor>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-sm-3" style="margin-top: auto !important;">
+              <div class="form-group pull-left">
+              <button (click)="fileInput.click()" class="btn btn-fill btn-outline-primary form-control">
+                 {{ 'ADD_FILE' | translate }}
+              </button>
+              <small>{{'FILE_ATTACHE_MSG' | translate}}</small>
+              <input type="file" class="d-none" name="attachment" #fileInput (change)="fileChangeListener($event)">
+            </div>
+            </div>
+            <div class="col-12 col-sm-6 text text-right">
+              <strong><span id="fileName"></span></strong>
+            </div>
+            </div>
+
+
+        </div>
+      </div>
+    </form>
+
+    <div class="row" style="margin-top: 10px;">
+      <div class="col-sm-4">
+        <button type="submit" (click)="onFormSubmit()" uiSref="work" class="btn btn-success">
+          {{'SAVE'|translate}}
+        </button>
+        <button type="button" class="btn btn-warning mr-2" (click)="closeModal()">
+          <span style="margin-right:10px;"></span>
+          {{'CLOSE'|translate}}
+        </button>
+      </div>
+    </div>
+
+  </div>

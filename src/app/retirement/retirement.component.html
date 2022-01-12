@@ -1,0 +1,87 @@
+<br>
+<div class="row text-left">
+  <div class="col-sm-12">
+    <div class="card">
+      <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs justify-content-left navCustomPadding">
+        <li [ngbNavItem]="1">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span>{{'RECENT_RETIREMENT'|translate}}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <section>
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+                        (click)="reload()">
+                        <i class="ft ft-refresh-cw"></i>
+                      </button>
+                      <div class="col-md-3 col-3">
+                        <div class="form-group">
+                          <select #pageLength class="form-control" (change)="setPageLength(pageLength.value)">
+                            <option *ngFor=" let pl of pageLengths" [selected]="pl.id==10" [value]="pl.id">
+                              {{ pl.count }} {{ 'RECORDS' | translate }}
+                            </option>
+                            <!-- <option value="-1">{{ 'ALL' | translate }}</option> -->
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-content">
+                      <div class="card-body">
+                        <!-- ngx-datatables-server-side -->
+                        <ng-container *ngIf="tableOptions">
+                          <ngx-datatable #table class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force"
+                            [headerHeight]="50" [footerHeight]="50" [rows]="rows" [columns]="columns" [rowHeight]="auto"
+                            [limit]="tableOptions.length" [loadingIndicator]="dataLoadingFlag" [scrollbarH]="true"
+                            (page)="setPage($event)" [count]="recordsTotal" [externalPaging]="true"
+                            [sorts]="[{prop: 'id', dir: 'desc'}]">
+                            <ngx-datatable-column name="{{'FIRSTNAME'|translate}}" prop="NAME" [width]="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="{{'LASTNAME'|translate}}" prop="LNAME" [width]="100">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="{{'MAKTUB_NUMBER'|translate}}" prop="MAKTUB_NUMBER"
+                              [width]="100"></ngx-datatable-column>
+                            <ngx-datatable-column name="{{'DECREE_NUMBER'|translate}}" prop="DECREE_NUMBER"
+                              [width]="100"></ngx-datatable-column>
+                            <ngx-datatable-column name="{{'RETIREMENT_TYPE'|translate}}" prop="TYPE" [width]="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="{{'REASON'|translate}}" prop="DETAIL" [width]="150">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column [name]="'ACTIONS' | translate">
+                              <ng-template ngx-datatable-cell-template let-row="row">
+                                <button class="ft-edit fa-lg text-primary list-btn cursor-pointer border-0"
+                                  (click)="profileDetail(row['PID'])"></button>
+                              </ng-template>
+                            </ngx-datatable-column>
+                          </ngx-datatable>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span>{{'RETIREMENT_LIST'|translate}}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <app-list-retirement></app-list-retirement>
+          </ng-template>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div [ngbNavOutlet]="nav"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+  [fullScreen]="true">
+</ngx-spinner>

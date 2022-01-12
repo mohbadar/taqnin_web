@@ -1,0 +1,82 @@
+<div class="modal-header">
+  <h4 class="modal-title">تاریچه اسناد</h4>
+  <button type="button" class="close"  aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+      <div class="table-responsive col-12">
+        <table class="table mt-3">
+          <thead>
+            <tr>
+              <th>{{'NUMBER' | translate}}</th>
+              <th>{{'DATE' | translate}}</th>
+              <th>{{'ACTION' | translate}}</th>
+              <th>{{'REMARKS' | translate}}</th>
+              <th>{{'ATTACHEMENT' | translate}}</th>
+              <!-- <th class="text-right">{{ 'ACTIONS' | translate }}</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of data;">
+              <td>
+                <p>{{row.number}}</p>
+              </td>
+              <td>
+                <p>{{row.date | date: 'yyyy-MM-dd' | jalali}}</p>
+              </td>
+              <td *ngIf="row?.isCreated" >
+                <span class="description badge badge-pill bg-light-primary badge-sm">{{ 'CREATED' | translate }}</span>
+              </td>
+
+              <td *ngIf="row?.isImport" >
+                <span class="description badge badge-pill bg-light-success badge-sm">{{ 'IMPORT' | translate }}</span>
+              </td>
+
+              <td *ngIf="row?.isExport">
+                <span class="description badge badge-pill bg-light-info badge-sm">{{ 'EXPORT' | translate }}</span>
+              </td>
+
+              <td *ngIf="row?.isCompeted">
+                <span class="description badge badge-pill bg-light-danger badge-sm">{{ 'COMPLETED' | translate }}</span>
+              </td>
+
+              <td *ngIf="row.remarks != 'DOCUMENT_CREATED'">
+                <p>{{row.remarks}}</p>
+              </td>
+
+              <td *ngIf="row.remarks == 'DOCUMENT_CREATED'">
+                <p>{{'DOCUMENT_CREATED' | translate}} &nbsp; {{row?.user?.entity?.nameDr}}</p>
+              </td>
+              <td>
+                <button type="button" class="btn btn-icon btn-lg round pull-right" *ngIf="row.fileName"
+                (click)="downloadAttachement(row.id, docId)" [title]="'DOWNLOAD_ATTACHMENT' | translate">
+                  <i class="ft ft-download cursor-pointer"></i>
+                </button>
+              </td>
+              <!-- <td class="text-right">
+                <div style="display: flex;">
+
+                  <button type="button" class="btn btn-icon round" [title]="'EDIT_DEPARTMENT' | translate"
+                    >
+                    <i class="ft-edit text-primary cursor-pointer"></i>
+                  </button>
+
+                  <button type="button" [title]="'DELETE_EXPORT' | translate" class="btn btn-icon round"
+                    >
+
+                    <i class="ft ft-trash text-warning cursor-pointer"></i>
+                  </button>
+                </div>
+
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+      <ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7"
+        type="ball-spin-clockwise-fade" [fullScreen]="true">
+      </ngx-spinner>

@@ -1,0 +1,87 @@
+<div class="p-4">
+  <h4 class="modal-title mb-4" style="border-bottom: 1px solid #eee;">{{'APPROVE_RECEIVE_DOCUMENT'|translate}}</h4>
+
+
+  <form  [formGroup]="importForm">
+    <div class="row">
+      <div class="col-6">
+        <div class="switchery-success d-flex align-items-center w-100 justify-content:center m-3">
+          <label class="mr-2">{{'DO_YOU_WANT_TO_APPROVE?'|translate}}</label>
+          <ui-switch class="switchery" (change)="changeApprove($event)" size="small"></ui-switch>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 form-group">
+        <label>{{ "STATUS" | translate }}</label>
+        <ng-select [items]="decisions" bindLabel="nameDr" bindValue="id" [placeholder]="'SELECT_STATUS'|translate" clearAllText="Clear"
+          formControlName="decision_id">
+        </ng-select>
+      </div>
+
+      <div class="col-6 form-group">
+        <label>{{ "WORKFLOW" | translate }}</label>
+        <ng-select [items]="workflows" bindLabel="nameDr" bindValue="id" [placeholder]="'APPROVE_WORKFLOW'|translate" clearAllText="Clear"
+          formControlName="workflow_id">
+        </ng-select>
+      </div>
+    </div>
+  <h4 class="modal-title mb-4" style="border-bottom: 1px solid #eee;">وارده</h4>
+  <div class="row">
+    <div class="col-6 form-group">
+        <label for="documentTitle">{{'NUMBER'|translate}}<span
+            class="required-field">*</span></label>
+        <div class="controls">
+          <input type="text" formControlName="number" class="form-control" [placeholder]="'ENTER_NUMBER' | translate"
+            [ngClass]="{ 'error-border': importForm.get('number').hasError('required') && (importForm.get('number').touched) }">
+        </div>
+        <div *ngIf="importForm.get('number').hasError('required') && (importForm.get('number').touched)"
+          class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+          {{'NUMBER'|translate}} {{'IS_REQUIRED'|translate}}
+        </div>
+    </div>
+    <div class='col-6 form-group'>
+        <label class="form-control-label" for="date">{{'DATE'|translate}}
+          <span class="required-field">*</span>
+        </label>
+        <div class="input-group">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="a.toggle()" type="button">
+              <i class="fa fa-calendar"></i>
+            </button>
+          </div>
+          <input class="form-control" name="date" formControlName="date" ngbDatepicker id="date"
+            #a="ngbDatepicker"
+            [ngClass]="{ 'error-border': importForm.get('date').hasError('required') && (importForm.get('date').touched) }"
+            required [placeholder]="'MAKTOOB_DATE' | translate">
+          <div *ngIf="importForm.get('date').hasError('required') && (importForm.get('date').touched)"
+            class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+            {{'DATE'|translate}} {{'IS_REQUIRED'|translate}}
+          </div>
+        </div>
+    </div>
+
+    <div class="col-12 form-group">
+      <label for="remarks">{{'REMARKS'|translate}}<span
+          class="required-field"></span></label>
+      <div class="controls">
+        <textarea formControlName="remarks" class="form-control" [placeholder]="'IMPORT_EXPORT_REMARKS' | translate"
+        [ngClass]="{ 'error-border': importForm.get('remarks').hasError('required') && (importForm.get('remarks').touched) }" required></textarea>
+        <div *ngIf="importForm.get('remarks').hasError('required') && (importForm.get('remarks').touched)"
+            class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+            {{'REMARKS'|translate}} {{'IS_REQUIRED'|translate}}
+          </div>
+      </div>
+    </div>
+
+  </div>
+  <div style="text-align: left;">
+    <button class="btn btn-success"  [disabled]="loading" (click)="submit()" *ngIf="openFile">{{ 'SAVE' | translate
+      }}</button>
+    <button class="btn btn-warning ml-2" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+  </div>
+  </form>
+</div>
+
+
+

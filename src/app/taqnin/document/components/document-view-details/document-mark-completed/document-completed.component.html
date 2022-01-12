@@ -1,0 +1,72 @@
+<h4 class="modal-title m-2" style="border-bottom: 1px solid #eee;">{{'DOCUMENT_COMPLETION'|translate}}</h4>
+<form [formGroup]="editForm" class="p-3">
+  <div class="row">
+    <div class="col-6 form-group">
+      <label>{{ "STATUS" | translate }}</label>
+      <ng-select [items]="decisions" bindLabel="nameDr" bindValue="id" [placeholder]="'SELECT_STATUS'|translate" clearAllText="Clear"
+        formControlName="decision_id">
+      </ng-select>
+    </div>
+
+    <div class="col-6 form-group">
+      <label>{{ "WORKFLOW" | translate }}</label>
+      <ng-select [items]="workflows" bindLabel="nameDr" bindValue="id" [placeholder]="'SELECT_WORKFLOW'|translate" clearAllText="Clear"
+        formControlName="workflow_id">
+      </ng-select>
+    </div>
+  </div>
+
+<div class="row">
+  <div class="col-6 form-group">
+      <label for="documentTitle">{{'NUMBER'|translate}}<span
+          class="required-field">*</span></label>
+      <div class="controls">
+        <input type="text" formControlName="number" class="form-control" [placeholder]="'ENTER_NUMBER' | translate"
+          [ngClass]="{ 'error-border': editForm.get('number').hasError('required') && (editForm.get('number').touched) }">
+      </div>
+      <div *ngIf="editForm.get('number').hasError('required') && (editForm.get('number').touched)"
+        class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+        {{'NUMBER'|translate}} {{'IS_REQUIRED'|translate}}
+      </div>
+  </div>
+  <div class='col-6 form-group'>
+      <label class="form-control-label" for="date">{{'DATE'|translate}}
+        <span class="required-field">*</span>
+      </label>
+      <div class="input-group">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary calendar" (click)="a.toggle()" type="button">
+            <i class="fa fa-calendar"></i>
+          </button>
+        </div>
+        <input class="form-control" name="date" formControlName="date" ngbDatepicker id="date"
+          #a="ngbDatepicker"
+          [ngClass]="{ 'error-border': editForm.get('date').hasError('required') && (editForm.get('date').touched) }"
+          required [placeholder]="'MAKTOOB_DATE' | translate">
+        <div *ngIf="editForm.get('date').hasError('required') && (editForm.get('date').touched)"
+          class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+          {{'DATE'|translate}} {{'IS_REQUIRED'|translate}}
+        </div>
+      </div>
+  </div>
+
+  <div class="col-12 form-group">
+    <label for="remarks">{{'REMARKS'|translate}}<span
+        class="required-field"></span></label>
+    <div class="controls">
+      <textarea formControlName="remarks" class="form-control" [placeholder]="'IMPORT_EXPORT_REMARKS' | translate"
+      [ngClass]="{ 'error-border': editForm.get('remarks').hasError('required') && (editForm.get('remarks').touched) }" required></textarea>
+      <div *ngIf="editForm.get('remarks').hasError('required') && (editForm.get('remarks').touched)"
+          class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+          {{'REMARKS'|translate}} {{'IS_REQUIRED'|translate}}
+        </div>
+    </div>
+  </div>
+
+</div>
+<div style="text-align: left;">
+  <button class="btn btn-success"  [disabled]="loading" (click)="submit()">{{ 'SAVE' | translate
+    }}</button>
+  <button class="btn btn-warning ml-2" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>
+</form>

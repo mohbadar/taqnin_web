@@ -1,0 +1,133 @@
+<div class="row">
+	<div class="col-12 mt-2">
+		<h4 class="primary text-uppercase">{{'AGENDA_DETAILS'|translate}}</h4>
+	</div>
+</div>
+<div class="card" style="padding: 20px;">
+	<div class="card-content">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-10">
+					<div style="margin-top: 20px;" *ngIf="showAgenda">
+						<div class="row">
+							<div class="col-4 col-sm-12 col-md-4 flex-column">
+								<div class="flex-row">
+									<div class="title">{{'MEETING_NO' | translate }}: </div>
+									<div class="description">{{agenda.agendaNo }}</div>
+								</div>
+								<div class="flex-row">
+									<div class="title">{{'MEETING_LOCATION' | translate }}: </div>
+									<div class="description">{{agenda.meetingLocation  }}</div>
+								</div>
+								<div class="flex-row">
+									<div class="title">{{'MEETING_DATE' | translate }}: </div>
+									<div class="description">{{agenda.meetingDate | date: 'yyyy-MM-dd' | jalali }}</div>
+								</div>
+								<div class="flex-row">
+									<div class="title">{{'MEETING_TIME' | translate }}: </div>
+									<div class="description">{{agenda.meetingTime }}</div>
+								</div>
+								<div class="flex-row">
+									<div class="title">{{'MEETING_DURATION' | translate }}: </div>
+									<div class="description"> {{agenda.meetingDuration }} - {{agenda.meetingDurationType}} </div>
+								</div>
+								<div class="flex-row">
+									<div class="title">{{'MEETING_START_DATE' | translate }}: </div>
+									<div class="description">{{agenda.meetingStartDate | date: 'yyyy-MM-dd' | jalali }}</div>
+								</div>
+								<div class="flex-row">
+									<div class="title">{{'MEETING_START_TIME' | translate }}: </div>
+									<div class="description">{{agenda.meetingStartTime }}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-2">
+					<button type="button" class="btn btn-icon btn-lg round pull-right"
+						(click)="editAgenda(agendaId)" [title]="'EDIT_AGENDA' | translate">
+						<i class="ft-edit text-primary cursor-pointer"></i>
+					</button>
+					<button type="button" class="btn btn-icon btn-lg round pull-right" (click)="printAgenda()" title="{{'PRINT_AGENDA'|translate}}">
+						<i class="ft ft-printer text-primary cursor-pointer"></i>
+					  </button>
+				</div>
+			</div>
+
+			<div class="row" style="margin-top: 30px; margin-bottom: 10px;">
+				<div class="col-10">
+					<h4 class="primary text-uppercase">{{'TOPICS_LIST'|translate}}</h4>
+
+				</div>
+				<div class="col-2">
+					<!-- <button type="button" class="btn btn-icon btn-lg round pull-right" (click)="createSubject()"
+						[title]="'CREATE_SUBJECT' | translate">
+						<i class="ft-plus text-primary cursor-pointer"></i>
+					</button> -->
+
+				</div>
+			</div>
+
+			<div id="invoice-items-details">
+				<div class="row">
+					<div class="table-responsive col-12">
+						<table class="table mt-3">
+							<thead>
+								<tr>
+									<th>{{ 'ID' | translate }} </th>
+									<th>{{'SUBJECT' | translate}} {{ 'AND' | translate}} {{'SUBJECT_DETAILS' |
+										translate}}</th>
+									<th>{{'PRESENTATION_DURATION' | translate}}</th>
+									<th>{{'DISCUSSION_DURATION' | translate}}</th>
+									<th class="text-right">{{ 'ACTIONS' | translate }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let row of rows;">
+									<th scope="row">{{row.id}}</th>
+									<td>
+										<p>{{row.subject}}</p>
+										<p class="text-muted">{{row.details}}</p>
+									</td>
+									<td>
+										<p>{{row.presentDuration}} - {{row.presentDurationType}}</p>
+									</td>
+									<td>
+										<p>{{row.discussionDuration}} - {{row.discussionDurationType}}</p>
+									</td>
+									<td class="text-right"> 
+
+										<button class="btn btn-icon round" [title]="'PROPOSALS' | translate"
+										(click)="manageAgendaTopicProposals(row.id)">
+										<i class="ft-file-plus text-primary cursor-pointer"></i>
+										</button>
+
+										<button class="btn btn-icon round" [title]="'VIEW_TOPIC' | translate"
+											(click)="viewTopic(row.id)">
+											<i class="ft-eye text-primary cursor-pointer"></i>
+										</button>
+
+										<button type="button" class="btn btn-icon round"
+											[title]="'EDIT_TOPIC' | translate" (click)="editTopic(row.id)">
+											<i class="ft-edit text-primary cursor-pointer"></i>
+										</button>
+
+										<!-- <button type="button" [title]="'DELETE_TOPIC' | translate"
+											class="btn btn-icon round" (click)="deleteAgenda(row.id)">
+											<i class="ft ft-trash text-warning cursor-pointer"></i>
+										</button> -->
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+	[fullScreen]="true">
+</ngx-spinner>

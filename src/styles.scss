@@ -1,0 +1,133 @@
+/* You can add global styles to this file, and also import other style files */
+// [dir=ltr] {
+// @import './assets/css/rtl/custom-rtl.scss';
+// @import './assets/css/rtl/components.css';
+// @import './assets/css/rtl/rtl.css';
+// @import './assets/css/rtl/vertical-overlay-menu.css';
+// @import './assets/css/rtl/horizontal-menu.css';
+// @import './assets/css/rtl/bootstrap-rtl-min.scss';
+// }
+
+// ngx-datatable material theme
+@import "~@swimlane/ngx-datatable/index.css";
+@import "~@swimlane/ngx-datatable/themes/bootstrap.scss";
+@import "~@swimlane/ngx-datatable/themes/material.scss";
+@import "~@swimlane/ngx-datatable/assets/icons.css";
+
+@font-face {
+  font-family: "Bahij Halvetica";
+  src: url("assets/fonts/bahij_helvetica_neue_bold_by_bahijvirtualacademy-dammcmt_0.ttf");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Bahij Halvetica";
+  src: url("assets/fonts/Bahij_Helvetica_Neue-Light_1.ttf");
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: "Bahij Halvetica";
+  src: url("assets/fonts/bahij_helvetica_neue_roman_by_bahijvirtualacademy-dammd50_0.ttf");
+  font-weight: normal;
+}
+
+$font-family: "Montserrat",
+"Bahij Halvetica",
+"Segoe UI",
+"Roboto",
+Arial,
+sans-serif;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: $font-family !important;
+}
+
+.loader ::ng-deep .overlay {
+  position: fixed !important;
+}
+
+
+.required-field {
+  color: red;
+}
+
+.paddingcustom {
+  padding-top: inherit !important;
+  padding-bottom: inherit !important;
+}
+
+.ProgressBarCustom {
+  padding: inherit !important;
+}
+
+.customMarginTop {
+  margin-top: auto !important;
+}
+
+.customMarginTop {
+  margin-top: auto !important;
+}
+
+.input-error {
+
+  .ng-select.ng-invalid .ng-select-container,
+  .form-control.ng-invalid,
+  input.ng-invalid {
+    // #f7b2cb
+    border-color: #fa93a9 !important;
+    -webkit-transition: border-color 500ms ease-out;
+    -moz-transition: border-color 500ms ease-out;
+    -o-transition: border-color 500ms ease-out;
+    transition: border-color 500ms ease-out;
+  }
+}
+
+.fieldset {
+  border: 1px solid #ddd !important;
+  margin: 5 !important;
+  padding: 10px !important;
+  position: relative !important;
+  border-radius: 4px !important;
+  background-color: #f5f5f55c !important;
+  padding-left: 10px !important;
+}
+
+.error-border {
+  border: 1px solid red !important;
+  border-radius: 5px;
+}
+
+.title{
+  font-size: 14px;
+  margin: 5px;
+}
+
+.description{
+  font-size: 14px;
+  margin: 5px;
+}
+
+.ngx-datatable.bootstrap .datatable-body .datatable-body-row.active {
+  background-color: rgba(121, 171, 237, 0.747);
+}
+
+.row-view {
+  display: flex; 
+  flex-direction: row;
+}
+
+.modal-title {
+  font-size: 20px;
+}

@@ -1,0 +1,37 @@
+<div class="modal-header">
+	<h4 class="modal-title">{{'COMPLAINT_HISTORY'|translate}}</h4>
+	<button type="button" class="close" aria-label="Close" (click)="dismiss()">
+	  <span aria-hidden="true">&times;</span>
+	</button>
+  </div>
+  <div class="modal-body">
+	<div class="row">
+	  <div class="col-12 col-sm-12">
+		<ng-container *ngIf="dTableFlag">
+			<ngx-datatable #table class="bootstrap core-bootstrap" [rows]="rows" [scrollbarH]="true"
+				[columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+				[limit]="10">
+				<ngx-datatable-column [name]="'FIRST_NAME' | translate" prop="name"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'LAST_NAME' | translate" prop="lastName"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'FATHER_NAME' | translate" prop="fatherName"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'ENTRY_NUMBER' | translate" prop="entryNumber"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'TYPE_OF_COMPLAINT' | translate" prop="complaintType"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'DATE' | translate" prop="complaintDate">
+					<ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.complaintDate | date: 'yyyy-MM-dd' | jalali}}
+                      </ng-template>
+				</ngx-datatable-column>
+				<ngx-datatable-column [name]="'EXPLANATIONS' | translate" prop="explanations"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'PROFILE_CODE' | translate" prop="profileCode"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'CREATED_BY' | translate" prop="createdBy"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'UPDATED_BY' | translate" prop="updatedBy"></ngx-datatable-column>
+				
+			</ngx-datatable>
+		</ng-container>
+	  </div>
+	</div>
+  </div>
+  <div class="modal-footer">
+	<button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+  </div>
+  

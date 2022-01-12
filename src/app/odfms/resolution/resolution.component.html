@@ -1,0 +1,105 @@
+<section id="ngx-datatables-server-side">
+  <div class="row">
+    <div class="col-12 mt-2">
+      <h4 class="primary text-uppercase">{{'RESOLUTIONS'|translate}}</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-3 col-3">
+              <form [formGroup]="selectResolutionsForm">
+                <div class="form-group">
+                  Agenda Year
+                  <ng-select [items]="documentStatusList" bindLabel="name" bindValue="name"
+                    formControlName="agendaYear">
+                  </ng-select>
+                </div>
+              </form>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="reload()">
+            <i class="ft ft-refresh-cw"></i>
+          </button>
+          <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+            title="{{'CREATE_RESOLUTION' | translate}}" [disabled]="loading" (click)="addNewRecord()"
+            *ngIf="globals.principal.hasAuthority(['PROPOSAL','PROPOSAL_CREATE'])">
+            <i class="ft ft-plus"></i>
+          </button>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <!-- Filter starts -->
+            <ng-container *ngIf="tableOptions">
+              <!-- nsia class will apply the nsia template to datatable -->
+              <ngx-datatable [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+                #mainDatatable class="bootstrap core-bootstrap" [rows]="rows" [limit]="tableOptions.length"
+                [loadingIndicator]="true" [scrollbarH]="true" [cssClasses]="cssClasses" (page)="setPage($event)"
+                [count]="recordsTotal" [externalPaging]="true">
+
+                <ngx-datatable-column name="{{ 'ID' | translate }}" prop="ID" [width]="50">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{ 'RESOLUTION_NUMBER' | translate }}" prop="RESOLUTION_NUMBER"
+                  [width]="50"></ngx-datatable-column>
+                <ngx-datatable-column name="{{ 'RESOLUTION_DATE' | translate }}" [width]="100">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.RESOLUTION_DATE | date: 'yyyy-MM-dd' | jalali}}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{ 'SHURA' | translate }}" prop="SHURA" [width]="200">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{ 'COMPONENTS' | translate }}" prop="COMPONENTS">
+                </ngx-datatable-column>
+
+
+                <ngx-datatable-column [name]="'ACTIONS' | translate" [width]="250">
+                  <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="row_index">
+
+                    <button type="button" class="btn btn-icon round" [title]="'RESOLUTION_DETAILS' | translate"
+                      (click)="viewResolutionDetails(row.ID)">
+                      <i class="ft-file-text text-primary cursor-pointer"></i>
+                    </button>
+                    <!-- 
+                            <button type="button" class="btn btn-icon round" [title]="'EDIT' | translate" (click)="editRecord(row.ID)">
+                                <i class="ft-edit text-primary cursor-pointer"></i>
+                            </button>
+  
+                            <button class="btn btn-icon round" [title]="'HISTORY' | translate" (click)="proposalHistory(row.ID)">
+                              <i class="ft-archive text-success cursor-pointer"></i>
+                          </button>
+  
+                            <button (click)="uploadAttachment(row.ID)" class="btn btn-icon round" [title]="'ATTACHMENTS' | translate">
+                              <i class="ft-paperclip text-primary cursor-pointer"></i>
+                            </button>
+  
+                            <button type="button" class="btn btn-icon round" (click)="confirmDeleteModal(content, row.ID)">
+                                        <i class="ft ft-trash text-warning cursor-pointer"></i>
+                            </button> -->
+
+                  </ng-template>
+                </ngx-datatable-column>
+              </ngx-datatable>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <p>{{ 'ARE_YOU_SURE?' | translate }}</p>
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" class="btn btn-outline-danger"
+              (click)="deleteRecord(); modal.close()" *ngIf="globals.principal.hasAuthority(['PROPOSAL','PROPOSAL_DELETE'])">{{ 'DELETE' | translate }}</button>
+          <button type="button" class="btn btn-light" (click)="modal.close()">{{ 'CANCEL' | translate }}</button> -->
+  </div>
+</ng-template>
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+  [fullScreen]="true">
+</ngx-spinner>

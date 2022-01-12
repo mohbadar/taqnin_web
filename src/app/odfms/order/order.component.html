@@ -1,0 +1,131 @@
+<div class="fitlers">
+    <form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
+        <div class="form-row border rounded pt-2 mt-3 pl-3">
+            <div class="form-group col-md-3">
+                <label class="form-control-label" for="orderNumber">{{'ORDER_NUMBER'|translate}}</label>
+                <input class="form-control input-md" id="orderNumber" formControlName="order_number" type="number">
+            </div>
+            <div class="form-group col-md-3">
+                <label class="form-control-label" for="orderDate">{{'ORDER_DATE'|translate}}</label>
+                <div class="input-group">
+                    <input class="form-control" formControlName="order_date" ngbDatepicker id="orderDate"
+                        #p="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="p.toggle()" type="button">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="form-control-label" for="implementationEndDate">{{'IMPLEMENTATION_END_DATE'|translate}}</label>
+                <div class="input-group">
+                    <input class="form-control" formControlName="implementationEndDate" ngbDatepicker id="implementationEndDate"
+                        #h="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="h.toggle()" type="button">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-3 mt-3">
+                <button type="submit" [disabled]="filterForm.invalid" class="btn btn-primary btn-fill">
+                    {{'SEARCH'|translate}}
+                </button>
+                <button [disabled]="filterForm.invalid" class="btn btn-warning btn-fill mr-1 ml-1"
+                    (click)="resetFilters()">{{'CLEAR'|translate}}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row actions">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+                            (click)="reload()">
+                            <i class="ft ft-refresh-cw"></i>
+                        </button>
+                        <div class="col-md-3 col-3">
+                            <div class="form-group">
+                                <select #pageLength class="form-control" (change)="setPageLength(pageLength.value)">
+                                    <option *ngFor=" let pl of pageLengths" [selected]="pl.id==10" [value]="pl.id">
+                                        {{ pl.count }} {{ 'RECORDS' | translate }}
+                                    </option>
+                                    <option value="-1">{{ 'ALL' | translate }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <ng-container *ngIf="tableOptions">
+                    <ngx-datatable [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+                        rowHeight="auto" #mainDatatable class="bootstrap core-bootstrap" [rows]="rows"
+                        [limit]="tableOptions.length" [loadingIndicator]="true" [scrollbarH]="true"
+                        [cssClasses]="cssClasses" (page)="setPage($event)" [count]="recordsTotal"
+                        [externalPaging]="true">
+                        <ngx-datatable-column name="{{'ORDER_NUMBER'|translate}}" prop="ORDER_NUMBER">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="{{'ORDER_DATE'|translate}}">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.ORDER_DATE | date: 'yyyy-MM-dd' | jalali }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <!-- <ngx-datatable-column name="{{'ORDER_SUMMARY'|translate}}" prop="SUMMARY">
+                        </ngx-datatable-column> -->
+                        <ngx-datatable-column name="{{'IMPLEMENTATION_END_DATE'|translate}}">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.IMPLEMENTATION | date: 'yyyy-MM-dd' | jalali }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <!-- <ngx-datatable-column name="{{'IMPLEMENTING_DEPARTMENTS'|translate}}" >
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="{{'ASSISTING_DEPARTMENTS'|translate}}" >
+                        </ngx-datatable-column> -->
+                        <ngx-datatable-column [name]="'ACTIONS' | translate" [width]="250">
+                            <ng-template ngx-datatable-cell-template let-row="row">
+                                <button type="button" class="btn btn-icon round" [title]="'VIEW' | translate" (click)="viewOrder(row.ID)">
+                                    <i class="ft-edit text-primary cursor-pointer"></i>
+                                </button>
+                                
+                                <!-- <button type="button" class="btn btn-icon round" [title]="'EDIT' | translate" (click)="editOrder(row.ID)" *ngIf="globals.principal.hasAuthority(['DECREE','DECREE_EDIT'])">
+                                    <i class="ft-edit text-primary cursor-pointer"></i>
+                                </button> -->
+
+                                <!-- <button class="btn btn-icon round" [title]="'HISTORY' | translate" (click)="orderHistory(row.ID)">
+                                    <i class="ft-archive text-success cursor-pointer"></i>
+                                </button> -->
+
+                                <!-- <button type="button" class="btn btn-icon round" (click)="confirmDeleteModal(content, row.ID)" *ngIf="globals.principal.hasAuthority(['DECREE','DECREE_DELETE'])">
+                                    <i class="ft ft-trash text-warning cursor-pointer"></i>
+                                </button> -->
+
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #content let-modal>
+    <div class="modal-body">
+        <p>{{ "ARE_YOU_SURE" | translate }}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" (click)="deleteRecord(); modal.close()" *ngIf="globals.principal.hasAuthority(['DECREE','DECREE_DELETE'])">
+            {{ "DELETE" | translate }}
+        </button>
+        <button type="button" class="btn btn-light" (click)="modal.close()">
+            {{ "CANCEL" | translate }}
+        </button>
+    </div>
+</ng-template>
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+    [fullScreen]="true">
+</ngx-spinner>

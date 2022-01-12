@@ -1,0 +1,59 @@
+<section>
+	<div class="row">
+		<div class="col-12">
+			<h4>{{'Promotions'|translate}}</h4>
+		</div>
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+						(click)="reload()">
+						<i class="ft ft-refresh-cw"></i>
+					</button>
+
+
+					<div class="col-md-3 col-3">
+						<div class="form-group">
+							<select #pageLength class="form-control" (change)="setPageLength(pageLength.value)">
+								<option *ngFor=" let pl of pageLengths" [selected]="option == 10">
+									{{ pl.count }} {{ 'RECORDS' | translate }}
+								</option>
+								<option value="-1">{{ 'ALL' | translate }}</option>
+							</select>
+						</div>
+					</div>
+					
+				</div>
+				<div class="card-content">
+					<div class="card-body">
+						<ngx-datatable [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+							rowHeight="auto" class="bootstrap core-bootstrap"
+							[rows]="rows" [limit]="tableOptions.length"  [loadingIndicator]="true" [scrollbarH]="true">
+							<ngx-datatable-column *ngFor="let col of columns">
+								<ng-template let-column="column" ngx-datatable-header-template>
+									{{ col.name|translate }}
+								</ng-template>
+								<ng-template let-row="row" ngx-datatable-cell-template>
+									{{ row[col.id] }}
+								</ng-template>
+							</ngx-datatable-column>
+							<ngx-datatable-column name="{{'ACTIONS'|translate}}" [width]="30" [sortable]="false">
+								<ng-template let-row="row" ngx-datatable-cell-template>
+									<i class="ft ft-plus-square fa-lg text-primary cursor-pointer mr-2" aria-hidden="true"
+									[routerLink]="['/promotions/add']"></i>	
+									
+									 <i class="ft-eye fa-lg text-primary cursor-pointer mr-2"
+                                     [routerLink]="['/promotion/' + row.ID]"></i>
+								</ng-template>
+							</ngx-datatable-column>
+						</ngx-datatable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+  [fullScreen]="true">
+</ngx-spinner>

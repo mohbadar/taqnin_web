@@ -1,0 +1,103 @@
+<section id="ngx" class="p-3">
+  <div class="row">
+    <div class="col-12 mt-2">
+      <h4 class="primary text-uppercase">{{'CREATE_RESOLUTION'|translate}}</h4>
+
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-content">
+      <div class="card-body">
+        <form [formGroup]="createResolutionForm">
+          <div class="row">
+            <div class='col-12 col-sm-4'>
+              <div class="form-group">
+                <label class="form-control-label" for="resolutionNumber">{{'RESOLUTION_NUMBER'|translate}}
+                  <span class="required-field">*</span>
+                </label>
+                <input class="form-control input-md" id="resolutionNumber" formControlName="resolutionNumber"
+                  name="resolutionNumber" type="text"
+                  [ngClass]="{ 'error-border': createResolutionForm.get('resolutionNumber').hasError('required') && (createResolutionForm.get('resolutionNumber').touched) }"
+                  required>
+                <div
+                  *ngIf="createResolutionForm.get('resolutionNumber').hasError('required') && (createResolutionForm.get('resolutionNumber').touched)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'RESOLUTION_NUMBER'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+
+            <div class='col-12 col-sm-4'>
+              <div class="form-group">
+                <label class="form-control-label" for="resolutionDate">{{'RESOLUTION_DATE'|translate}}
+                  <span class="required-field">*</span>
+                </label>
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="p.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" name="resolutionDate" formControlName="resolutionDate" ngbDatepicker
+                    id="resolutionDate" #p="ngbDatepicker"
+                    [ngClass]="{ 'error-border': createResolutionForm.get('resolutionDate').hasError('required') && (createResolutionForm.get('resolutionDate').touched) }"
+                    required>
+                  <div
+                    *ngIf="createResolutionForm.get('resolutionDate').hasError('required') && (createResolutionForm.get('resolutionDate').touched)"
+                    class="help-block col-12 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                    {{'RESOLUTION_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class='col-12 col-sm-4'>
+              <div class="form-group">
+                <label class="form-control-label" for="shuraId">{{'SHURA'|translate}}
+                  <span class="required-field">*</span>
+                </label>
+                <ng-select [items]="shuraList" bindLabel="nameDr" bindValue="id" name="shuraId"
+                  formControlName="shuraId"
+                  [ngClass]="{ 'error-border': createResolutionForm.get('shuraId').hasError('required') && (createResolutionForm.get('shuraId').touched) }"
+                  required>
+                </ng-select>
+                <div
+                  *ngIf="createResolutionForm.get('shuraId').hasError('required') && (createResolutionForm.get('shuraId').touched)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SHURA'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-12">
+              <div class="form-group">
+                <label class="form-control-label" for="components">{{'COMPONENTS'|translate}}
+                </label>
+                <textarea cols="20" rows="3" class="form-control input-md" id="components" name="components"
+                  formControlName="components"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <hr class="marginHR" />
+          <div class="row">
+            <div class="col-12">
+              <button type="submit" (click)="onFormSubmit()" uiSref="work" class="btn btn-success">
+                {{'SAVE'|translate}}
+              </button>
+
+              <button type="button" class="btn btn-warning mr-1" (click)="goToResolutions()">
+                <span style="margin-right:10px;">
+                </span> {{'CLOSE'|translate}}</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7"
+    type="ball-spin-clockwise-fade" [fullScreen]="true">
+  </ngx-spinner>
+</section>

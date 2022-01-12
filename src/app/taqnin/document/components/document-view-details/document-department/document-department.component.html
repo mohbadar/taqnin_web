@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <h4 class="modal-title m-2">{{'ADD_TO_DEPARTMENT'|translate}}</h4>
+</div>
+<br>
+<form [formGroup]="editForm">
+    <!-- <div class="col-12 col-sm-6">
+        <div class="form-group">
+            <label class="form-control-label" for="receiveDate">{{'DATE'|translate}}
+                <span class="required-field">*</span>
+            </label>
+            <div class="input-group">
+                <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                    <i class="fa fa-calendar"></i>
+                </button>
+                </div>
+                <input class="form-control"  formControlName="receiveDate" ngbDatepicker
+                    id="visitDate" #d="ngbDatepicker">
+            </div>
+        </div>
+    </div>
+<br> -->
+<div class="col-12 form-group">
+  <label>{{ "DEPARTMENT" | translate }}</label>
+  <ng-select [items]="departments" bindLabel="nameDr" bindValue="id" [placeholder]="'SELECT_DEPARTMENT' | translate"  clearAllText="Clear"
+    formControlName="dep_id"  >
+  </ng-select>
+  <!-- <ng-select style="z-index: 1052; position: fixed !important; width: 200px;" [(ngModel)]="selectedTenant">
+    <ng-option *ngFor="let m of departments" [value]="m.id"> {{ m.name | translate }}
+    </ng-option>
+  </ng-select> -->
+</div>
+
+<!-- <div class="col-12 form-group">
+  <label>{{ "RESPONSIBLE" | translate }}</label>
+  <ng-select [items]="users" bindLabel="name" bindValue="id" placeholder="Select user" clearAllText="Clear"
+    formControlName="user_id">
+  </ng-select>
+</div> -->
+<div class="modal-footer">
+  <button class="btn btn-success"   (click)="onFormSubmit()">{{ 'SAVE' | translate
+    }}</button>
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>
+</form>

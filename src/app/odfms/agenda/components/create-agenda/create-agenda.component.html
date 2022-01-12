@@ -1,0 +1,336 @@
+<section id="ngx" class="p-3">
+	<div class="row">
+		<div class="col-12 mt-2">
+			<h4>{{'CREATE_AGENDA'|translate}}</h4>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-content">
+			<div class="card-body">
+				<form [formGroup]="newForm" id="newForm">
+					<div class="row">
+						<div class="col-12 col-sm-12">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="agendaNo">{{'MEETING_NO'|translate}}<span
+												class="required-field">*</span></label>
+										<div class="controls">
+											<input type="number" formControlName="agendaNo" class="form-control"
+												[ngClass]="{ 'error-border': newForm.get('agendaNo').hasError('required') && (newForm.get('agendaNo').touched) }">
+										</div>
+										<div *ngIf="newForm.get('agendaNo').hasError('required') && (newForm.get('agendaNo').touched)"
+											class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+											{{'MEETING_NO'|translate}} {{'IS_REQUIRED'|translate}}
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="meetingLocation">{{'MEETING_LOCATION'|translate}}<span
+												class="required-field">*</span></label>
+										<div class="controls">
+											<input type="text" formControlName="meetingLocation" class="form-control"
+												[ngClass]="{ 'error-border': newForm.get('meetingLocation').hasError('required') && (newForm.get('meetingLocation').touched) }">
+										</div>
+										<div *ngIf="newForm.get('meetingLocation').hasError('required') && (newForm.get('meetingLocation').touched)"
+											class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+											{{'MEETING_LOCATION'|translate}} {{'IS_REQUIRED'|translate}}
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="form-control-label"
+											for="meetingDate">{{'MEETING_DATE'|translate}}<span
+												class="required-field">*</span></label>
+										<div class="input-group">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary calendar" (click)="d.toggle()"
+													type="button">
+													<i class="fa fa-calendar"></i>
+												</button>
+											</div>
+											<input class="form-control" name="meetingDate" formControlName="meetingDate"
+												ngbDatepicker
+												[ngClass]="{ 'error-border': newForm.get('meetingDate').hasError('required') && (newForm.get('meetingDate').touched) }"
+												id="meetingDate" #d="ngbDatepicker">
+										</div>
+										<div style="margin-top: -10px;"
+											*ngIf="newForm.get('meetingDate').hasError('required') && (newForm.get('meetingDate').touched)"
+											class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+											{{'MEETING_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>{{ 'MEETING_TIME'|translate}}<span
+												class="required-field">*</span></label>
+										<ngb-timepicker formControlName="meetingTime" [spinners]="false"
+											[meridian]="true"></ngb-timepicker>
+									</div>
+									<div style="margin-top: -10px;"
+										*ngIf="newForm.get('meetingTime').hasError('required') && (newForm.get('meetingTime').touched)"
+										class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+										{{'MEETING_TIME'|translate}} {{'IS_REQUIRED'|translate}}
+									</div>
+								</div>
+
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="meetingDuration">{{'MEETING_DURATION'|translate}}<span
+												class="required-field">*</span></label>
+										<div class="controls form-row">
+											<input type="number" formControlName="meetingDuration"
+												class="col-6 form-control" required
+												[ngClass]="{ 'error-border': newForm.get('meetingDuration').hasError('required') && (newForm.get('meetingDuration').touched) }">
+
+											<ng-select [items]="durationTypes$" bindLabel="key" bindValue="value"
+												class="col-6" formControlName="meetingDurationType">
+											</ng-select>
+											<div *ngIf="newForm.get('meetingDuration').hasError('required') && (newForm.get('meetingDuration').touched)"
+												class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+												{{'MEETING_DURATION'|translate}} {{'IS_REQUIRED'|translate}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="form-control-label"
+											for="meetingStartDate">{{'MEETING_START_DATE'|translate}}<span
+												class="required-field">*</span></label>
+										<div class="input-group">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary calendar"
+													(click)="startDate.toggle()" type="button">
+													<i class="fa fa-calendar"></i>
+												</button>
+											</div>
+											<input class="form-control" name="meetingStartDate"
+												formControlName="meetingStartDate" ngbDatepicker
+												[ngClass]="{ 'error-border': newForm.get('meetingStartDate').hasError('required') && (newForm.get('meetingStartDate').touched) }"
+												id="meetingStartDate" #startDate="ngbDatepicker">
+										</div>
+										<div style="margin-top: -10px;"
+											*ngIf="newForm.get('meetingStartDate').hasError('required') && (newForm.get('meetingStartDate').touched)"
+											class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+											{{'MEETING_START_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>{{ 'MEETING_START_TIME'|translate}}<span
+												class="required-field">*</span></label>
+										<ngb-timepicker formControlName="meetingStartTime" [spinners]="false"
+											[meridian]="true"></ngb-timepicker>
+										<div style="margin-top: 5px;"
+											*ngIf="newForm.get('meetingStartTime').hasError('required') && (newForm.get('meetingStartTime').touched)"
+											class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+											{{'MEETING_START_TIME'|translate}} {{'IS_REQUIRED'|translate}}
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<hr>
+							</div>
+							<!-- visitor info -->
+							<div class="col-12 col-sm-12 col-md-12">
+								<div class="row">
+									<div class="col-12 col-sm-12">
+										<div class="form-group">
+											<span class="content-header">{{ 'TOPICS_LIST'|translate }}</span>
+											<button type="button"
+												class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+												title="Add Topic" (click)="addTopic()">
+												<i class="ft ft-plus"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<hr>
+							</div>
+
+
+							<ng-container *ngIf="topicsArray" formArrayName="topics">
+								<div class="row" *ngFor="let obj of topicsArray.controls; index as i"
+									[formGroupName]="i">
+									<div class="col-1">
+										<div class="form-group" style="display: flex; flex-direction: row;">
+											<div>
+												<h5>{{ i+1 }}</h5>
+											</div>
+											<div>
+												<button type="button"
+													class="btn btn-outline-danger btn-icon round mr-1 mb-1 pull-right"
+													[title]="'REMOVE_TOPIC'" (click)="removeTopic(i)">
+													<i class="ft ft-trash"></i>
+												</button>
+												<button type="button"
+													class="btn btn-outline-secondary btn-icon round mr-1 mb-1 pull-right"
+													[title]="'SELECT_PROPOSAL' | translate" (click)="addProposal(i)">
+													<i class="ft ft-link"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-5">
+										<div class="form-group">
+											<label for="subject">{{'SUBJECT'|translate}}
+												<span class="required-field">*</span>
+											</label>
+											<div class="controls">
+												<input type="text" formControlName="subject" class="form-control"
+													required
+													[ngClass]="{ 'error-border': topicsArray.controls[i].get('subject').hasError('required') && (topicsArray.controls[i].get('subject').touched) }">
+											</div>
+											<div style="margin-top: 5px;"
+												*ngIf="topicsArray.controls[i].get('subject').hasError('required') && (topicsArray.controls[i].get('subject').touched)"
+												class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+												{{'SUBJECT'|translate}} {{'IS_REQUIRED'|translate}}
+											</div>
+										</div>
+									</div>
+
+									<div class="col-5">
+										<div class="form-group">
+											<label for="presenters">{{'PRESENTERS'|translate}}<span
+													class="required-field">*</span></label>
+											<div class="controls">
+												<tag-input formControlName="presenters"
+													[secondaryPlaceholder]="'ENTER_PRESENTERS_HERE' | translate"
+													[modelAsStrings]="true"></tag-input>
+											</div>
+											<div style="margin-top: 5px;"
+												*ngIf="topicsArray.controls[i].get('presenters').hasError('required') && (topicsArray.controls[i].get('presenters').touched)"
+												class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+												{{'PRESENTERS'|translate}} {{'IS_REQUIRED'|translate}}
+											</div>
+										</div>
+									</div>
+
+									<div class="col-1"></div>
+									<div class="col-1"></div>
+
+									<div class="col-5">
+										<div class="form-group">
+											<label for="presentDuration">{{'PRESENTATION_DURATION'|translate}}<span
+													class="required-field">*</span></label>
+											<div class="controls form-row">
+												<input type="number" formControlName="presentDuration"
+													class="col-8 form-control" required
+													[ngClass]="{ 'error-border': topicsArray.controls[i].get('presentDuration').hasError('required') && (topicsArray.controls[i].get('presentDuration').touched) }">
+
+												<ng-select [items]="durationTypes$" bindLabel="key" bindValue="value"
+													class="col-4" formControlName="presentDurationType">
+												</ng-select>
+												<div style="margin-top: 5px;"
+													*ngIf="topicsArray.controls[i].get('presentDuration').hasError('required') && (topicsArray.controls[i].get('presentDuration').touched)"
+													class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+													{{'PRESENTATION_DURATION'|translate}} {{'IS_REQUIRED'|translate}}
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-5">
+										<div class="form-group">
+											<label for="discussionDuration">{{'DISCUSSION_DURATION'|translate}}<span
+													class="required-field">*</span></label>
+											<div class="controls form-row">
+												<input type="number" formControlName="discussionDuration"
+													class="col-8 form-control" required
+													[ngClass]="{ 'error-border': topicsArray.controls[i].get('discussionDuration').hasError('required') && (topicsArray.controls[i].get('discussionDuration').touched) }">
+												<ng-select [items]="durationTypes$" bindLabel="key" bindValue="value"
+													class="col-4" formControlName="discussionDurationType">
+												</ng-select>
+												<div style="margin-top: 5px;"
+													*ngIf="topicsArray.controls[i].get('discussionDuration').hasError('required') && (topicsArray.controls[i].get('discussionDuration').touched)"
+													class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+													{{'DISCUSSION_DURATION'|translate}} {{'IS_REQUIRED'|translate}}
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-1"></div>
+									<div class="col-1"></div>
+
+									<div class="col-5">
+										<div class="form-group">
+											<label for="details">{{'DETAILS'|translate}}</label>
+											<div class="controls">
+												<textarea rows="2" formControlName="details"
+													class="form-control"></textarea>
+											</div>
+										</div>
+									</div>
+									<div class="col-5">
+										<div class="form-group">
+											<label for="inclusionReason">{{'INCLUSION_REASON'|translate}}</label>
+											<div class="controls">
+												<textarea rows="2" formControlName="inclusionReason"
+													class="form-control"></textarea>
+											</div>
+										</div>
+									</div>
+									<div class="col-1"></div>
+									<div class="col-1"></div>
+									<div *ngIf="proposals(i).controls.length != 0">
+										<div class="col-12">{{'PROPOSALS' | translate}}</div>
+										<div class="col-12" *ngFor="let proposal of proposals(i).controls; let proposalIndex=index">
+													<div class="form-group">
+														<div class="controls" style="margin-right: -10px;">
+															<button type="button" class="btn btn-sm btn-icon round mb-1" aria-label="Close" (click)="removeProposal(i, proposalIndex)">
+																<i class="danger fa ft-trash-2"></i>
+															</button>
+															{{ proposal.value.proposalNumber }} - {{ proposal.value.summary }}
+														</div>
+													</div>
+												</div>
+									</div>
+									<div class="col-md-12">
+										<hr>
+									</div>
+								</div>
+
+
+
+
+
+
+							</ng-container>
+						</div>
+					</div>
+				</form>
+				<div class="row" style="margin-top: 10px;">
+					<div class="col-sm-4">
+						<button type="submit" (click)="onFormSubmit()" uiSref="work" class="btn btn-success">
+							{{'SAVE'|translate}}
+						</button>
+						<button type="button" class="btn btn-warning mr-2" (click)="goToAgendasRoute()">
+							<span style="margin-right:10px;"></span>
+							{{'CLOSE'|translate}}
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

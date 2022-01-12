@@ -1,0 +1,115 @@
+<div class="modal-header">
+    <h4>{{ 'SEARCH_PROPOSAL'| translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" style="padding-bottom:0px;position: relative;">
+    <div class="row">
+        <div class="col-md-12">
+            <form [formGroup]="filterForm" (submit)="applyFilter()">
+                <div class="row border rounded py-2 mb-2 mx-n2">
+                  <div class="form-group col-md-3">
+                    <label class="form-control-label" for="documentType">{{'DOCUMENT_TYPE'|translate}}</label>
+                    <ng-select [items]="documentStatusList" bindLabel="name" bindValue="name"
+                        formControlName="document_type">
+                    </ng-select>
+                    </div>
+        
+                  <div class="col-12 col-sm-6 col-lg-2">
+                    <label for="users-list-role">{{'INCOMING_DATE'|translate}}</label>
+                    <div class="input-group">
+                      <input class="form-control" name="incomingDate" formControlName="incoming_date"
+                          ngbDatepicker id="incomingDate" #pr="ngbDatepicker">
+                      <div class="input-group-append">
+                          <button class="btn btn-outline-secondary calendar" (click)="pr.toggle()" type="button">
+                              <i class="fa fa-calendar"></i>
+                          </button>
+                      </div>
+                  </div>
+                  </div>
+        
+                  <div class="col-12 col-sm-6 col-lg-2">
+                    <label for="users-list-verified">{{'INCOMING_NUMBER'|translate}}</label>
+                    <fieldset class="form-group">
+                      <input type="text" class="form-control" formControlName="incoming_number" />
+                    </fieldset>
+                  </div>
+        
+                  <div class="col-12 col-sm-6 col-lg-2 d-flex align-items-center">
+                    <button type="submit" class="btn btn-primary btn-block users-list-clear">
+                      {{'SEARCH'|translate}}
+                    </button>&nbsp;
+                    <button type="reset" (click)="resetFilters()" class="btn btn-warning btn-block users-list-clear"
+                      style="margin-top:initial">
+                      {{'CLEAR'|translate}}
+                    </button>
+                  </div>
+                </div>
+              </form>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12 text-center">
+            <button type="button" (click)="applyFilter()" class="btn btn-sm btn-widest btn-primary btn-fill mx-1">
+                {{ 'FIND' | translate }}</button>
+            <button type="button" class="btn btn-sm btn-widest btn-secondary" (click)="resetFilters()">
+                {{ 'CLEAR'|translate }}</button>
+            <button type="button" class="btn btn-sm btn-widest btn-warning mx-1" (click)="closeModal()">
+                {{ 'CANCEL'|translate }}</button>
+            <select #pageLength (change)='setPageLength(pageLength.value)' class="form-control col-md-2 pull-right">
+                <option *ngFor="let pl of pageLengths" [selected]="pl.id==10" [value]="pl.id">
+                    {{ pl.count }} {{ 'RECORDS' | translate }}
+                </option>
+                <option value="-1">{{ 'ALL' | translate }}</option>
+            </select>
+        </div>
+    </div>
+    <hr />
+    <div class="mat-elevation-z8 mb-3">
+        <!-- <div class="fresh-datatables "> -->
+            <ng-container *ngIf="tableOptions">
+                <!-- nsia class will apply the nsia template to datatable -->
+                <ngx-datatable [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+                  #mainDatatable class="bootstrap core-bootstrap" [rows]="rows" [limit]="tableOptions.length"
+                  [loadingIndicator]="true" [scrollbarH]="true" [cssClasses]="cssClasses" (page)="setPage($event)"
+                  [count]="recordsTotal" [externalPaging]="true">
+                    <ngx-datatable-column name="{{ 'ID' | translate }}" prop="ID" [width]="50">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="{{ 'SUGGESTION_NUMBER' | translate }}" prop="SHUMARA">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="{{ 'SUGGESTION_DATE' | translate }}">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.PRO_DATE | date: 'yyyy-MM-dd' | jalali}}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="{{ 'SUBJECT_ABSTRACT' | translate }}" prop="SUMMARY">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="{{ 'SUBJECT_OBJECTIVE' | translate }}" prop="OBJECTIVE">
+                    </ngx-datatable-column>
+                    <!-- <ngx-datatable-column [name]="'MORSAL' | translate" [width]="200">
+                      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="row_index">
+                        <div>
+                          <span *ngIf="row['MORSAL_MINISTRY']">
+                            {{ row.MORSAL_MINISTRY }}
+                          </span>
+                          <span *ngIf="row['MORSAL_AUTHORITY']">
+                            {{ row.MORSAL_AUTHORITY }}
+                          </span>
+                          <span *ngIf="row['MORSAL_COMMISSION']">
+                            {{ row.MORSAL_COMMISSION }}
+                          </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column> -->
+                    <ngx-datatable-column [name]="'ACTIONS' | translate">
+                        <ng-template ngx-datatable-cell-template let-row="row">
+                            <button type="button" class="btn btn-sm btn-outline-primary btn-icon round mr-1 mb-1" (click)="select(row)" [title]="'SELECT'|translate">
+                                <i class="ft-check"></i>
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+              </ng-container>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'EDIT'|translate}}&nbsp;{{'COMMENT'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="proposalForm">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12 col-sm-12">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label for="title">{{'TITLE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="title" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.title.invalid, 'is-valid': addFormSubmitted && !cpf.title.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.title.invalid || cpf.title.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'TITLE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label for="content">{{'CONTENT'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <textarea formControlName="content" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.content.invalid, 'is-valid': addFormSubmitted && !cpf.content.invalid }"
+                  required></textarea>
+                <div *ngIf="addFormSubmitted && (cpf.content.invalid || cpf.content.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'CONTENT'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-3" style="margin-top: auto !important;">
+            <div class="form-group pull-left">
+              <button (click)="fileInput.click()" class="btn btn-fill btn-primary form-control">
+                   {{ 'ADD_FILE' | translate }}
+              </button>
+              <input type="file" class="d-none" name="attachment" #fileInput (change)="fileChangeListener($event)">
+          </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <strong><span id="fileName"></span></strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" (click)="submitData()">{{ 'SAVE' | translate }}</button>
+    <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+  </div>
+  </form>

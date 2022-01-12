@@ -1,0 +1,153 @@
+
+
+<section id="ngx-datatables-server-side">
+  <div class="row">
+    <div class="col-12 mt-2">
+      <h4>{{'PROPOSAL'|translate}}</h4>
+    </div>
+  </div>
+ <div class="row">
+  <div class="col-12">
+    <div class="users-list-filter px-2">
+      <form [formGroup]="filterForm" (submit)="applyFilter()">
+        <div class="row border rounded py-2 mb-2 mx-n2">
+          <div class="col-12 col-sm-6 col-lg-3">
+            <label for="users-list-verified">{{'SUGGESTION_NUMBER'|translate}}</label>
+            <fieldset class="form-group">
+              <input type="text" class="form-control" formControlName="proposalNumber" />
+            </fieldset>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <label for="users-list-role">{{'SUGGESTION_DATE'|translate}}</label>
+            <div class="input-group">
+              <input class="form-control" name="proposalDate" formControlName="proposalDate"
+                  ngbDatepicker id="proposalDate" #pr="ngbDatepicker">
+              <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="pr.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                  </button>
+              </div>
+          </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-lg-2 d-flex align-items-center">
+            <button type="submit" class="btn btn-primary btn-block users-list-clear">
+              {{'SEARCH'|translate}}
+            </button>&nbsp;
+            <button type="reset" (click)="resetFilters()" class="btn btn-warning btn-block users-list-clear"
+              style="margin-top:initial">
+              {{'CLEAR'|translate}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Filter ends -->
+</div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="reload()">
+            <i class="ft ft-refresh-cw"></i>
+          </button>
+          <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"  title="{{'ADD_PROPOSAL' | translate}}"
+            [disabled]="loading" (click)="addNewRecord()" *ngIf="globals.principal.hasAuthority(['PROPOSAL','PROPOSAL_CREATE'])">
+            <i class="ft ft-plus"></i>
+          </button>
+
+          <div class="col-md-3 col-3">
+            <div class="form-group">
+              <select #pageLength (change)='setPageLength(pageLength.value)' class="form-control">
+                <option *ngFor="let pl of pageLengths" [selected]="pl.id==10" [value]="pl.id">
+                  {{ pl.count }} {{ 'RECORDS' | translate }}
+                </option>
+                <!-- <option value="-1">{{ 'ALL' | translate }}</option> -->
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <!-- Filter starts -->
+            <ng-container *ngIf="tableOptions">
+              <!-- nsia class will apply the nsia template to datatable -->
+              <ngx-datatable [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+                #mainDatatable class="bootstrap core-bootstrap" [rows]="rows" [limit]="tableOptions.length"
+                [loadingIndicator]="true" [scrollbarH]="true" [cssClasses]="cssClasses" (page)="setPage($event)"
+                [count]="recordsTotal" [externalPaging]="true">
+                  <ngx-datatable-column name="{{ 'ID' | translate }}" prop="ID" [width]="50">
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="{{ 'SUGGESTION_NUMBER' | translate }}" prop="SHUMARA">
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="{{ 'MEETING_DATE' | translate }}">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.PRO_DATE | date: 'yyyy-MM-dd' | jalali}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="{{ 'SUBJECT_ABSTRACT' | translate }}" prop="SUMMARY">
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="{{ 'SUBJECT_OBJECTIVE' | translate }}" prop="OBJECTIVE">
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="{{ 'SHURA' | translate }}" [width]="150" prop="SHURA">
+                  </ngx-datatable-column>
+                  <!-- <ngx-datatable-column [name]="'MORSAL' | translate" [width]="200">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="row_index">
+                      <div>
+                        <span *ngIf="row['MORSAL_MINISTRY']">
+                          {{ row.MORSAL_MINISTRY }}
+                        </span>
+                        <span *ngIf="row['MORSAL_AUTHORITY']">
+                          {{ row.MORSAL_AUTHORITY }}
+                        </span>
+                        <span *ngIf="row['MORSAL_COMMISSION']">
+                          {{ row.MORSAL_COMMISSION }}
+                        </span>
+                      </div>
+                    </ng-template>
+                  </ngx-datatable-column> -->
+                <ngx-datatable-column [name]="'ACTIONS' | translate" [width]="250">
+                  <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="row_index">
+
+                          <button type="button" class="btn btn-icon round" [title]="'EDIT' | translate" (click)="editRecord(row.ID)">
+                              <i class="ft-edit text-primary cursor-pointer"></i>
+                          </button>
+
+                          <!-- <button class="btn btn-icon round" [title]="'HISTORY' | translate" (click)="proposalHistory(row.ID)">
+                            <i class="ft-archive text-success cursor-pointer"></i>
+                        </button> -->
+
+                          <!-- <button (click)="uploadAttachment(row.ID)" class="btn btn-icon round" [title]="'ATTACHMENTS' | translate">
+                            <i class="ft-paperclip text-primary cursor-pointer"></i>
+                          </button>
+
+                          <button type="button" class="btn btn-icon round" (click)="confirmDeleteModal(content, row.ID)">
+                                      <i class="ft ft-trash text-warning cursor-pointer"></i>
+                          </button> -->
+
+                  </ng-template>
+              </ngx-datatable-column>
+              </ngx-datatable>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #content let-modal>
+	<div class="modal-body">
+		<p>{{ 'ARE_YOU_SURE?' | translate }}</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-danger"
+			(click)="deleteRecord(); modal.close()" *ngIf="globals.principal.hasAuthority(['PROPOSAL','PROPOSAL_DELETE'])">{{ 'DELETE' | translate }}</button>
+		<button type="button" class="btn btn-light" (click)="modal.close()">{{ 'CANCEL' | translate }}</button>
+	</div>
+</ng-template>
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+  [fullScreen]="true">
+</ngx-spinner>

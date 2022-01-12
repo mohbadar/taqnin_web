@@ -1,0 +1,112 @@
+<div class="modal-header ">
+    <h4 class="modal-title">{{ "EDIT" | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body ">
+    <div class="row">
+        <form class="col-12" [formGroup]="editForm" (ngSubmit)="onFormSubmit()">
+          <ngx-spinner
+          bdColor="rgba(255, 255, 255, 0.100)"
+          size="medium"
+          color="black"
+          type="ball-scale-multiple"
+          fullScreen="false">
+        </ngx-spinner>
+        <div class="col-12 form-group">
+          <label>{{ "NAME_ENGLISH" | translate }}</label>
+          <input
+            type="text"
+            [placeholder]="'ENTER_ENGLISH_NAME' | translate"
+            class="form-control"
+            formControlName="nameEn"
+            required
+            [ngClass]="{'error-border': editForm.get('nameEn').hasError('required') && editForm.get('nameEn').touched}"
+          />
+          <small class="col-12 text-danger pl-0"
+          *ngIf="editForm.get('nameEn').hasError('required') && (editForm.get('nameEn').touched)">
+              {{ "IS_REQUIRED" | translate }}
+          </small>
+        </div>
+
+        <div class="col-12 form-group">
+          <label>{{ "NAME_DARI" | translate }}</label>
+          <input
+            type="text"
+            [placeholder]="'ENTER_DARI_NAME' | translate"
+            class="form-control"
+            formControlName="nameDr"
+            required
+            [ngClass]="{'error-border': editForm.get('nameDr').hasError('required') && editForm.get('nameDr').touched}"
+          />
+          <small class="col-12 text-danger pl-0"
+          *ngIf="editForm.get('nameDr').hasError('required') && (editForm.get('nameDr').touched)">
+              {{ "IS_REQUIRED" | translate }}
+          </small>
+        </div>
+
+        <div class="col-12 form-group">
+          <label>{{ "NAME_PASHTO" | translate }}</label>
+          <input
+            type="text"
+            [placeholder]="'ENTER_PASHTO_NAME' | translate"
+            class="form-control"
+            formControlName="namePs"
+            required
+            [ngClass]="{'error-border': editForm.get('namePs').hasError('required') && editForm.get('namePs').touched}"
+          />
+          <small class="col-12 text-danger pl-0"
+          *ngIf="editForm.get('namePs').hasError('required') && (editForm.get('namePs').touched)">
+              {{ "IS_REQUIRED" | translate }}
+          </small>
+        </div>
+
+        <div class="col-12 form-group">
+          <label>{{ "PROCESS_DAYS" | translate }}</label>
+          <input
+            type="number"
+            min="0"
+            [placeholder]="'ENTER_NUMBER_OF_PROCESS_DAYS' | translate"
+            class="form-control"
+            formControlName="processDays"
+            required
+            [ngClass]="{'error-border': editForm.get('processDays').hasError('required') && editForm.get('processDays').touched}"
+          />
+          <small class="col-12 text-danger pl-0"
+          *ngIf="editForm.get('processDays').hasError('required') && (editForm.get('processDays').touched)">
+              {{ "IS_REQUIRED" | translate }}
+          </small>
+        </div>
+
+        <div class="col-12 form-group">
+          <label>{{ "SERIAL_NO" | translate }}</label>
+          <input
+            type="number"
+            min="0"
+            [placeholder]="'ENTER_SERIAL_NO' | translate"
+            class="form-control"
+            formControlName="serialNo"
+          />
+        </div>
+
+        <!-- <div class="col-12 form-group">
+            <label>{{ "STEPS" | translate }}</label>
+            <ng-select
+            [items]="steps$"
+            bindLabel="nameDr"
+            bindValue="id"
+            [multiple]="true"
+            placeholder="Select step"
+            clearAllText="Clear"
+            formControlName="stepsIds">
+          </ng-select>
+          </div> -->
+          <br><bR><bR>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-sm btn-fill mr-2">{{'SUBMIT' | translate }}</button>
+            <button class="btn btn-secondary btn-fill btn-sm" (click)="closeModal()" type="button">{{ 'CANCEL' | translate }}</button>
+          </div>
+        </form>
+    </div>
+  </div>

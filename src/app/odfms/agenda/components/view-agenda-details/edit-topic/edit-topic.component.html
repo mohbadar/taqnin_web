@@ -1,0 +1,117 @@
+<div class="modal-header">
+    <h4 class="primary text-uppercase">{{ "EDIT_TOPIC" | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+  <div class="modal-body" style="padding-bottom: 20px;">
+    <div class="row">
+      <form class="col-12" [formGroup]="editTopicForm" (ngSubmit)="onFormSubmit()">
+
+        <div class="col-12">
+            <div class="form-group">
+                <label for="subject">{{'SUBJECT'|translate}}
+                    <span class="required-field">*</span>
+                </label>
+                <div class="controls">
+                    <input type="text" formControlName="subject" class="form-control"
+                        required
+                        [ngClass]="{ 'error-border': editTopicForm.get('subject').hasError('required') && (editTopicForm.get('subject').touched) }">
+                </div>
+                <div style="margin-top: 5px;"
+                    *ngIf="editTopicForm.get('subject').hasError('required') && (editTopicForm.get('subject').touched)"
+                    class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+                    {{'SUBJECT'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="form-group">
+                <label for="presenters">{{'PRESENTERS'|translate}}<span
+                        class="required-field">*</span></label>
+                <div class="controls">
+                    <tag-input formControlName="presenters"
+                        [secondaryPlaceholder]="'ENTER_PRESENTERS_HERE' | translate"
+                        [modelAsStrings]="true"></tag-input>
+                </div>
+                <div style="margin-top: 5px;"
+                    *ngIf="editTopicForm.get('presenters').hasError('required') && (editTopicForm.get('presenters').touched)"
+                    class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+                    {{'PRESENTERS'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="form-group">
+                <label for="presentDuration">{{'PRESENTATION_DURATION'|translate}}<span
+                        class="required-field">*</span></label>
+                <div class="controls form-row">
+                    <input type="number" formControlName="presentDuration"
+                        class="col-8 form-control" required
+                        [ngClass]="{ 'error-border': editTopicForm.get('presentDuration').hasError('required') && (editTopicForm.get('presentDuration').touched) }">
+
+                    <ng-select [items]="durationTypes$" bindLabel="key" bindValue="value"
+                        class="col-4" formControlName="presentDurationType">
+                    </ng-select>
+                    <div style="margin-top: 5px;"
+                        *ngIf="editTopicForm.get('presentDuration').hasError('required') && (editTopicForm.get('presentDuration').touched)"
+                        class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+                        {{'PRESENTATION_DURATION'|translate}} {{'IS_REQUIRED'|translate}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="form-group">
+                <label for="discussionDuration">{{'DISCUSSION_DURATION'|translate}}<span
+                        class="required-field">*</span></label>
+                <div class="controls form-row">
+                    <input type="number" formControlName="discussionDuration"
+                        class="col-8 form-control" required
+                        [ngClass]="{ 'error-border': editTopicForm.get('discussionDuration').hasError('required') && (editTopicForm.get('discussionDuration').touched) }">
+                    <ng-select [items]="durationTypes$" bindLabel="key" bindValue="value"
+                        class="col-4" formControlName="discussionDurationType">
+                    </ng-select>
+                    <div style="margin-top: 5px;"
+                        *ngIf="editTopicForm.get('discussionDuration').hasError('required') && (editTopicForm.get('discussionDuration').touched)"
+                        class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+                        {{'DISCUSSION_DURATION'|translate}} {{'IS_REQUIRED'|translate}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="form-group">
+                <label for="details">{{'DETAILS'|translate}}</label>
+                <div class="controls">
+                    <textarea rows="2" formControlName="details"
+                        class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label for="inclusionReason">{{'INCLUSION_REASON'|translate}}</label>
+                <div class="controls">
+                    <textarea rows="2" formControlName="inclusionReason"
+                        class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary btn-fill mr-2">{{'SUBMIT' | translate }}</button>
+          <button class="btn btn-secondary btn-fill" (click)="closeModal()" type="button">{{ 'CANCEL' | translate
+            }}</button>
+        </div>
+      </form>
+    </div>
+    <ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7"
+      type="ball-spin-clockwise-fade" [fullScreen]="true">
+    </ngx-spinner>
+  </div>

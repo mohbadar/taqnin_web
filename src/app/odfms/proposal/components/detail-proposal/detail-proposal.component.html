@@ -1,0 +1,388 @@
+<section id="ngx" class="p-3">
+  <div class="row">
+    <div class="col-12 col-sm-2 mt-2">
+      <h4 class="primary text-uppercase">{{'DETAIL_PROPOSAL'|translate}}</h4>
+    </div>
+    <div class="col-12 col-sm-9 mt-2"></div>
+    <div class="col-12 col-sm-1 mt-2">
+      <button class="btn btn-default btn-sm" (click)="goToProposals()"
+        style="border:1px solid #c9c7c7">{{'PROPOSAL_LIST'|translate}}</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2 mt-3">
+      <!-- Nav tabs -->
+      <ul class="nav flex-column nav-pills custumNav" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'general'}"
+            (click)="setActiveTab('general')" id="general-tab" data-toggle="tab" role="tab" aria-controls="general"
+            aria-selected="true">
+            <i class="ft-file-plus mr-1 align-middle"></i>
+            <span class="align-middle">{{'DOCUMENT_INFO'|translate}}</span>
+          </a>
+        </li>
+        <li class="nav-item" (click)="loadProposalDocument()">
+          <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'change-password'}"
+            (click)="setActiveTab('change-password')" id="change-password-tab" data-toggle="tab" role="tab"
+            aria-controls="change-password" aria-selected="false">
+            <i class="ft ft-download mr-1 align-middle"></i>
+            <span class="align-middle">{{'DOCUMENT_LIST'|translate}}</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'info'}"
+            (click)="setActiveTab('info')" id="info-tab" data-toggle="tab" role="tab" aria-controls="info"
+            aria-selected="false">
+            <i class="ft-bell mr-1 align-middle"></i>
+            <span class="align-middle">{{'COMMENT'|translate}}</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'follow'}"
+            (click)="setActiveTab('follow')" id="follow-tab" data-toggle="tab" role="tab" aria-controls="follow"
+            aria-selected="false">
+            <i class="ft-aperture mr-1 align-middle"></i>
+          <span class="align-middle">{{'FOLLOWUP'|translate}}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-10">
+      <!-- Tab panes -->
+      <div class="card customShadow">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="tab-content">
+              <!-- General Tab -->
+              <div class="tab-pane" [ngClass]="{active: activeTab === 'general'}" id="general" role="tabpanel"
+                aria-labelledby="general-tab">
+                <div class="row">
+                  <div class="col-12 col-sm-10">
+                    <h5 class="mb-2 text-bold-500 info"><i
+                        class="fa fa-book mr-2"></i>{{data?.shura.nameDr}}
+                    </h5>
+                  </div>
+                  <br>
+                  <div class="col-12 col-sm-2">
+                    <button type="button" class="btn btn-outline-info btn-icon round customEditMargin"
+                      title="{{'ADD'|translate}}" (click)="editProposal(data.id)">
+                      <i class="ft ft-edit-2"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 border rounded py-2 marginEduction" *ngIf="loading">
+                    <div class="row">
+                      <div class="col-sm-3 font-weight-bold">
+                        {{'SUBJECT_SECRET'|translate}}/{{'IDEA'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data?.secretLevel}}
+                      </div>
+                      <div class="col-sm-3 font-weight-bold">
+                        {{'MINISTRY/AUTHORITY'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        <span  *ngFor="let en of data.entity">{{en.nameDr}}, &nbsp;&nbsp;</span>
+                      </div>
+                    </div>
+                    <div class="row pt-3">
+                      <div class="col-sm-3 font-weight-bold">
+                        {{'SUGGESTION_NUMBER'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data?.proposalNumber}}
+                      </div>
+                      <div class="col-sm-3 font-weight-bold">
+                        {{'SUGGESTION_DATE'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data?.proposalDate | jalali}}
+                      </div>
+                    </div>                 
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'SUBJECT_ABSTRACT'|translate}}/{{'IDEA'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data?.summary}}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'SUBJECT_OBJECTIVE'|translate}}/{{'IDEA'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data?.objective}}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'LAW_ARTICLE'|translate}}/{{'IDEA'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data.lawArticle}}
+                      </div>
+                    </div>
+                    <hr *ngIf="data.previousDecision">
+                    <div class="row pt-3" *ngIf="data.previousDecision">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'PREVIOUS_DECISION'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data?.previousDecision}}
+                      </div>
+                    </div>
+                    <hr *ngIf="data.ministriesImplementation">
+                    <div class="row pt-3" *ngIf="data.ministriesImplementation">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'IMPLEMENTATION_ENTITIES'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data.ministriesImplementation}}
+                      </div>
+                    </div>
+                    <hr *ngIf="data.authorityImplementation">
+                    <div class="row pt-3" *ngIf="data.authorityImplementation">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'IMPLEMENTATION_BASED_ON_SUB_ENTITIES'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data.authorityImplementation}}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'MINISTRIES_AUTHORITIES_LINE'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        <span  *ngFor="let en of data.subEntity">{{en.nameDr}}, &nbsp;&nbsp;</span>
+                      </div>
+                    </div>
+                   
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'DETAILS_SHARE'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        <span *ngIf="data.subAuthorityShare == true">{{'YES'|translate}}</span>
+                        <span *ngIf="data.subAuthorityShare == false">{{'NO'|translate}}</span>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'PREVIOUS_DETAIL'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        <span *ngIf="data.previousLink == true">{{'YES'|translate}}</span>
+                        <span *ngIf="data.previousLink == false">{{'NO'|translate}}</span>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'GOVERNMENT_BUDGET_DETAIL'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        <span *ngIf="data.governmentBudget == true">{{'YES'|translate}}</span>
+                        <span *ngIf="data.governmentBudget == false">{{'NO'|translate}}</span>
+                        <span *ngIf="data.governmentBudget == null">{{'NO_BUDGET'|translate}}</span>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'INERNATIONAL_BUDGET_DETAIL'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        <span *ngIf="data.forignBuget == true">{{'YES'|translate}}</span>
+                        <span *ngIf="data.forignBuget == false">{{'NO'|translate}}</span>
+                        <span *ngIf="data.forignBuget == null">{{'NO_BUDGET'|translate}}</span>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'INTERNATIONAL_AGREEMENT'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        <span *ngIf="data.internationalAgree == true">{{'YES'|translate}}</span>
+                        <span *ngIf="data.internationalAgree == false">{{'NO'|translate}}</span>
+                        <span *ngIf="data.internationalAgree == null">{{'NO_AGREEMENT'|translate}}</span>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'NEXT_FOLLOW_UP'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        <span *ngIf="data.nextFollowUp == true">{{'YES'|translate}}</span>
+                        <span *ngIf="data.nextFollowUp == false">{{'NO'|translate}}</span>
+                      </div>
+                    </div>
+                    <hr *ngIf="data.authorityAgreement">
+                    <div class="row pt-3" *ngIf="data.authorityAgreement">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'AGREEMENT_AUTHORITY_DETAIL'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data.authorityAgreement?data.authorityAgreement.nameDr:''}}
+                      </div>
+                    </div>
+                    <hr *ngIf="data.implementationScope">
+                    <div class="row pt-3" *ngIf="data.implementationScope">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'IMPlEMENTATION_SCOPE'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data.implementationScope}}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'PRE_RESULT'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data.proposalPreResult}}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'PROPOSAL_PAPERS'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data.papers}}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'PROGRESS_BASED_ON_LAW'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data.progressBasedOnLaw}}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'PROPOSAL_REASON'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data.reason}}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row pt-3">
+                      <div class="col-sm-6 font-weight-bold">
+                        {{'PROPOSAL_CONTENT'|translate}}:
+                      </div>
+                      <div class="col-sm-3">
+                        {{data.proposalContent}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <!-- Change download Tab -->
+              <div class="tab-pane" [ngClass]="{active: activeTab === 'change-password'}" id="change-password"
+                role="tabpanel" aria-labelledby="change-password-tab">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="row">
+                      <div class="col-12 col-sm-9">
+                        <h5 class="mb-2 text-bold-500"><i class="icon-docs mr-2"></i>{{'FILES'|translate}}
+                        </h5>
+                      </div>
+                      <div class="col-12 col-sm-3">
+                        <button type="button" title="{{'ADD_NEW_FILE'|translate}}" (click)="addDocument()"
+                          class="btn btn-outline-info btn-sm btn-icon round pull-right">
+                          <i class="ft ft-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <hr>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-12">
+                    <div class="table-responsive" id="collapseExample">
+                      <table class="table table-borderless">
+                        <tbody *ngFor="let a of allDocuments">
+                          <tr class="d-flex border_bottom">
+                            <td class="col-1"><i class="ft-check text-info font-weight-bolder"></i></td>
+                            <td class="col-7">{{allDocuments?a.type.nameDr:''}}</td>
+                            <td  class="col-4">
+                              <button type="button" title="{{'DOWNLOAD_FILES'|translate}}"   (click)="downloadAttachment(a.id)"
+                              class="btn btn-outline-success btn-sm">
+                              <i class="ft ft-download"></i>
+                            </button> &nbsp;&nbsp;
+                              <button type="button" title="{{'DELETE_FILE'|translate}}" (click)="confirmDeleteModal(content,a.id)"
+                                class="btn btn-outline-warning btn-sm" >
+                                <i class="ft ft-trash-2"></i>
+                              </button>
+                            </td>
+                          </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <!-- comment Tab -->
+              <div class="tab-pane" [ngClass]="{active: activeTab === 'info'}" id="info" role="tabpanel"
+                aria-labelledby="info-tab">
+                  <div class="row" *ngIf="data">
+                    <div class="col-sm-12">
+                      <app-comment-proposal [data]="proposalId"></app-comment-proposal>
+                    </div>
+                  </div>
+              </div>
+
+               <!-- Follow up Tab -->
+               <div class="tab-pane" [ngClass]="{active: activeTab === 'follow'}" id="follow" role="tabpanel"
+               aria-labelledby="follow-tab">
+                 <div class="row" *ngIf="data">
+                   <div class="col-sm-12">
+                     <app-followup-proposal [data]="proposalId"></app-followup-proposal>
+                   </div>
+                 </div>
+               </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7"
+    type="ball-spin-clockwise-fade" [fullScreen]="true">
+  </ngx-spinner>
+
+</section>
+
+
+<ng-template #content let-modal>
+  <div class="modal-body font-weight-bold">
+    <p>{{ 'ARE_YOU_SURE?' | translate }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger"
+      (click)="deleteDocument();modal.close()">{{ 'DELETE' | translate }}</button>
+    <button type="button" class="btn btn-light" (click)="modal.close()">{{ 'CANCEL' | translate }}</button>
+  </div>
+</ng-template>
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7"
+  type="ball-spin-clockwise-fade">
+</ngx-spinner>

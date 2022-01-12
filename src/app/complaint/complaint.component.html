@@ -1,0 +1,154 @@
+<section id="ngx-datatables-server-side">
+  <div class="row">
+    <div class="col-12 mt-2">
+      <h4>{{'COMPLAINT'|translate}}</h4>
+    </div>
+  </div>
+  <!-- Filterering section -->
+  <div class="row">
+    <div class="col-12">
+      <div class="users-list-filter px-2">
+        <form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
+          <div class="row border rounded py-2 mb-2 mx-n2">
+            <div class="col-12 col-sm-6 col-lg-2">
+              <label for="users-list-verified">{{'ENTRY_NUMBER'|translate}}</label>
+              <fieldset class="form-group">
+                <input type="text" class="form-control" formControlName="entry_number" />
+              </fieldset>
+            </div>
+
+          <div class="form-group col-md-3">
+              <label class="form-control-label" for="documentType">{{'DOCUMENT_TYPE'|translate}}</label>
+              <ng-select [items]="complaintDocumentTypes" bindLabel="nameDr" bindValue="nameDr"
+                  formControlName="complaint_doc">
+              </ng-select>
+          </div>
+
+            <!-- <div class="form-group col-md-3">
+              <label class="form-control-label" for="decreeDate">{{'DATE'|translate}}</label>
+              <div class="input-group">
+                  <input class="form-control" formControlName="complaint_date" ngbDatepicker id="complaintDate"
+                      #p="ngbDatepicker">
+                  <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" (click)="p.toggle()" type="button">
+                          <i class="fa fa-calendar"></i>
+                      </button>
+                  </div>
+              </div>
+          </div> -->
+
+            <div class="col-12 col-sm-6 col-lg-2">
+              <label for="users-list-role">{{'ACCUSED'|translate}}</label>
+              <fieldset class="form-group">
+                <input type="text" class="form-control" formControlName="accused" />
+              </fieldset>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-2 d-flex align-items-center">
+              <button type="button" type="submit" class="btn btn-primary btn-block users-list-clear">
+                {{'SEARCH'|translate}}
+              </button>&nbsp;
+              <button type="reset" (click)="resetFilters()" class="btn btn-warning btn-block users-list-clear" style="margin-top:initial">
+                {{'CLEAR'|translate}}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- End-Filtering -->
+  <!-- Table of filtered Data -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="renderData(tableOptions)"
+                    [class.fa-spin]="loading" >
+                    <i class="ft ft-refresh-cw"></i>
+          </button>
+          <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" *ngIf="globals.principal.hasAuthority(['COMPLAINT','COMPLAINT_CREATE'])" (click)="addNewComplaint()" >
+                    <i class="ft ft-plus"></i>
+          </button>
+          <div class="col-md-3 col-3">
+            <div class="form-group">
+              <select #pageLength (change)='setPageLength(pageLength.value)' class="form-control">
+                <option *ngFor="let pl of pageLengths" [selected]="pl.id==10" [value]="pl.id">
+                  {{ pl.count }} {{ 'RECORDS' | translate }}
+                </option>
+                <!-- <option value="-1">{{ 'ALL' | translate }}</option> -->
+              </select>
+            </div>
+          </div>
+        </div>
+          <!-- Table Start -->
+          <div class="card-content">
+            <div class="card-body">
+              <div class="table-responsive">
+                <ng-container *ngIf="tableOptions">
+                  <div class="col-sm-12 col-md-12">
+                  </div>
+                  <ngx-datatable #table class="bootstrap core-bootstrap table-responsive" [headerHeight]="50"
+                    [footerHeight]="50" [rows]="rows" [columnMode]="ColumnMode.force" [rows]="rows"
+                    [headerHeight]="50" [rowHeight]='"auto"' [limit]="tableOptions.length"
+                    [loadingIndicator]="loading" [scrollbarH]="true" (page)="setPage($event)">
+                    <ngx-datatable-column name="{{ 'ID' | translate }}" prop="ID" [width]="50">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="{{ 'ENTRY_NUMBER' | translate }}" prop="ENTRY_NUMBER">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="{{ 'TYPE_OF_COMPLAINT' | translate }}" prop="COMPLAINT_TYPE">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="{{ 'TYPE_OF_DOCUMENTS' | translate }}" prop="COMPLAINT_DOC">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="{{ 'DATE' | translate }}">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.COMPLAINT_DATE | date: 'yyyy-MM-dd' | jalali}}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="{{ 'ACCUSED' | translate }}" prop="ACCUSED">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="{{ 'EXPLANATIONS' | translate }}" prop="EXPLANATIONS">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column [name]="'ACTIONS' | translate" [width]="250">
+                      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="row_index">
+                          <ngx-spinner
+                          bdColor="rgba(255, 255, 255, 0.100)"
+                          size="medium"
+                          color="black"
+                          type="ball-scale-multiple"
+                          fullScreen="false">
+                          </ngx-spinner>
+
+                              <button type="button" class="btn btn-icon round" (click)="viewRecord(row.ID)" *ngIf="globals.principal.hasAuthority(['COMPLAINT','COMPLAINT_VIEW'])">
+                              <i class="ft-eye text-primary cursor-pointer"></i>
+                              </button>
+
+                              <button type="button" class="btn btn-icon round" (click)="editRecord(row.ID)" *ngIf="globals.principal.hasAuthority(['COMPLAINT','COMPLAINT_EDIT'])">
+                                  <i class="ft-edit text-primary cursor-pointer"></i>
+                              </button>
+
+                              <button class="btn btn-icon round" [title]="'HISTORY' | translate" (click)="complaintHistory(row.ID)">
+                                  <i class="ft-archive text-success cursor-pointer"></i>
+                              </button>
+
+                              <button (click)="uploadAttachments(row.ID)" class="btn btn-icon round" title="Attachments" *ngIf="globals.principal.hasAuthority(['COMPLAINT','COMPLAINT_PRINT'])">
+                                <i class="ft-paperclip text-primary cursor-pointer"></i>
+                              </button>
+
+                              <button type="button" class="btn btn-icon round" (click)="deleteRecord(row.ID)" *ngIf="globals.principal.hasAuthority(['COMPLAINT','COMPLAINT_DELETE'])">
+                                          <i class="ft ft-trash text-warning cursor-pointer"></i>
+                              </button>
+
+                      </ng-template>
+                  </ngx-datatable-column>
+                  </ngx-datatable>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+</section>

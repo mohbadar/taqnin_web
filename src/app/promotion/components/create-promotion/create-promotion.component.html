@@ -1,0 +1,111 @@
+
+<section id="ngx">
+	<div class="card">
+		<div class="card-content">
+			<div class="card-body">
+				<form [formGroup]="promotionForm" class="editForm"  (ngSubmit)="submit()">
+					<h4 class="head text-center">{{'Promotion'|translate}}</h4>
+					<br />
+					<div class='row'>
+						<div class='col-12'>
+							<div class="row">
+								<div class='col-12 col-sm-4'>
+									<div class="form-group">
+										<label class="form-control-label">{{'PROMOTION_TYPE'|translate}}</label>
+										<ng-select [items]="promotionType$ | async" bindLabel="nameEn" bindValue="id"
+											id="promotionType" name="promotionType"
+											formControlName="promotionType">
+										</ng-select>
+									</div>
+								</div>
+								<div class='col-12 col-sm-4'>
+									<div class="form-group">
+										<label class="form-control-label" for="rank">{{'RANK'|translate}}</label>
+										<input class="form-control input-md" id="lastName" formControlName="rank"
+											name="rank" type="text">
+									</div>
+								</div>
+								<div class='col-12 col-sm-4'>
+									<div class="form-group">
+										<label class="form-control-label" for="step">{{'STEP'|translate}}</label>
+										<input class="form-control input-md" id="fatherName" formControlName="step"
+											name="step" type="text">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class='col-12 col-sm-6'>
+									<div class="form-group">
+										<label class="form-control-label" for="proposalNum"> {{'PROPOSAL_NUMBER'|translate}}</label>
+										<input class="form-control input-md" id="proposalNum"
+											formControlName="proposalNum" name="proposalNum" type="text">
+									</div>
+								</div>
+								<div class='col-12 col-sm-6'>
+									<div class="form-group">
+										<label class="form-control-label" for="proposalDate">{{'PROPOSAL_DATE'|translate}}</label>
+										<div class="input-group">
+											<input class="form-control" name="proposalDate" formControlName="proposalDate" ngbDatepicker
+												id="proposalDate" #pr="ngbDatepicker">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary calendar" (click)="pr.toggle()"
+													type="button">
+													<i class="fa fa-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class='col-12 col-sm-4'>
+									<div class="form-group">
+										<label class="form-control-label" for="decreeNum"> {{'DECREE_NUMBER'|translate}}</label>
+										<input class="form-control input-md" id="decreeNum" formControlName="decreeNum"
+											name="decreeNum" type="text">
+									</div>
+								</div>
+								<div class='col-12 col-sm-4'>
+									<div class="form-group">
+										<label class="form-control-label" for="decreeDate">{{'DECREE_DATE'|translate}}</label>
+										<div class="input-group">
+											<input class="form-control" name="decreeDate" formControlName="decreeDate" ngbDatepicker
+												id="decreeDate" #d="ngbDatepicker">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary calendar" (click)="d.toggle()"
+													type="button">
+													<i class="fa fa-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class='col-12 col-sm-4'>
+									<div class="form-group">
+										<label class="form-control-label" for="promotionDate">{{'PROMOTION_DATE'|translate}}</label>
+										<div class="input-group">
+											<input class="form-control" name="promotionDate" formControlName="promotionDate" ngbDatepicker
+												id="promotionDate" #p="ngbDatepicker">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary calendar" (click)="p.toggle()"
+													type="button">
+													<i class="fa fa-calendar"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<button uiSref="result" type="submit" class="btn btn-success">
+									{{'SAVE'|translate}}
+
+								</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>

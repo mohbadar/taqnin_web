@@ -1,0 +1,113 @@
+<div class="row">
+	<div class="col-12 mt-2">
+		<h4 class="primary text-uppercase">{{'RESOLUTION_DETAILS'|translate}}</h4>
+	</div>
+</div>
+<div class="card" style="padding: 20px;">
+	<div class="card-content">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-10">
+					<div style="margin-top: 20px;" *ngIf="showResolution">
+						<div class="row">
+							<div class="col-4 col-sm-12 col-md-4 flex-column">
+								<div class="flex-row">
+									<div class="title">{{'RESOLUTION_NUMBER' | translate }}: </div>
+									<div class="description">{{resolution.resolutionNumber }}</div>
+								</div>
+								<div class="flex-row">
+									<div class="title">{{'RESOLUTION_DATE' | translate }}: </div>
+									<div class="description">{{resolution.resolutionDate | date: 'yyyy-MM-dd' | jalali }}</div>
+								</div>
+								<div class="flex-row">
+									<div class="title">{{'SHURA' | translate }}: </div>
+									<div class="description">{{resolution.shura.nameDr }}</div>
+								</div>
+								<div class="flex-row">
+									<div class="title">{{'COMPONENTS' | translate }}: </div>
+									<div class="description">{{resolution.components }}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-2">
+					<button type="button" class="btn btn-icon btn-lg round pull-right"
+						(click)="editResolution(resolutionId)" [title]="'EDIT_RESOLUTION' | translate">
+						<i class="ft-edit text-primary cursor-pointer"></i>
+					</button>
+					<button type="button" class="btn btn-icon btn-lg round pull-right" (click)="printResolution()" title="{{'PRINT_AGENDA'|translate}}">
+						<i class="ft ft-printer text-primary cursor-pointer"></i>
+					  </button>
+				</div>
+			</div>
+
+			<div class="row" style="margin-top: 30px; margin-bottom: 10px;">
+				<div class="col-10">
+					<h4 class="primary text-uppercase">{{'RESOLUTION_SUBJECTS'|translate}}</h4>
+
+				</div>
+				<div class="col-2">
+					<button type="button" class="btn btn-icon btn-lg round pull-right" (click)="createSubject()"
+						[title]="'CREATE_SUBJECT' | translate">
+						<i class="ft-plus text-primary cursor-pointer"></i>
+					</button>
+
+				</div>
+			</div>
+
+			<div id="invoice-items-details">
+				<div class="row">
+					<div class="table-responsive col-12">
+						<table class="table mt-3">
+							<thead>
+								<tr>
+									<th>{{ 'ID' | translate }} </th>
+									<th>{{'ABSTRACT' | translate}} {{ 'AND' | translate}} {{'SUBJECT_DETAILS' |
+										translate}}</th>
+									<th class="text-right">{{ 'ACTIONS' | translate }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let row of rows;">
+									<th scope="row">{{row.id}}</th>
+									<td>
+										<p>{{row.subjectAbstract}}</p>
+										<p class="text-muted">{{row.details}}</p>
+									</td>
+									<td class="text-right">
+
+										<button class="btn btn-icon round" [title]="'ORDERS' | translate"
+											(click)="manageSubjectOrder(row.id)">
+											<i class="ft-file-plus text-primary cursor-pointer"></i>
+										</button>
+
+										<button class="btn btn-icon round" [title]="'VIEW_SUBJECT' | translate"
+											(click)="viewSubject(row.id)">
+											<i class="ft-eye text-primary cursor-pointer"></i>
+										</button>
+
+										<button type="button" class="btn btn-icon round"
+											[title]="'EDIT_SUBJECT' | translate" (click)="editSubject(row.id)">
+											<i class="ft-edit text-primary cursor-pointer"></i>
+										</button>
+
+										<button type="button" [title]="'DELETE_SUBJECT' | translate"
+											class="btn btn-icon round" (click)="deleteSubject(row.id)">
+											<i class="ft ft-trash text-warning cursor-pointer"></i>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+	[fullScreen]="true">
+</ngx-spinner>

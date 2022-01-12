@@ -1,0 +1,64 @@
+<section id="ngx-datatables-server-side">
+	<div class="row">
+		<div class="col-12">
+			<h4>Recruitment</h4>
+		</div>
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="reload()">
+						<i class="ft ft-refresh-cw"></i>
+					</button>
+					<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+						title="Add Profile" [disabled]="loading" (click)="addNewRecord()">
+						<i class="ft ft-plus"></i>
+					</button>
+
+					<div class="col-md-3 col-3">
+						<div class="form-group">
+							<select #pageLength class="form-control" (change)="setPageLength(pageLength.value)">
+								<option *ngFor=" let pl of pageLengths" [selected]="option == 10">
+									{{ pl.count }} {{ 'RECORDS' | translate }}
+								</option>
+								<option value="-1">{{ 'ALL' | translate }}</option>
+							</select>
+						</div>
+					</div>
+					<hr />
+				</div>
+				<div class="card-content">
+					<div class="card-body">
+						<ng-container *ngIf="tableOptions">
+							<!-- ngx-datatables-server-side -->
+							<ngx-datatable #table class="bootstrap core-bootstrap" [rows]="rows" [columns]="columns"
+							[columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="tableOptions.length"
+							[loadingIndicator]="dataLoadingFlag" [scrollbarH]="true" (page)="setPage($event)"
+							[sorts]="[{prop: 'id', dir: 'desc'}]">
+								<ngx-datatable-column name="Actions" [width]="70" [sortable]="false">
+									<ng-template let-row="row" ngx-datatable-cell-template>
+										<i class="ft-more-vertical text-primary cursor-pointer mr-2" [routerLink]="['/profiles/' + row.ID]"></i>
+										<i class="ft-edit text-primary cursor-pointer" [routerLink]="['/profiles/' + row.ID + '/edit']"></i>
+									</ng-template>
+								</ngx-datatable-column>
+								<ngx-datatable-column name="Name" prop="FIRST_NAME" [width]="150"></ngx-datatable-column>
+								<ngx-datatable-column name="Email" prop="EMAIL" [width]="250"></ngx-datatable-column>
+								<ngx-datatable-column name="Age" prop="AGE" [width]="50"></ngx-datatable-column>
+								<ngx-datatable-column name="Salary" prop="SALARY" [width]="100"></ngx-datatable-column>
+								<ngx-datatable-column name="Status" prop="STATUS" [width]="100">
+									<ng-template let-status="value" ngx-datatable-cell-template>
+									<div class="badge badge-pill"
+										[ngClass]="{'bg-light-primary': status == '1', 'bg-light-success':status == '2', 'bg-light-danger':status == '3' , 'bg-light-warning':status == '4' , 'bg-light-info':status == '5'}">
+										{{ status == 1 ? "Current" : (status == 2 ? "Professional" : (status == 3 ? "Rejected" : (status == 4 ? "Resigned" : status == 5 ? "Applied" : "Applied"))) }}
+									</div>
+									</ng-template>
+								</ngx-datatable-column>
+								
+							</ngx-datatable>
+							<!--/ ngx-datatables-server-side -->
+						</ng-container>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

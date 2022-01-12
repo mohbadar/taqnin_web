@@ -1,0 +1,168 @@
+<section id="ngx-datatables-server-side">
+	<div class="row">
+		<div class="col-12 mt-2">
+			<h4>{{'DOCUMENT_MANAGEMENT'|translate}}</h4>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<div class="row">
+						<div class="col-12">
+							<div class="users-list-filter px-2">
+								<form autocomplete="off" [formGroup]="filterForm" (submit)="applyFilter()"
+                *ngIf="globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_SEARCH'])">
+									<div class="row mb-2 mx-n2">
+										<div class="col-12 col-sm-6 col-lg-3">
+											<label for="users-list-verified">{{'DOCUMENT_NO'|translate}}</label>
+											<fieldset class="form-group">
+												<input type="text" class="form-control" formControlName="number" />
+											</fieldset>
+										</div>
+										<div class="col-12 col-sm-6 col-lg-3">
+											<label for="users-list-role">{{'DATE'|translate}}</label>
+											<div class="input-group">
+												<input class="form-control" name="createdAt" formControlName="createdAt"
+													ngbDatepicker id="createdAt" #pr="ngbDatepicker">
+												<div class="input-group-append">
+													<button class="btn btn-outline-secondary calendar"
+														(click)="pr.toggle()" type="button">
+														<i class="fa fa-calendar"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-6 col-lg-2 d-flex align-items-center">
+											<button type="submit" class="btn btn-primary btn-block users-list-clear">
+												{{'SEARCH'|translate}}
+											</button>&nbsp;
+											<button type="reset" (click)="resetFilters()"
+												class="btn btn-warning btn-block users-list-clear"
+												style="margin-top:initial">
+												{{'CLEAR'|translate}}
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						<!-- Filter ends -->
+
+					</div>
+					<hr>
+					<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+						(click)="reload()">
+						<i class="ft ft-refresh-cw"></i>
+					</button>
+					<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+						title="Add Document" [disabled]="loading" (click)="addNewRecord()"
+            *ngIf="globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_CREATE'])">
+						<i class="ft ft-plus"></i>
+					</button>
+
+					<div class="col-md-3 col-3">
+						<div class="form-group">
+							<select #pageLength (change)='setPageLength(pageLength.value)' class="form-control">
+								<option *ngFor="let pl of pageLengths" [selected]="pl.id==10" [value]="pl.id">
+									{{ pl.count }} {{ 'RECORDS' | translate }}
+								</option>
+								<!-- <option value="-1">{{ 'ALL' | translate }}</option> -->
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="card-content">
+					<div class="card-body">
+						<ng-container *ngIf="tableOptions">
+							<!-- ngx-datatables-server-side -->
+							<ngx-datatable #table class="bootstrap core-bootstrap" [rows]="rows" [columns]="columns"
+								[virtualization]="false" [columnMode]="ColumnMode.force" [headerHeight]="50"
+								[footerHeight]="50" rowHeight="auto" [limit]="tableOptions.length"
+								[loadingIndicator]="dataLoadingFlag" [scrollbarH]="true" (page)="setPage($event)"
+								[reorderable]="reorderable" [swapColumns]="swapColumns" [externalPaging]="true"
+								[externalSorting]="true" [count]="recordsTotal" [offset]="tableOptions.draw"
+								[sorts]="[{prop: 'ID', dir: 'desc'}]" (sort)="onSort($event)">
+
+								<ngx-datatable-column name="{{'ID'|translate}}" prop="ID" [width]="50">
+								</ngx-datatable-column>
+
+								<ngx-datatable-column name="{{'DOCUMENT_NO'|translate}}" prop="NUMBER"
+									[width]="80"></ngx-datatable-column>
+
+									<ngx-datatable-column name="{{ 'DATE' | translate }}">
+										<ng-template let-row="row" ngx-datatable-cell-template>
+										  {{row.DATE | date: 'yyyy-MM-dd' | jalali}}
+										</ng-template>
+									  </ngx-datatable-column>
+
+                    <ngx-datatable-column name="{{'TITLE'|translate}}" prop="TITLE" [width]="180">
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="{{'DOCUMENT_TYPE'|translate}}" prop="DOCTYPE"
+									  [width]="100"></ngx-datatable-column>
+
+								<ngx-datatable-column name="{{'ORGANIZATION'|translate}}" prop="ORGANIZATION"
+									[width]="100"></ngx-datatable-column>
+								<!-- <ngx-datatable-column name="{{'DESCRIPTION'|translate}}" prop="BODY" [width]="100">
+								</ngx-datatable-column> -->
+								<ngx-datatable-column name="{{'IS_APPROVED'|translate}}" [width]="80"
+									[sortable]="true">
+									<ng-template let-row="row" ngx-datatable-cell-template>
+										<div class="badge badge-pill"
+											[ngClass]="{'bg-light-success':row.APPROVED == 1, 'bg-light-danger':row.APPROVED == 0 }">
+											{{ row.APPROVED==1?'بلی':'نخیر' }}
+										</div>
+									</ng-template>
+								</ngx-datatable-column>
+
+								<ngx-datatable-column name="{{'ACTIONS'|translate}}" [width]="100" [sortable]="false">
+									<ng-template let-row="row" ngx-datatable-cell-template>
+										<!-- <button type="button" class="btn btn-icon round" *ngIf="row.APPROVED"
+											[title]="'DEPARTMENT_LIST' | translate"
+											(click)="documentDepartmentList(row.ID)">
+											<i class="ft ft-list text-primary cursor-pointer"></i>
+										</button> -->
+										<button type="button" class="btn btn-icon round"
+											[title]="'DOCUMENT_DETAILS' | translate"
+											(click)="viewDocumentDetails(row.ID)"
+                      *ngIf="globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_VIEW'])">
+											<i class="ft ft-eye text-primary cursor-pointer"></i>
+										</button>
+
+										<button type="button" class="btn btn-icon round"
+											[title]="'DELETE_DOCUMENT' | translate" (click)="deleteDocument(row.ID)"
+                      *ngIf="globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_DELETE'])">
+											<i class="ft ft-trash text-danger cursor-pointer"></i>
+										</button>
+										<!-- <button type="button" class="btn  btn-icon round mr-1 mb-1"
+											(click)="viewFile(row.ID)" title="{{'VIEW_ATTACHMENT' | translate}}"
+                      *ngIf="globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_ATTACHMENT_VIEW'])">
+											<i class="ft ft-paperclip text-secondary"></i>
+										</button> -->
+
+                    <button type="button" class="btn  btn-icon round mr-1 mb-1"
+											(click)="downloadAttachement(row.ID)" title="{{'DOWNLOAD_ATTACHMENT' | translate}}"
+                      *ngIf="globals.principal.hasAuthority(['TAQNIN_DOCUMENT_MODULE','DOCUMENT_ATTACHMENT_VIEW'])">
+											<i class="ft ft-download text-secondary"></i>
+										</button>
+
+									</ng-template>
+								</ngx-datatable-column>
+
+							</ngx-datatable>
+							<!--/ ngx-datatables-server-side -->
+						</ng-container>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+	[fullScreen]="true">
+</ngx-spinner>

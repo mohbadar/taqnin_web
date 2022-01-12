@@ -1,0 +1,92 @@
+<div class="row">
+  <div class="col-12 col-sm-2 mt-2">
+    <h4 class="primary text-uppercase">{{'ORDER_DETAILS'|translate}}</h4>
+  </div>
+  <div class="col-12 col-sm-9 mt-2"></div>
+  <div class="col-12 col-sm-1 mt-2">
+    <button class="btn btn-default btn-sm" (click)="goToOrders()"
+      style="border:1px solid #c9c7c7">{{'ORDER_LIST'|translate}}</button>
+  </div>
+</div>
+<div class="card" style="padding: 20px;">
+  <div class="card-content">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-10">
+          <div style="margin-top: 20px;" *ngIf="showOrder">
+            <div class="row">
+              <div class="col-12 col-sm-12 col-md-12 flex-column">
+                <div class="flex-row">
+                  <div class="title">{{'ORDER_NUMBER' | translate }}: </div>
+                  <div class="description">{{data.orderNumber }}</div>
+                </div>
+                <div class="flex-row">
+                  <div class="title">{{'ORDER_DATE' | translate }}: </div>
+                  <div class="description">{{data.orderDate | jalali }}</div>
+                </div>
+                <div class="flex-row">
+                  <div class="title">{{'IMPLEMENTATION_END_DATE' | translate }}: </div>
+                  <div class="description">{{data.implementationEndDate | jalali}}</div>
+                </div>
+                <div class="flex-row">
+                  <div class="title">{{'IMPLEMENTING_DEPARTMENTS' | translate }}: </div>
+                  <div class="description">
+                    <span *ngFor="let en of data.implementingDepartments">
+                      {{en.nameDr}}, &nbsp;&nbsp;
+                    </span>
+                  </div>
+                </div>
+                <div class="flex-row">
+                  <div class="title">{{'ASSISTING_DEPARTMENTS' | translate }}: </div>
+                  <div class="description">
+                    <span *ngFor="let en of data.assistingDepartments">
+                      {{en.nameDr}}, &nbsp;&nbsp;
+                    </span>
+                  </div>
+                </div>
+                <div class="flex-row">
+                  <div class="title">{{'ORDER_SUMMARY' | translate }}: </div>
+                  <div class="description">{{data.summary }}</div>
+                </div>
+                <br>
+                <div class="flex-row">
+                  <div class="title">{{'RESOLUTION_NUMBER' | translate }}: </div>
+                  <div class="description">{{data.subject.resolution.resolutionNumber}}</div>
+                </div>
+                <div class="flex-row">
+                  <div class="title">{{'RESOLUTION_DATE' | translate }}: </div>
+                  <div class="description">{{data.subject.resolution.resolutionDate | jalali}}</div>
+                </div>
+                <div class="flex-row">
+                  <div class="title">{{'SHURA' | translate }}: </div>
+                  <div class="description">{{data.subject.resolution.shura.nameDr}}</div>
+                </div>
+                <div class="flex-row">
+                  <div class="title">{{'ABSTRACT_SUBJECT' | translate }}: </div>
+                  <div class="description">{{data.subject.subjectAbstract}}</div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-2">
+          <button type="button" class="btn btn-icon btn-lg round pull-right" [title]="'EDIT_ORDER' | translate"
+            (click)="editOrder(data.id)">
+            <i class="ft-edit text-primary cursor-pointer"></i>
+          </button>
+        </div>
+      </div>
+      <br>
+
+      <app-follow-up [data]="orderId"></app-follow-up>
+
+
+    </div>
+  </div>
+</div>
+
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+  [fullScreen]="true">
+</ngx-spinner>

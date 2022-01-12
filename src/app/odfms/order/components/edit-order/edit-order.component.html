@@ -1,0 +1,148 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'EDIT_ORDER'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="proposalForm" (ngSubmit)="submit()">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12 col-sm-12">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label for="orderNumber">{{'ORDER_NUMBER'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="orderNumber" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.orderNumber.invalid, 'is-valid': addFormSubmitted && !cpf.orderNumber.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.orderNumber.invalid || cpf.orderNumber.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'ORDER_NUMBER'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label" for="orderDate">{{'ORDER_DATE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="k.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="orderDate" ngbDatepicker #k="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.orderDate.invalid, 'is-valid': addFormSubmitted && !cpf.orderDate.invalid }"
+                    required>
+                </div>
+                <div *ngIf="addFormSubmitted && (cpf.orderDate.invalid || cpf.orderDate.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'ORDER_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label for="implementingDepartments">{{'IMPLEMENTING_DEPARTMENTS'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="department$|async" bindLabel="nameDr" bindValue="id"
+                  formControlName="implementingDepartments" (clear)="setToNull(proposalForm,'implementingDepartments')"
+                  [multiple]="true" [closeOnSelect]="false"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.implementingDepartments.invalid, 'is-valid': addFormSubmitted && !cpf.implementingDepartments.invalid }"
+                  required>
+                </ng-select>
+                <div
+                  *ngIf="addFormSubmitted && (cpf.implementingDepartments.invalid || cpf.implementingDepartments.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'IMPLEMENTING_DEPARTMENTS'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="assistingDepartments">{{'ASSISTING_DEPARTMENTS'|translate}}
+                  <span class="required-field">*</span>
+                </label>
+                <div class="controls">
+                  <ng-select [items]="department$|async" bindLabel="nameDr" bindValue="id"
+                    formControlName="assistingDepartments" (clear)="setToNull(proposalForm,'assistingDepartments')"
+                    [multiple]="true" [closeOnSelect]="false"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.assistingDepartments.invalid, 'is-valid': addFormSubmitted && !cpf.assistingDepartments.invalid }"
+                    required>
+                  </ng-select>
+                  <div
+                    *ngIf="addFormSubmitted && (cpf.assistingDepartments.invalid || cpf.assistingDepartments.errors?.required)"
+                    class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                    {{'IMPLEMENTING_DEPARTMENTS'|translate}} {{'IS_REQUIRED'|translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label" for="implementationEndDate">{{'IMPLEMENTATION_END_DATE'|translate}}
+                    <span class="required-field">*</span>
+                  </label>
+                  <div class="controls">
+                    <div class="input-group">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="p.toggle()" type="button">
+                          <i class="fa fa-calendar"></i>
+                        </button>
+                      </div>
+                      <input class="form-control" formControlName="implementationEndDate" ngbDatepicker #p="ngbDatepicker"
+                        [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.implementationEndDate.invalid, 'is-valid': addFormSubmitted && !cpf.implementationEndDate.invalid }"
+                        required>
+                    </div>
+                    <div *ngIf="addFormSubmitted && (cpf.implementationEndDate.invalid || cpf.implementationEndDate.errors?.required)"
+                      class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                      {{'IMPLEMENTATION_END_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="summary">{{'ORDER_SUMMARY'|translate}}
+                    <span class="required-field">*</span>
+                  </label>
+                  <div class="controls">
+                    <textarea cols="20" rows="3" formControlName="summary" class="form-control"
+                      [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.summary.invalid, 'is-valid': addFormSubmitted && !cpf.summary.invalid }"
+                      required></textarea>
+                    <div *ngIf="addFormSubmitted && (cpf.summary.invalid || cpf.summary.errors?.required)"
+                      class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                      {{'ORDER_SUMMARY'|translate}} {{'IS_REQUIRED'|translate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" [disabled]="loading" type="submit">{{ 'SAVE' | translate }}</button>
+    <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+  </div>
+</form>
